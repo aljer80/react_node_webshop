@@ -29,7 +29,7 @@ This project follows a [Code of Conduct](CODE_OF_CONDUCT.md). By participating, 
 
 ## License
 
-By contributing to [Your Project Name], you agree that your contributions will be licensed under the [project's license](LICENSE.md).
+By contributing to [react_node_webshop], you agree that your contributions will be licensed under the [project's license](LICENSE.md).
 
 Thank you again for your contribution!
 
