@@ -29,7 +29,11 @@ This project follows a [Code of Conduct](CODE_OF_CONDUCT.md). By participating, 
 
 ## License
 
+<<<<<<< HEAD
 By contributing to [react_node_webshop], you agree that your contributions will be licensed under the [project's license](LICENSE.md).
+=======
+By contributing to [Your Project Name], you agree that your contributions will be licensed under the [project's license](LICENSE.md).
+>>>>>>> 8dc9dfb (aljer-initial commit)
 
 Thank you again for your contribution!
 

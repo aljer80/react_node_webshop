@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
@@ -33,3 +34,18 @@ function App() {
 }
 
 export default App
+=======
+import "./App.css";
+import { BrowserRouter } from "react-router-dom";
+import Router from "./components/Router/Router"; 
+
+const App = () => {
+  return (
+    <BrowserRouter>
+      <Router />
+    </BrowserRouter>
+  );
+};
+
+export default App;
+>>>>>>> 8dc9dfb (aljer-initial commit)
