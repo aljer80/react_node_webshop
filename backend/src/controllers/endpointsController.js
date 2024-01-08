@@ -8,56 +8,84 @@ const dbConfig = {
     password: process.env.DB_PASSWORD
 } 
 
+const db = new DbObject(dbConfig);
 connectToDb();
-async function connectToDb(){
+function connectToDb(){
     try {
-        const db = new DbObject(dbConfig);
-        await db.connect();
+        db.connect();
     } catch (error){
         console.error(error.message);
     }
 }
 
 async function getAllProducts(req, res, next){
-    const query = "SELECT * FROM productlist;";
-    const data = db.query(query);
-    res.status(200).json(JSON.parse(data));
+    try {
+        const query = "SELECT * FROM productlist;";
+        const data = await db.query(query);
+        res.status(200).json(JSON.parse(data));
+    } catch (error){
+        console.error(error.message);
+    }
 }
 
 async function getProductById(req, res, next){
-    const query = "SELECT * FROM productlist WHERE id = id;";
-    const data = db.query(query);
-    res.status(200).json(JSON.parse(data));
+    try {
+        const query = "SELECT * FROM productlist WHERE id = id;";
+        const data = await db.query(query);
+        res.status(200).json(JSON.parse(data));
+    } catch (error){
+        console.error(error.message);
+    }
 } 
 
 async function getAllOrders(req, res, next){
-    const query = "SELECT * FROM orders;";
-    const data = db.query(query);
-    res.status(200).json(JSON.parse(data));
+    try {
+        const query = "SELECT * FROM orders;";
+        const data = await db.query(query);
+        res.status(200).json(JSON.parse(data));
+    } catch (error){
+        console.error(error.message);
+    }
 } 
 
 async function getOrderById(req, res, next){
-    const query = "SELECT * FROM orders WHERE id = id;";
-    const data = db.query(query);
-    res.status(200).json(JSON.parse(data));
+    try {
+        const query = "SELECT * FROM orders WHERE id = id;";
+        const data = await db.query(query);
+        res.status(200).json(JSON.parse(data));
+    } catch (error){
+        console.error(error.message);
+    }
 } 
 
 async function createOrder(req, res, next){
+    try {
     const query = "INSERT INTO orders (email, item) VALUES (email, item);";
-    const data = db.query(query);
+    const data = await db.query(query);
     res.status(200).json(JSON.parse(data));
+} catch (error){
+    console.error(error.message);
+}
 } 
 
 async function updateOrderById(req, res, next){
-    const query = "UPDATE orders SET email=email, item=item WHERE id=id;";
-    const data = db.query(query);
-    res.status(200).json(JSON.parse(data));
+    try {
+        const query = "UPDATE orders SET email=email, item=item WHERE id=id;";
+        const data = await db.query(query);
+        res.status(200).json(JSON.parse(data));
+    } catch (error){
+        console.error(error.message);
+    }
 } 
 
 async function deleteOrderById(req, res, next){
-    const query = "DELETE FROM orders WHERE id=id;";
-    const data = db.query(query);
-    res.status(200).json(JSON.parse(data));
+    try {
+        const query = "DELETE FROM orders WHERE id=id;";
+        const data = await db.query(query);
+        res.status(200).json(JSON.parse(data));
+    } catch (error){
+        console.error(error.message);
+    }
 } 
 
 module.exports = { getAllProducts, getProductById, getAllOrders, getOrderById, createOrder, updateOrderById, deleteOrderById }
