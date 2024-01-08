@@ -3,12 +3,13 @@ require("dotenv").config();
 const endpointsRoutes = require("./src/routes/endpointsRoutes.js");
 const app = express();
 
-app.get("/products", endpointsRoutes);
-app.get("/products/:id", endpointsRoutes);
-app.get("/orders", endpointsRoutes);
-app.get("/orders/:id", endpointsRoutes);
-app.post("/orders", endpointsRoutes);
-app.put("/orders/:id", endpointsRoutes);
-app.delete("/orders/:id", endpointsRoutes);
+app.use("/products", endpointsRoutes);
+app.use("/products/:id", endpointsRoutes);
+app.use("/orders", endpointsRoutes);
+app.use("/orders/:id", endpointsRoutes);
 
-app.listen(process.env.DB_PORT, () => console.log(`The application is listening on port ${process.env.DB_PORT}.`));
+try{
+    app.listen(8080, "localhost");
+} catch (error) {
+    console.log(error.message);
+}

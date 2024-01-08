@@ -2,40 +2,13 @@ const express = require("express");
 const router = express.Router();
 const controller = require("../controllers/endpointsController.js");
 
-router.get("/products", (req, res) => {
-    const products = controller.getAllProducts();
-    res.status(200).send(products);
-});
+router.get("/products", controller.getAllProducts());
+router.get("/products/:id", controller.getProductById(id));
 
-router.get("/products/:id", (req, res) => {
-    const product = controller.getProductById(id);
-    res.status(200).send(product);
-});
-
-router.get("/orders", (req, res) => {
-    const orders = controller.getAllOrders();
-    res.status(200).send(orders);
-});
-
-router.get("/orders/:id", (req, res) => {
-    const order = controller.getOrderById(id);
-    res.status(200).send(order);
-});
-
-router.post("/orders", (req, res) => {
-    const isOrderCreated = controller.createOrder();
-    res.status(200).send(isOrderCreated);
-});
-
-router.put("/orders/:id", (req, res) => {
-    const isOrderUpdated = controller.updateOrderById(id);
-    res.status(200).send(isOrderUpdated);
-});
-
-router.delete("/orders/:id", (req, res) => {
-    const isOrderDeleted = controller.deleteOrderById(id);
-    res.status(200).send(isOrderDeleted);
-});
-
+router.get("/orders", controller.getAllOrders());
+router.get("/orders/:id", controller.getOrderById(id));
+router.post("/orders", controller.createOrder());
+router.put("/orders/:id", controller.updateOrderById(id));
+router.delete("/orders/:id", controller.deleteOrderById(id));
 
 module.exports = router;

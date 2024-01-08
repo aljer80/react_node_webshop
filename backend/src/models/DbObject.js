@@ -9,9 +9,9 @@ class DbObject{
     async connect(){
         try{
         this.connection = await mysql.createConnection(this.config);
-        console.log("success");
+        console.log("Successfully connected to the database.");
         }catch(error){
-            console.log(error.message);
+            throw error
         }
     }    
 }
