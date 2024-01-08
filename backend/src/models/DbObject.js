@@ -14,21 +14,30 @@ class DbObject{
         }
     }
 
-    //prepared query
     async query(query) {
         try {
-            await this.connection.connect();
-            return await this.connection.execute(query, (err, rows) => {
-                if(err){
-                    throw new Error(err);
-                } else {
-                    return rows;
-                }
-        });
-        } catch(error){
+            const [rows] = await this.connection.execute(query);
+            return rows;
+        } catch (error) {
             throw error;
         }
     }
+
+    //prepared query
+    // async query(query) {
+    //     try {
+    //         await this.connection.connect();
+    //         return await this.connection.execute(query, (err, rows) => {
+    //             if(err){
+    //                 throw new Error(err);
+    //             } else {
+    //                 return rows;
+    //             }
+    //     });
+    //     } catch(error){
+    //         throw error;
+    //     }
+    // }
 }
 
 module.exports = DbObject;
