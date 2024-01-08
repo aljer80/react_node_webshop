@@ -1,18 +1,14 @@
 const express = require("express");
-require('dotenv').config()
-const DbObject = require("./src/models/DbObject.js");
+require("dotenv").config();
+const endpointsRoutes = require("./src/routes/endpointsRoutes.js");
 const app = express();
 
-const dbConfig = {
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    database: process.env.DB_NAME, 
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD
-} 
+app.get("/products", endpointsRoutes);
+app.get("/products/:id", endpointsRoutes);
+app.get("/orders", endpointsRoutes);
+app.get("/orders/:id", endpointsRoutes);
+app.post("/orders", endpointsRoutes);
+app.put("/orders/:id", endpointsRoutes);
+app.delete("/orders/:id", endpointsRoutes);
 
-async function testMe(){
-    const db = new DbObject(dbConfig);
-    await db.connect();
-}
-testMe();
+app.listen(process.env.DB_PORT, () => console.log(`The application is listening on port ${process.env.DB_PORT}.`));
