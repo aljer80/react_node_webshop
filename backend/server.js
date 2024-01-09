@@ -1,14 +1,25 @@
 /**
- * Express.js Server Configuration
+ * Event handler for unhandled promise rejections. Logs details about the rejection.
+ *
+ * @param {*} reason - The reason for the unhandled rejection.
+ * @param {Promise} promise - The promise that was rejected.
+ * @returns {void}
  */
-
 process.on("unhandledRejection", (reason, promise) => {
-    console.error("Unhandled Recection at: ", promise, "reason:", reason);
+    console.error("Unhandled Rejection at: ", promise, "reason:", reason);
 });
+
+/**
+ * Event handler for uncaught exceptions. Logs details about the uncaught exception.
+ *
+ * @param {Error} error - The uncaught exception.
+ * @returns {void}
+ */
 process.on("uncaughtException", (error) => {
     console.error("Uncaught Exception: ", error);
 });
 
+// import required files
 const express = require("express");
 require("dotenv").config();
 const { errorHandler } = require("./src/middleware/errorHandling.js");
@@ -26,13 +37,34 @@ app.use(errorHandler);
 
 //setting up server to listen
 const listener = app.listen(port);
+
+/**
+ * Event handler for server error. Logs error details and exits the process if necessary.
+ *
+ * @param {Error} error - The error that occurred during the server setup.
+ * @param {string|number} port - The port on which the server is attempting to listen.
+ * @returns {void}
+ */
 listener.on("error", (error) => {
     handleListenerError(error, port);
 });
+
+/**
+ * Event handler for successful server listening. Logs a message indicating the listening port.
+ *
+ * @returns {void}
+ */
 listener.on("listening", () => {
     console.log("Your app is listening on port " + listener.address().port);
 });
 
+/**
+ * Handles errors that occur during the setup of the server. Logs details and exits the process if necessary.
+ *
+ * @param {Error} error - The error that occurred during the server setup.
+ * @param {string|number} port - The port on which the server is attempting to listen.
+ * @returns {void}
+ */
 function handleListenerError(error, port) {
     if(error.syscall !== "listen"){
         throw error;
