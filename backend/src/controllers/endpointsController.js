@@ -94,9 +94,9 @@ async function createOrder(req, res, next){
     const query = "INSERT INTO orders (email, item) VALUES (?, ?);";
     const data = await db.query(query);
     res.status(200).json(data);
-} catch (error){
-    console.error(error.message);
-}
+    } catch (error){
+        console.error(error.message);
+    }
 } 
 
 async function updateOrderById(req, res, next){
@@ -130,3 +130,13 @@ module.exports = {
     updateOrderByIdHelper,
     deleteOrderByIdHelper 
 }
+
+// module.exports = { 
+//     getAllProducts,
+//     getProductById,
+//     getAllOrders,
+//     getOrderById,
+//     createOrder,
+//     updateOrderById,
+//     deleteOrderById 
+// }
