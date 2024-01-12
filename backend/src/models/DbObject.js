@@ -32,7 +32,7 @@ class DbObject{
     async query(query, bindings) {
         try {
             if(!this.connection || this.connection.state === "disconnected") {
-            await this.connect();    //this.connection.connect()
+            await this.connect();
             }
             return await this.connection.execute(query, bindings);
         } catch(error) {

@@ -1,13 +1,19 @@
+import ProductList from "../ProductList/ProductList"
 
 
-const FilteringAndSortingBar = () => {
+const FilteringAndSortingBar = ({ inventory }) => {  //vi behöver en type
+  //kolla inventory
+  //filtreringsfunktion
+  //sorteringsfunktion
+
     return (
+      //kolla att ProductList finns
         <>
-           
+           <ProductList { inventory }/>
         </>
       )
     
     
 }
 
-export default FilteringAndSortingBar
+export default FilteringAndSortingBar;
