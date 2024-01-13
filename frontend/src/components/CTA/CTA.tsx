@@ -1,12 +1,11 @@
 
 
 const CTA = () => {
-    return (
-        <>
-           
-        </>
-      )
+  return (
+    <>
     
+    </>
+  )
 }
 
-export default CTA
+export default CTA;

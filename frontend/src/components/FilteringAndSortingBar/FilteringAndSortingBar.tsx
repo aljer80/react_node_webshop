@@ -17,3 +17,5 @@ const FilteringAndSortingBar = ({ inventory }) => {  //vi behöver en type
 }
 
 export default FilteringAndSortingBar;
+
+//spara filtrering i state så att sidan ser ut som den gjorde när man går tillbaka till den från cart 
