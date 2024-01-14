@@ -1,5 +1,6 @@
 import CartModal from "../CartModal/CartModal";
-import { Order, CustomerDetails, CardDetails, OrderDetails } from "../../types/checkout.types";
+import Payment from "../Payment/Payment";
+import { Order, CustomerDetails, CardDetails, OrderDetails } from "../../types/checkout.types"; 
 
 const Checkout = ({ cart }) => {
   //kolla e
@@ -33,12 +34,18 @@ const Checkout = ({ cart }) => {
       //cardDetails, 
       orderDetails
     }
-    // Fortsätt med beställningen eller skicka den till en annan komponent för hantering
-
     
+    // Fortsätt med beställningen eller skicka den till en annan komponent för hantering
+    handleProcessPayment(order);
+   
     //kolla alla const
     //navigera till payment för hantering av själva betalningen, bädda in order som prop
   };
+
+  const handleProcessPayment = (order) => {
+    console.log("Från handlePaymentComplete");
+    //det som ska hända när betalningen är genomförd, navigera till Confirmation
+  }
 
     return (
       //kolla CartModal, eller annat sätt?
@@ -59,7 +66,7 @@ const Checkout = ({ cart }) => {
             <button type="submit" id="pay-for-cart" className="appButton">Gå till betalning</button>
           </form>
         </div>
-      )
+      );
 }
 
 export default Checkout

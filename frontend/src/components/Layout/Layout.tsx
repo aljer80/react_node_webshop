@@ -1,16 +1,16 @@
 import Header from '../Header/Header.tsx';
 import { Outlet } from "react-router";
 import Footer from '../Footer/Footer.tsx';
-import CartProvider from ""
+
 
 const Layout = () => {
     return (
         <>
-        <CartProvider>
+        {/* <CartProvider> */}
             <Header />
             <Outlet />
             <Footer />
-        </CartProvider>
+        {/* </CartProvider> */}
         </>
     );
 };
