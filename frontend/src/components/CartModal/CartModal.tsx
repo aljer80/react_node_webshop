@@ -64,7 +64,7 @@ const CartModal = () => {
     <div>
         <button type="submit" className="appButton">X</button>
           <section id="item-list">
-          <CartItem callbacks={ callbacks } />
+          <CartItem callbacks={callbacks} />
           </section>
           <button type="submit" className="appButton" onClick={handleCheckoutClick}>Checkout</button>
       </div>

@@ -1,5 +1,5 @@
 export interface Product {
-    id: string, //eller _id?
+    id: string,
     name:string,
     weight: string,
     description: string,
@@ -9,5 +9,6 @@ export interface Product {
     shape: string,
     brand: string,
     price: number,
-    //image: string,
+    playerType: string,
+    image: string,
   }
