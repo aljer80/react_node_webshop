@@ -4,7 +4,11 @@ import type { DropdownProps, MenuProps } from "antd";
 import { Dropdown, Space } from "antd";
 import "./SortByPrice.css";
 
-const SortByPrice: React.FC<{ setSortOrder: (order: string) => void}> = ({ setSortOrder }) => {
+interface SortByPriceProps {
+    setSortOrder: (order: string) => void;
+}
+
+const SortByPrice: React.FC<SortByPriceProps> = ({ setSortOrder }) => {
     const [open, setOpen] = useState(false);
     const [sortOption, setSortOption] = useState("Sortera på: ");
 

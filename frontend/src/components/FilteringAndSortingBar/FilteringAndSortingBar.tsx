@@ -1,40 +1,61 @@
-import { useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Product } from "../../types/product.types";
+import { FilteringState } from "../../types/filteringState.types";
+import ProductCard from "../ProductCard/ProductCard";
 import ProductList from "../ProductList/ProductList";
 import FilteringBar from "../FilteringBar/FilteringBar";
 import SortByPrice from "../SortByPrice/SortByPrice";
 
 interface FilteringAndSortingBarProps {
-  products: Product[];
-  onFilterChange: (filteredProducts: Product[]) => void;
+  inventory: Product[];
 }
 
-const FilteringAndSortingBar: React.FC<FilteringAndSortingBarProps> = ({ products, onFilterChange }) => {    
+const FilteringAndSortingBar: React.FC<FilteringAndSortingBarProps> = ({ inventory, onFilterChange }) => {    
 
-    const filteredProducts = useMemo(() => {
-      if (sortOrder === "ascending") {
-          return [...filteredProducts].sort((a, b) => a.price - b.price);
-      } else if (sortOrder === "descending") {
-          return [...filteredProducts].sort((a, b) => b.price - a.price);
-      }
-      return filteredProducts;
-    }, [filteredProducts, sortOrder]);
+  const [sortOrder, setSortOrder] = useState<"ascending" | "descending">("ascending");
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>(inventory);
+  const [filteringState, setFilteringState] = useState<FilteringState>({
+    brand: "",
+    shape: "",
+    balance: "",
+    weightRange: [0, 0],
+  });
 
-    useEffect(() => {
-      onFilterChange(filteredProducts);
-    }, [filteredProducts, onFilterChange]);
+  const handleFilterChange = (filteredProducts: Product[], newFilteringState: FilteringState) => {
+    setFilteredProducts(filteredProducts);
+    setFilteringState(newFilteringState);
+  }
+
+  useEffect(() => {
+    sessionStorage.setItem("filteringState", JSON.stringify(filteringState));
+  }, [filteringState]);
+
+  const sortedProducts = useMemo(() => {
+    if (sortOrder === "ascending") {
+        return [...inventory].sort((a, b) => a.price - b.price);
+    } else if (sortOrder === "descending") {
+        return [...inventory].sort((a, b) => b.price - a.price);
+    }
+    return filteredProducts;
+  }, [filteredProducts, sortOrder]);
 
     return (
       //kolla att ProductList finns
         <div>
-           <ProductList {inventory} {sortedProducts.map((product) => (
+           <ProductList 
+            products={sortedProducts}
+            render={(product) => (
               <ProductCard key={product.id} product={product} addToCart={addToCart} />
-              ))}
-            />
-           <FilteringBar />
-           <SortByPrice />
+            )}
+          />
+           <FilteringBar 
+            products={inventory} 
+            onFilterChange={onFilterChange} 
+            filteringState={filteringState}
+          />
+           <SortByPrice sortOrder={sortOrder} setSortOrder={setSortOrder} />
         </div>
-      );
+    );
 }
 
 export default FilteringAndSortingBar;

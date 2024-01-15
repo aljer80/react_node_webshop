@@ -1,16 +1,19 @@
-import { useState} from "react";
+import { useState, useEffect} from "react";
 import { Product } from "../../types/product.types";
+import { FilteringState } from "../../types/filteringState.types";
 import WeightRangeSlider from "../WeightRangeSlider/WeightRangeSlider";
 import { Select } from 'antd';
 
 interface FilteringBarProps {
   products: Product[];
+  onFilterChange: (filteredProducts: Product[]) => void;
+  filteringState: FilteringState;
 }
 
 //productData syftar på produkterna
 //kolla upp category. Hur får jag till category på Product?
 
-const FilteringBar: React.FC<FilteringBarProps> = ({ products }) => {  
+const FilteringBar: React.FC<FilteringBarProps> = ({ products, onFilterChange }) => {  
 
     const { Option } = Select;
 
@@ -20,7 +23,7 @@ const FilteringBar: React.FC<FilteringBarProps> = ({ products }) => {
     const uniqueBrands = Array.from(new Set(products.map((product) => product.brand)));
     const uniqueShapes = Array.from(new Set(products.map((product) => product.shape)));
     const uniqueBalances = Array.from(new Set(products.map((product) => product.balance)));
-    const uniquePlayerTypes = Array.from(new Set(products.map((product) => product.playerType)));
+    // const uniquePlayerTypes = Array.from(new Set(products.map((product) => product.playerType)));
 
     const [currentBrand, setCurrentBrand] = useState<string>("Alla Märken");
     const [currentShape, setCurrentShape] = useState<string>("Alla Former");
@@ -29,24 +32,38 @@ const FilteringBar: React.FC<FilteringBarProps> = ({ products }) => {
     const [isSliderVisible, setIsSliderVisible] = useState<boolean>(false);
     const [filtersActive, setFiltersActive] = useState<boolean>(false);
     
+    useEffect(() => {
+        const storedFilteringState = sessionStorage.getItem("filteringState");
+        if (storedFilteringState) {
+            const parsedFilteringState = JSON.parse(storedFilteringState);
+            setCurrentBrand(parsedFilteringState.brand);
+            setCurrentShape(parsedFilteringState.shape);
+            setCurrentBalance(parsedFilteringState.balance);
+            setWeightRange(parsedFilteringState.weightRange);
+            setFiltersActive(true);
+        }
+    }, []);
+
     const filterProducts = (product: Product): boolean => {
         const matchesBrand = currentBrand === "Alla Märken" || product.brand === currentBrand;
         const matchesShape = currentShape === "Alla Former" || product.shape === currentShape;
-        const matchesBalance = currentBalance === "Alla Balanser" || product.balance.toLowerCase() === currentBalance.toLowerCase();
+        const matchesBalance = currentBalance === "Alla Balanstyper" || product.balance.toLowerCase() === currentBalance.toLowerCase();
         const matchesWeight = product.weight >= weightRange[0] && product.weight <= weightRange[1];
 
         return matchesBrand && matchesShape && matchesBalance && matchesWeight;
     };
 
-    const filteredProducts = productData.filter(filterProducts);
+    const filteredProducts = products.filter(filterProducts);
 
     const handleSliderChange = (value: number[]) => {
-        // Uppdatera temp- värde utan att stänga dropdown
+        // Update temp value without closing the dropdown
         setWeightRange(value);
+        onFilterChange(filteredProducts); // You might want to debounce this call
     };
 
     const handleSliderOk = (tempWeightRange: number[]) => {
-        setWeightRange(tempWeightRange);
+        setFiltersActive(true);
+        // You might want to update the filteringState here instead of just marking filters as active
         setFiltersActive(true);
     };
 
@@ -55,6 +72,7 @@ const FilteringBar: React.FC<FilteringBarProps> = ({ products }) => {
         setCurrentShape("Alla Former");
         setCurrentBalance("Alla Balanser");
         setWeightRange(defaultWeightRange);
+        onFilterChange(products);
         setFiltersActive(false);
     }
 
@@ -131,6 +149,7 @@ const FilteringBar: React.FC<FilteringBarProps> = ({ products }) => {
                         )}
                     />
                 </div>
+                <button onClick={handleResetFilters}>Reset Filters</button>
             </div>
         </div>
     );

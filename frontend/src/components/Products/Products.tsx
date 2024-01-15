@@ -1,5 +1,5 @@
 import Hero from "../Hero/Hero";
-import FilterAndSortingBar from "../FilteringAndSortingBar/FilteringAndSortingBar";
+import FilteringAndSortingBar from "../FilteringAndSortingBar/FilteringAndSortingBar";
 import { fetchAllProducts } from "../../utilities/ApInterface"; 
 
 const Products = async () => {
@@ -11,12 +11,19 @@ const Products = async () => {
 
   inventory = await loadAllProducts();
 
+  const handleFilterChange = (filteredProducts) => {
+    console.log("Filtered products:", filteredProducts);
+  }
+
 //testa så att det finns data i inventory || tom array  
   return (
     //kolla så att Hero och FilterAndSortingBar finns
     <>
       <Hero />
-      <FilterAndSortingBar { ...inventory}/> 
+      <FilteringAndSortingBar 
+        inventory={inventory} 
+        onFilterChange={handleFilterChange}
+      /> 
     </>
   )
 }
