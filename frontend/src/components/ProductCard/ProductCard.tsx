@@ -4,7 +4,7 @@ import { Product } from "../../types/product.types";
 
 interface ProductCardProps {
   product: Product;
-  onAddToCart: (product: Product) => void;
+  onAddToCart: (productId: string) => void;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => { //behöver type
@@ -14,7 +14,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => { 
   }
 
   const handleAddToCart = () => {
-    onAddToCart(product);
+    onAddToCart(product.id);
   }
 
     return (
@@ -23,12 +23,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => { 
           <h3>{product.name}</h3>
           <p>{product.description}</p>
           <p>{product.price}</p>
-          <button className="buyButton" onClick={() => handleAddToCart(product.id)}>Lägg i varukorg</button> 
+          <button className="buyButton" onClick={() => handleAddToCart()}>Lägg i varukorg</button> 
           {/* product.id eller product._id på buyButton? */}
         </div>
       );
 }
 
 export default ProductCard;
-
-

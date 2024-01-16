@@ -2,6 +2,7 @@ import Hero from "../Hero/Hero";
 import FilteringAndSortingBar from "../FilteringAndSortingBar/FilteringAndSortingBar";
 import { fetchAllProducts } from "../../utilities/ApInterface"; 
 
+
 const Products = async () => {
   let inventory = [];
   

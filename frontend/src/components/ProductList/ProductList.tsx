@@ -1,17 +1,27 @@
 import ProductCard from "../ProductCard/ProductCard";
+import BrandBar from "../BrandBar/BrandBar";
+import { Product } from "../../types/product.types";
 
-const ProductList = ({ products, onAddToCart }) => {   //behöver typ
+interface ProductListProps {
+  inventory: Product[];
+  onAddToCart: (product: Product) => void; 
+}
+
+const ProductList: React.FC<ProductListProps> = ({ inventory, onAddToCart }) => {   //behöver typ
   //kolla om products finns
-  if(!products || products.length === 0) {
+  if(!inventory || inventory.length === 0) {
     return <p>Inga produkter tillgängliga</p>; 
   }
 
     return (
         //kolla om ProductCard finns
-        <div className="productList">
-          {products.map((product) => (
-          <ProductCard key={product.id} product={product} onAddToCart={onAddToCart}/>
-          ))}
+        <div>
+          <BrandBar />
+          <div className="productList">
+            {inventory.map((product) => (
+            <ProductCard key={product.id} product={product} onAddToCart={onAddToCart} />
+            ))}
+          </div>
         </div>
       );
 }

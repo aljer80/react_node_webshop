@@ -57,6 +57,9 @@ const Hero: React.FC = () => {
           <MdOutlineKeyboardArrowLeft className="arrows" onClick={() => scroll('left')} />
           <MdOutlineKeyboardArrowRight className="arrows" onClick={() => scroll('right')} />
         </div>
+        <div className="banner">
+        <p>Babolat utökar Juan Lebróns kollektion så att fler ska få möjlighet att spela som "El Lobo"!</p>
+        </div>
       </div>
     );
 }
