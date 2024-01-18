@@ -1,63 +1,37 @@
-import { useState, useEffect, useMemo } from "react";
-import { Product } from "../../types/product.types";
-import { FilteringState } from "../../types/filteringState.types";
-import ProductCard from "../ProductCard/ProductCard";
+import { ProductContext } from "../../context/ProductContext";
 import ProductList from "../ProductList/ProductList";
-import FilteringBar from "../FilteringBar/FilteringBar";
-import SortByPrice from "../SortByPrice/SortByPrice";
 
-interface FilteringAndSortingBarProps {
-  inventory: Product[];
-}
 
-const FilteringAndSortingBar: React.FC<FilteringAndSortingBarProps> = ({ inventory, onFilterChange }) => {    
+const FilteringAndSortingBar: React.FC = () => {    
 
-  const [sortOrder, setSortOrder] = useState<"ascending" | "descending">("ascending");
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>(inventory);
-  const [filteringState, setFilteringState] = useState<FilteringState>({
-    brand: "",
-    shape: "",
-    balance: "",
-    weightRange: [0, 0],
-  });
-
-  const handleFilterChange = (filteredProducts: Product[], newFilteringState: FilteringState) => {
-    setFilteredProducts(filteredProducts);
-    setFilteringState(newFilteringState);
+  if(!ProductList){
+    throw new Error("Unable to load productList");
   }
 
-  useEffect(() => {
-    sessionStorage.setItem("filteringState", JSON.stringify(filteringState));
-  }, [filteringState]);
-
-  const sortedProducts = useMemo(() => {
-    if (sortOrder === "ascending") {
-        return [...inventory].sort((a, b) => a.price - b.price);
-    } else if (sortOrder === "descending") {
-        return [...inventory].sort((a, b) => b.price - a.price);
-    }
-    return filteredProducts;
-  }, [filteredProducts, sortOrder]);
 
     return (
-      //kolla att ProductList finns
-        <div>
-           <ProductList 
-            products={sortedProducts}
-            render={(product) => (
-              <ProductCard key={product.id} product={product} addToCart={addToCart} />
-            )}
-          />
-           <FilteringBar 
-            products={inventory} 
-            onFilterChange={onFilterChange} 
-            filteringState={filteringState}
-          />
-           <SortByPrice sortOrder={sortOrder} setSortOrder={setSortOrder} />
+      <div>
+        <div id="filtering-and-sorting-bar" role="toolbar">
+          <select name="brand-filter" id="brand" title="raquet-brand" onChange={handleProductFilterChange}></select>
+          <option value=""></option>
+          <select name="shape-filter" id="shape" title="raquet-shape" onChange={handleProductFilterChange}></select>
+          <option value=""></option>
+          <select name="balance-filter" id="balance" title="raquet-balance" onChange={handleProductFilterChange}></select>
+          <option value=""></option>
+          <select name="sorting-filter" id="sorting" title="raquet-sorting" onChange={handleProductFilterChange}></select>
+          <option value=""></option>
+
+          <input type="text" name="name-filter" id="name" title="raquet-name" placeholder="raquet-name"/>
+          <button type="button" name="name-filter-button" id="name-filter-button" title="name-filter-button" onClick={handleNameFilterButtonClick}>Sök</button>
+          <input type="range" name="weight-filtering-range" id="weight-filtering-range" title="weight-filtering-range" onChange={handleProductFilterChange}/>
+          <input type="range" name="price-filtering-range" id="price-filtering-range" title="price-filtering-range" onChange={handleProductFilterChange}/>
+          <button type="button" name="reset-filter-button" id="reset-filter-button" title="reset-filter-button" onClick={handleResetFilterButtonClick}>Återställ filter</button>
         </div>
+        <ProductList />
+        <ProductCard />            
+        
+      </div>
     );
 }
 
 export default FilteringAndSortingBar;
-
-//spara filtrering i state så att sidan ser ut som den gjorde när man går tillbaka till den från cart 

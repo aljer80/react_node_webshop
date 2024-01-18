@@ -8,7 +8,6 @@ const Footer = () => {
         <div>
             <ContactPanel />
             <SocialMediaBar />
-            <DisclaimerPanel />
         </div>
     )
 };

@@ -1,4 +1,4 @@
-
+//visar bara felmeddelanden (alla)
 
 const Error = () => {
     return (

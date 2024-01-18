@@ -23,6 +23,7 @@ const CartItem = ({ callbacks }: CartItemProps) => {
           <button id="remove-from-cart" className="appButton" onClick={handleRemoveFromCartButtonClick}>-</button>
           <button id="remove-product-from-cart" className="appButton" onClick={handleRemoveProductFromCartButtonClick}>Delete</button>
         </div>
+        //lägga till uträkning för totalsumma?
       );
 }
 

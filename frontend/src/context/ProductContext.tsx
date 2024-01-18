@@ -15,14 +15,55 @@ export interface Product {
 }
 
 interface ProductContext {
-    loadAllProducts: () => void,
-    products: Product[]
+  products: Product[]  
+  loadAllProducts: () => void,
+  //onAddToCart: (product: Product) => void; 
+  onAddToCart: (productId: string) => void; //behöver både med och utan id. Id ska vara valbart
+  handleAddToCart: (productId) => void;
+  onFilterChange:() => void,
+  handleProductFilterChange:() => void,
+  processFilterChange:() => void, 
 }
 
+
+//allt som är gemensamt för komponentträdet vi använder
+//visa produkt/er
 export const ProductContext = createContext<ProductContext>(null as any);
 
 export function ProductProvider({ children }: PropsWithChildren) {
-//functions and useEffects go here
+
+
+  //functions and useEffects go here
+  const [productFilteringOptions, setProductFilteringOptions] = useState<Filter[]>([]);
+  const [productSortingOptions,setProductSortingOptions] = useState<Sort>();
+
+  //dropdowns och rangesliders
+  const handleProductFilterChange = () => {
+    processProductFilterChange();
+  }
+  //dropdowns
+  const processProductFilterChange = () => {
+    
+  }
+  //dropdowns
+  const handleSortingOptionChange = () => {
+    processSortingOptionChange();
+  }
+  //dropdowns
+  const processSortingOptionChange = () => {
+    
+  }
+
+  //buttons
+  const handleNameFilterButtonClick = () => {
+    processProductFilterChange(); 
+  }
+
+  const handleResetFilterButtonClick = () => {
+    processProductFilterChange();
+  }
+
+  
 
   const [products, setProducts] = useState<Product[]>([]);
 
@@ -38,6 +79,15 @@ export function ProductProvider({ children }: PropsWithChildren) {
         console.log(error);
       }
     }
+
+    //kolla om products finns JOBBA IN DETTA I loadAllProducts
+          if(!inventory || inventory.length === 0) {
+            return <p>Inga produkter tillgängliga</p>; 
+          }
+          if (!product){
+            return null;
+          }
+
 
 
   return (

@@ -1,9 +1,11 @@
 import { API } from "../types/api.types";
+import dotenv from "dotenv";
 
+dotenv.config();
 const host = "https://localhost";
 const port = "8080";
 const version = "v1";
-const stripeSK = process.env(stripeKey);
+const stripeSK = process.env.STRIPE_SK; 
 const stripePaymentURI = "https://api.stripe.com/v1/payment_intents";
 //kolla att host och port är definierade
 
@@ -48,7 +50,7 @@ async function postData(endpoint, data) {
   const requestOptions = {
     method: method, 
     headers: headers, 
-    body: data,
+    body: data,//JSON.stringify(data)?
   }
 
   try {

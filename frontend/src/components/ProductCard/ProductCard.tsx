@@ -1,21 +1,6 @@
-//API kan hämta informationen
-//interface hämtar från API (interface inte skapat än)
-import { Product } from "../../types/product.types";
+import { ProductContext } from "../../context/ProductContext";
 
-interface ProductCardProps {
-  product: Product;
-  onAddToCart: (productId: string) => void;
-}
-
-const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => { //behöver type
-  //kolla product (att product finns)
-  if (!product){
-    return null;
-  }
-
-  const handleAddToCart = () => {
-    onAddToCart(product.id);
-  }
+const ProductCard: React.FC = () => {
 
     return (
         <div className="productCard">
@@ -24,9 +9,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => { 
           <p>{product.description}</p>
           <p>{product.price}</p>
           <button className="buyButton" onClick={() => handleAddToCart()}>Lägg i varukorg</button> 
-          {/* product.id eller product._id på buyButton? */}
         </div>
       );
 }
 
-export default ProductCard;
+export default ProductCard; 

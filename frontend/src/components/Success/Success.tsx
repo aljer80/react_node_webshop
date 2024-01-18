@@ -1,4 +1,4 @@
-
+//visar bara successmeddelanden (alla)
 
 const Success = () => {
     return (

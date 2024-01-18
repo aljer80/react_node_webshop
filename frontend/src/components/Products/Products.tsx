@@ -1,32 +1,19 @@
+import { ProductContext } from "../../context/ProductContext";
 import Hero from "../Hero/Hero";
 import FilteringAndSortingBar from "../FilteringAndSortingBar/FilteringAndSortingBar";
-import { fetchAllProducts } from "../../utilities/ApiUtilities"; 
 
-
-const Products = async () => {
-  let inventory = [];
-  
-  function loadAllProducts() {
-    return fetchAllProducts();
+const Products: React.FC = () => {
+ 
+  if(!FilteringAndSortingBar){
+    throw new Error("Unable to load FilteringAndSortingBar");
   }
 
-  inventory = await loadAllProducts();
-
-  const handleFilterChange = (filteredProducts) => {
-    console.log("Filtered products:", filteredProducts);
-  }
-
-//testa så att det finns data i inventory || tom array  
   return (
-    //kolla så att Hero och FilterAndSortingBar finns
-    <>
+    <ProductContext>
       <Hero />
-      <FilteringAndSortingBar 
-        inventory={inventory} 
-        onFilterChange={handleFilterChange}
-      /> 
-    </>
-  )
+      <FilteringAndSortingBar /> 
+    </ProductContext>
+  );
 }
 
 export default Products;

@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
+//Container för Error och Success
+
 const ConfirmationModal = ({ customerDetails, order }) => {
 
   const [isPaymentVerified, setIsPaymentVerified]= useState(false)

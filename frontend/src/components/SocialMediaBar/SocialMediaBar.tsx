@@ -19,7 +19,7 @@ const SocialMediaBar: React.FC<SocialMediaBarProps> = () => {
     src: gitHub,
     alt: "gitHub", 
     title: "My GitHub",
-    href: "https://www.github.com/"
+    href: "https://www.github.com/aljer80"
   }
 
   const myIcons: Icon[] = [
