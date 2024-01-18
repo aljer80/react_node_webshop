@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getAllOrders, getOrder, updateOrder, deleteOrder } from "../../utilities/ApInterface";
+import { getAllOrders, getOrder, updateOrder, deleteOrder } from "../../utilities/ApiUtilities";
 import { Order } from "../../types/order.types";
 
 interface OrderModalProps{ }

@@ -1,6 +1,6 @@
 import Hero from "../Hero/Hero";
 import FilteringAndSortingBar from "../FilteringAndSortingBar/FilteringAndSortingBar";
-import { fetchAllProducts } from "../../utilities/ApInterface"; 
+import { fetchAllProducts } from "../../utilities/ApiUtilities"; 
 
 
 const Products = async () => {

@@ -65,3 +65,12 @@ const ConfirmationModal = ({ customerDetails, order }) => {
 }
 
 export default ConfirmationModal
+
+{/* <div>
+          <section>
+            <h2>Orderöversikt</h2>
+            <p><strong>Kund: </strong> {customerDetails}</p>
+            <p><strong>Beställning:</strong> {orderDetails}</p>
+          </section>
+          <button onClick={processPayment}>Betala</button>
+        </div> */}
