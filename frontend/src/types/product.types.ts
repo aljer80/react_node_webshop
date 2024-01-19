@@ -1,14 +1,27 @@
 export interface Product {
-    id: string,
+    id: number,
     name:string,
-    weight: string,
+    weight: number,
     description: string,
     balance: string,
     type: string,
+    price: number,
     material: string,
     shape: string,
     brand: string,
-    price: number,
-    playerType: string,
-    image: string,
+    [key: string]: any
   }
+
+
+export interface ProductListProps{
+    products: Product[]
+}
+
+export interface ProductCardProps{
+    product: Product
+}
+
+export interface sort{
+    field: string
+    order: 'asc'|'desc'
+}

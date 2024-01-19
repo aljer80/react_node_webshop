@@ -20,9 +20,14 @@ interface ProductContext {
   //onAddToCart: (product: Product) => void; 
   onAddToCart: (productId: string) => void; //behöver både med och utan id. Id ska vara valbart
   handleAddToCart: (productId) => void;
-  onFilterChange:() => void,
   handleProductFilterChange:() => void,
-  processFilterChange:() => void, 
+  processProductFilterChange:() => void,
+  handleSortingOptionChange:() => void,
+  processSortingOptionChange:() => void,
+  handleNameFilterButtonClick:() => void,
+  handleResetFilterButtonClick:() => void,
+  handleAddToCartClick,
+    handleModalButtonClick
 }
 
 
@@ -34,6 +39,13 @@ export function ProductProvider({ children }: PropsWithChildren) {
 
 
   //functions and useEffects go here
+
+  const handleModalButtonClick = () => {
+    
+  }
+
+
+
   const [productFilteringOptions, setProductFilteringOptions] = useState<Filter[]>([]);
   const [productSortingOptions,setProductSortingOptions] = useState<Sort>();
 
@@ -93,7 +105,15 @@ export function ProductProvider({ children }: PropsWithChildren) {
   return (
     <ProductContext.Provider value={{
         products, 
-        loadAllProducts
+        loadAllProducts,
+        handleProductFilterChange,
+        processProductFilterChange,
+        handleSortingOptionChange,
+        processSortingOptionChange,
+        handleNameFilterButtonClick,
+        handleResetFilterButtonClick,
+        handleAddToCartClick,
+    handleModalButtonClick
         }}>
       {children}
     </ProductContext.Provider>
