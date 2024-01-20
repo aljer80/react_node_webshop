@@ -1,88 +1,99 @@
-import { ProductContext } from "../../context/ProductContext";
+import { useState, useEffect } from "react";
+import { useProductContext } from "../../context/ProductContext";
 import ProductList from "../ProductList/ProductList";
-import ProductCard from "../ProductCard/ProductCard";
-import { useContext } from "react";
+import ProductDetailModal from "../ProductDetailModal/ProductDetailModal";
+import { Product } from "../../types/product.types";
 
 const FilteringAndSortingBar: React.FC = () => {    
-
   if(!ProductList){
-    throw new Error("Unable to load productList");
+    throw new Error("Missing dependency!");
   }
 
   const {
-    handleProductFilterChange,
-    handleNameFilterButtonClick,
-    handleResetFilterButtonClick,
-  } = useContext(ProductContext);
+    inventory, 
+    filterOptions, 
+    sortingOptions, 
+    isProductDetailModalOpen,
+    handleFilterChange,
+    handleSortingChange, 
+    handleSearchButtonClick,
+    handleResetButtonClick
+  } = useProductContext();
+
+  const [searchInput, setSearchInput] = useState<string>("");
+  const getSuggestions = ():Product[] => {
+    return inventory.filter(product => product.name.toLowerCase().includes(searchInput.toLowerCase()));
+  }
+
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+
+  const processFilterOptions = () => {
+    const filteredArray: Product[] = inventory.filter(entry => {
+      return filterOptions.every(option => {
+        const [property, value] = option.split(":")
+        return entry[property as keyof Product] === value;
+      })
+    })
+    return filteredArray
+  }
+
+  useEffect(() => {
+    const newFilteredProducts: Product[] = processFilterOptions();
+    setFilteredProducts(newFilteredProducts);
+  }, [filterOptions, sortingOptions, inventory]);
+
 
     return (
+      <>
       <div>
-        <div id="filtering-and-sorting-bar" role="toolbar">
-          <select name="brand-filter" id="brand" title="raquet-brand" onChange={handleProductFilterChange}></select>
+        <select id="brand" onChange={(e) => handleFilterChange(e.target.value)}>
+          <option value="---"></option>
+          <option value="Babolat">Babolat</option>
+          <option value="DoPadel">DoPadel</option>
+          <option value="Head">Head</option>
+          <option value="Nox">Nox</option>
+          <option value="Osaka">Osaka</option>
+        </select>
+        <select id="shape" onChange={(e) => handleFilterChange(e.target.value)}>
+          <option value="---"></option>
+          <option value="">Runt</option>
+          <option value="">Droppformat</option>
+          <option value="">Diamantformat</option>
+        </select>
+        <select id="balance" onChange={(e) => handleFilterChange(e.target.value)}>
+          <option value="---"></option>
+          <option value="">Låg balans</option>
+          <option value="">Medel balans</option>
+          <option value="">Hög balans</option>
+        </select>
+        <select id="sorting" onChange={(e) => handleSortingChange(e.target.value)}>
+          <option value="---"></option>
           <option value=""></option>
-          <select name="shape-filter" id="shape" title="raquet-shape" onChange={handleProductFilterChange}></select>
           <option value=""></option>
-          <select name="balance-filter" id="balance" title="raquet-balance" onChange={handleProductFilterChange}></select>
-          <option value=""></option>
-          <select name="sorting-filter" id="sorting" title="raquet-sorting" onChange={handleProductFilterChange}></select>
-          <option value=""></option>
-
-          <input type="text" name="name-filter" id="name" title="raquet-name" placeholder="raquet-name"/>
-          <button type="button" name="name-filter-button" id="name-filter-button" title="name-filter-button" onClick={handleNameFilterButtonClick}>Sök</button>
-          <input type="range" name="weight-filtering-range" id="weight-filtering-range" title="weight-filtering-range" onChange={handleProductFilterChange}/>
-          <input type="range" name="price-filtering-range" id="price-filtering-range" title="price-filtering-range" onChange={handleProductFilterChange}/>
-          <button type="button" name="reset-filter-button" id="reset-filter-button" title="reset-filter-button" onClick={handleResetFilterButtonClick}>Återställ filter</button>
-        </div>
-        <ProductList />
-        <ProductCard />            
-        
+        </select>
+          <div>
+              <input
+                  type="text"
+                  value={searchInput}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchInput(e.target.value)}
+                  placeholder="Type to search..."
+              />
+              <ul>
+                  {getSuggestions().map((suggestion: Product, index) => (
+                      <li key={index} onClick={() => handleSearchButtonClick(suggestion.name)}>
+                          {suggestion.name}
+                      </li>
+                  ))}
+              </ul>
+              <input type="button" onClick={() => handleSearchButtonClick(searchInput)}></input>
+          </div>
+          <input type="range" id="weight" onChange={(e) => handleFilterChange(e.target.value)}></input>
+          <input type="range" id="price" onChange={(e) => handleFilterChange(e.target.value)}></input>
+          <button type="button" id="reset-filter" onClick={() => handleResetButtonClick("")}></button>
       </div>
+      {isProductDetailModalOpen ? <ProductDetailModal /> : <ProductList products = { filteredProducts } />}
+      </>
     );
 }
 
 export default FilteringAndSortingBar;
-
-// const filterOptions = [
-//   { name: 'brand', title: 'raquet-brand' },
-//   { name: 'shape', title: 'raquet-shape' },
-//   { name: 'balance', title: 'raquet-balance' },
-//   { name: 'sorting', title: 'raquet-sorting' },
-// ];
-
-// const FilterAndSortingBar: React.FC = () => {
-//   const renderFilterOptions = () => {
-//     return filterOptions.map((option) => (
-//       <React.Fragment key={option.name}>
-//         <select name={`${option.name}-filter`} id={option.name} title={option.title} onChange={handleProductFilterChange}>
-//           <option value=""></option>
-//         </select>
-//         <option value=""></option>
-//       </React.Fragment>
-//     ));
-//   };
-
-//   return (
-//     <div>
-//       <div id="filtering-and-sorting-bar" role="toolbar">
-//         {renderFilterOptions()}
-
-//         {/* Name Filter */}
-//         <input type="text" name="name-filter" id="name" title="raquet-name" placeholder="raquet-name" />
-//         <button type="button" name="name-filter-button" id="name-filter-button" title="name-filter-button" onClick={handleNameFilterButtonClick}>
-//           Sök
-//         </button>
-
-//         {/* Weight and Price Filters */}
-//         <input type="range" name="weight-filtering-range" id="weight-filtering-range" title="weight-filtering-range" onChange={handleProductFilterChange} />
-//         <input type="range" name="price-filtering-range" id="price-filtering-range" title="price-filtering-range" onChange={handleProductFilterChange} />
-
-//         {/* Reset Filter Button */}
-//         <button type="button" name="reset-filter-button" id="reset-filter-button" title="reset-filter-button" onClick={handleResetFilterButtonClick}>
-//           Återställ filter
-//         </button>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default FilterAndSortingBar;
