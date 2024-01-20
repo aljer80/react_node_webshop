@@ -1,69 +1,63 @@
-import { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
+interface ConfirmationModalProps {
+  showConfirmation: boolean;
+  showError: boolean;
+  errorMessage: string;
+  handleRetryPayment: () => void;
+  order: Order;
+}
 
 //Container för Error och Success
 
-const ConfirmationModal = ({ customerDetails, order }) => {
+const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ 
+  showConfirmation,
+  showError,
+  errorMessage,
+  handleRetryPayment,
+  order,
+}) => {
+  const navigate = useNavigate();
 
-  const [isPaymentVerified, setIsPaymentVerified]= useState(false)
-  const history = useHistory();
+  // useEffect(() => {
+  //   const timeoutId = setTimeout(() => {
+  //     localStorage.clear();
+  //     navigate("/");
+  //   }, 5000);
+  //   return () => clearTimeout(timeoutId);
+  // }, [showConfirmation, navigate]);
 
-  const verifyPayment = async () => {
-    try {
-      const response = await fetch(/* mitt fetch-anrop */)
-      const { verified } = await response.json();  //kollar vad det blir för svar
+  const handleSuccessfulRequestTimed = () => {
+    localStorage.clear();
+    navigate("/");
+  }
+  
+  const handleRetryRequest = () => {
+    handleRetryPayment();
+  };
 
-      if(verified) {
-        setIsPaymentVerified(true);
-        localStorage.removeItem("session-id");
-        // createOrder();
-        } else {
-            setIsPaymentVerified(false);
-        }
-    } catch (error) {
-      console.log(error);
-    }
-  }  
-
-    useEffect(() => {
-      verifyPayment();
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    useEffect(() => {
-      const timeoutId = setTimeout(() => {
-        localStorage.clear();
-        history.push("/");
-      }, 10000);
-
-      return () => clearTimeout(timeoutId);
-    }, [isPaymentVerified, history]);
-
-    const handleSuccessfulRequestTimed = () => {
-      console.log("Clicked on Ok");
-    }
-
-    const handleRetryRequest = () => {
-      //skicka en ny betalning
-    }
-
-  return isPaymentVerified ? (
-    <div className="payment_verified">
-      <h1>Tack för ditt köp!</h1>
-      <p>Betalning genomfördes för: {customerDetails.firstName} {customerDetails.lastName}<br/>
-        En orderbekräftelse har skickats till din E-post. </p>
-      <button onClick={handleSuccessfulRequestTimed}>Ok</button>
-    </div>
-    ) : (
-      <div className="payment_verified">
-          <h1>Ditt köp blev inte slutfört, <br/> Var god försök igen!</h1> <br/>
-          <h3>Kontakta vår support om problemet kvarstår.</h3> <br />
-          <h3> Kundtjänstens öppettider är: mån-fre: 9-20 | lör-sön: 10-18 </h3>
-          <h3>Telefon: 0771-42 42 42 <br/>
-          E-post:<a href="mailto:alexandra.jernberg@medieinstitutet.se">kundtjanst@padelracket.se</a></h3><br/>            
+  return (
+    <div className="confirmation-modal">
+      {showConfirmation && (
+        <div className="payment-success">
+          <h1>Tack för ditt köp!</h1>
+          <p>
+            Betalning genomfördes för: {customerDetails.firstName} {customerDetails.lastName}
+            <br />En orderbekräftelse har skickats till din E-post.
+          </p>
+          <button onClick={handleSuccessfulRequestTimed}>Ok</button>
+        </div>
+      )}
+      {showError && (
+        <div className="error-message">
+          <p>{errorMessage}</p>
           <button onClick={handleRetryRequest}>Försök igen</button>
-      </div>
-    );
+        </div>
+      )}
+    </div>
+  );
+  
 }
 
 export default ConfirmationModal
@@ -76,3 +70,19 @@ export default ConfirmationModal
           </section>
           <button onClick={processPayment}>Betala</button>
         </div> */}
+
+{/* <div className="payment-success">
+      <h1>Tack för ditt köp!</h1>
+      <p>Betalning genomfördes för: {customerDetails.firstName} {customerDetails.lastName}<br/>
+        En orderbekräftelse har skickats till din E-post. </p>
+      <button onClick={handleSuccessfulRequestTimed}>Ok</button>
+    </div>
+    ) : (
+      <div className="payment-error">
+          <h1>Ditt köp blev inte slutfört, <br/> Var god försök igen!</h1> <br/>
+          <h3>Kontakta vår support om problemet kvarstår.</h3> <br />
+          <h3> Kundtjänstens öppettider är: mån-fre: 9-18 | lör-sön: 10-14 </h3>
+          <h3>Telefon: 0771-42 42 42 <br/>
+          E-post:<a href="mailto:alexandra.jernberg@medieinstitutet.se">kundtjanst@padelracket.se</a></h3><br/>            
+          <button onClick={handleRetryRequest}>Försök igen</button>
+      </div> */}

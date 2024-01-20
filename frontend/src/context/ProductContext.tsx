@@ -1,15 +1,15 @@
-import { PropsWithChildren, createContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useState, useEffect, ReactNode } from "react";
 import { fetchAllProducts } from "../utilities/ApiUtilities";
 import { Product, sort } from "../types/product.types";
 
 export interface ProductContextProps {
-  //products: Product[] | undefined
   inventory: Product[] | undefined
   sortingOptions: sort | undefined
+  filterOptions: string[] | undefined
   isProductDetailModalOpen: boolean
   selectedProductId: number | null
   loadAllProducts: () => void,
-  handleProductFilterChange:(value: string | undefined) => void
+  handleFilterChange:(value: string | undefined) => void
   changeFilterState: (value: string | undefined) => void
   handleSortingChange:(value: string) => void
   changeSortingState:(value: string) => void
@@ -19,15 +19,13 @@ export interface ProductContextProps {
   openProductDetailModal: (id: number) => void
   handleCloseProductDetailModalButtonClick: () => void
   closeProductDetailModal: () => void
+  //handleAddToCartClick: (productId: string) => void; 
 
-  handleAddToCartClick: (productId: string) => void; 
-  //handleModalButtonClick
 }
 
 
 //allt som är gemensamt för komponentträdet vi använder
-//visa produkt/er
-export const ProductContext = createContext<ProductContextProps>(null as any); //| undefined>(undefined)
+export const ProductContext = createContext<ProductContextProps | undefined>(undefined);
 
 export const useProductContext = () => {
   const context:ProductContextProps | undefined = useContext(ProductContext)
@@ -46,8 +44,8 @@ export const ProductProvider: React.FC<{children: ReactNode}> = ({children}) => 
 
   const loadAllProducts = async () => {
     try {
-      const fetchedProducts: Product[] | string = await fetchAllProducts()
-      if(typeof) fetchedProducts === "string" {
+      const fetchedProducts: Product[] | string = await fetchAllProducts();
+      if(typeof fetchedProducts === "string") {
         const parsedData: Product[] = JSON.parse(fetchedProducts)
         setInventory(parsedData);
       } else {
@@ -72,6 +70,10 @@ export const ProductProvider: React.FC<{children: ReactNode}> = ({children}) => 
   }
 
   const handleSortingChange = (value: string) => {
+    changeSortingState(value);
+  }
+
+  const changeSortingState = (value: string) => {
     const [field, order] = value.split(":");
     if(order === "asc" || order === "desc") {
       setSortingOptions({ field, order});
@@ -129,7 +131,6 @@ export const ProductProvider: React.FC<{children: ReactNode}> = ({children}) => 
       openProductDetailModal,
       handleCloseProductDetailModalButtonClick,
       closeProductDetailModal
-      // handleModalButtonClick
       // handleAddToCartClick,
     }}>
       {children}

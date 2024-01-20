@@ -1,5 +1,10 @@
-import { Policy } from "../../types/policy.type"
+import { Policy } from "../../types/policy.types"
 
+/**
+ * Component for displaying disclaimer policies.
+ * @component
+ * @returns {JSX.Element} - DisclaimerPanel component
+ */
 const DisclaimerPanel = () => {
 
   const policies: Policy[] = [

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import CartItem from "../CartItem/CartItem";
 
 const CartModal = () => { 
@@ -50,6 +51,8 @@ const CartModal = () => {
   
   function handleCloseModalClick() {
     // lägg till navigering till "huvudsidan"
+    const navigate = useNavigate();
+    navigate("/");
     console.log("Clicked on close modal")
   }
 

@@ -1,5 +1,10 @@
 import { FaEnvelope } from "react-icons/fa";
 
+/**
+ * Component for displaying contact information.
+ * @component
+ * @returns {JSX.Element} - ContactPanel component
+ */
 const ContactPanel = () => {
     return (
         <div>

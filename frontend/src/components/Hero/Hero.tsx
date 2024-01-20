@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Slide } from "../../types/slide.type";
+import { Slide } from "../../types/slide.types";
 import veron from "../../assets/images/babolat-technical-veron-juan-lebron-2024.jpg"
 import vertuo from "../../assets/images/babolat-technical-vertuo-juan-lebron-2024.jpg"
 import viper from "../../assets/images/babolat-technical-viper-juan-lebron-2024.jpg"
@@ -12,6 +12,10 @@ const slides: Slide[] = [
   { src: viper, text: 'En ny och fräsch färg på ett av världens mest kända padelracket, Technical Viper Juan Lebrón. Ta chansen att spela som en av världens högst rankade padelspelare, Juan ”El Lobo” Lebrón! Denna modell från Babolat är framtagen tillsammans med Lebrón och noga anpassad för hans aggressivt offensiva stil. Technical Viper Juan Lebrón har alla de egenskaperna som behövs för att leverera en överlägsen fart och spinn på bollen. Rackets kärna består av en solid styv kärna för maximal kraft vid bollträff. Vid hårda slag såsom smash svarar kärnan fort och skickar ut bollen med grym fart. Jämfört med Babolats ordinarie Technical Viper så består detta racks träffyta av ett 40% tjockare karbon-lager. Resultatet är en extra styv träffyta för dominerande explosivitet i slagen.' },
 ];
 
+/**
+ * Hero component responsible for displaying a carousel of slides with product information.
+ * @returns {JSX.Element} JSX for the Hero component.
+ */
 const Hero: React.FC = () => {
 
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -24,6 +28,10 @@ const Hero: React.FC = () => {
     return () => clearInterval(intervalId);
   }, [totalSlides]);
 
+  /**
+   * Scrolls to the next or previous slide based on the specified direction.
+   * @param {string} direction - The direction of the scroll ('left' or 'right').
+   */
   const scroll = (direction: "left" | "right") => {
     let newIndex = direction === "left" ? currentSlide - 1 : currentSlide + 1;
 

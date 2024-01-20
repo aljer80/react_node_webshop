@@ -5,6 +5,7 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
+    "types": ["react-router-dom"],
 
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -23,3 +24,21 @@
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
+
+// {
+//   "compilerOptions": {
+//     "target": "ESNext",
+//     "module": "ESNext",
+//     "moduleResolution": "node",
+//     "jsx": "react-jsx",
+//     "lib": ["DOM", "ESNext"],
+//     "strict": true,
+//     "esModuleInterop": true,
+//     "skipLibCheck": true,
+//     "forceConsistentCasingInFileNames": true,
+//     "allowSyntheticDefaultImports": true
+//   },
+//   "include": ["src/**/*.ts", "src/**/*.d.ts", "vite.config.ts"],
+//   "exclude": ["node_modules"]
+// }
+

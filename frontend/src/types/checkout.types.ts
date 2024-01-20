@@ -22,6 +22,6 @@ export interface OrderDetails {
 
 export interface Order {
     customerDetails:  CustomerDetails;
-    //cardDetails:  CardDetails;
+    cardDetails:  CardDetails;
     orderDetails: OrderDetails;
 }

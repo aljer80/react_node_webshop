@@ -6,6 +6,11 @@ interface SocialMediaBarProps {
  icon: Icon 
 }
 
+/**
+ * Component for displaying social media icons.
+ * @component
+ * @returns {JSX.Element} - SocialMediaBar component
+ */
 const SocialMediaBar: React.FC<SocialMediaBarProps> = () => {
 
   const linkedInIcon: Icon = {
@@ -29,6 +34,7 @@ const SocialMediaBar: React.FC<SocialMediaBarProps> = () => {
 
   return (
       <div id="social-media-icons" role="menubar">
+          {/* Mapping through icons and rendering each one */}
           {myIcons.map((icon, index) => (
             <a key={index} href={icon.href} title={icon.title} target="_blank" rel="noopener noreferrer">
             <img src={icon.src} alt={icon.alt} />

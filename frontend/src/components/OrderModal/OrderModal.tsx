@@ -2,6 +2,11 @@ import { useState, useEffect } from "react";
 import { getAllOrders, getOrder, updateOrder, deleteOrder } from "../../utilities/ApiUtilities";
 import { Order } from "../../types/order.types";
 
+/**
+ * OrderModal component for handling operations on orders.
+ * @returns {JSX.Element} JSX for the OrderModal component.
+ */
+
 interface OrderModalProps{ }
 
 const OrderModal: React.FC<OrderModalProps> = () => {
@@ -16,6 +21,10 @@ const OrderModal: React.FC<OrderModalProps> = () => {
         populate();
     }, [])
 
+    /**
+     * Handles various order operations based on the selected operation.
+     * @param {React.FormEvent<HTMLFormElement>} e - The form event.
+     */
     async function handleOrderOperation(e: React.FormEvent<HTMLFormElement>){
         e.preventDefault()
         const operation = e.currentTarget["order-operation"].value;

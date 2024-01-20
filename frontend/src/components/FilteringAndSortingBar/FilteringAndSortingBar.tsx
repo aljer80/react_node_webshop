@@ -4,6 +4,12 @@ import ProductList from "../ProductList/ProductList";
 import ProductDetailModal from "../ProductDetailModal/ProductDetailModal";
 import { Product } from "../../types/product.types";
 
+/**
+ * Component for displaying and managing filtering and sorting options for products.
+ * @component
+ * @returns {JSX.Element} - FilteringAndSortingBar component
+ * @throws Will throw an error if the ProductList dependency is missing.
+ */
 const FilteringAndSortingBar: React.FC = () => {    
   if(!ProductList){
     throw new Error("Missing dependency!");
@@ -14,10 +20,13 @@ const FilteringAndSortingBar: React.FC = () => {
     filterOptions, 
     sortingOptions, 
     isProductDetailModalOpen,
+      selectedProductId,
     handleFilterChange,
+      changeFilterState,
+      changeSortingState,
     handleSortingChange, 
+    handleResetButtonClick,
     handleSearchButtonClick,
-    handleResetButtonClick
   } = useProductContext();
 
   const [searchInput, setSearchInput] = useState<string>("");
@@ -26,7 +35,11 @@ const FilteringAndSortingBar: React.FC = () => {
   }
 
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [sortedProducts, setSortedProducts] = useState<Product[]>([]);
 
+  /**
+   * Process filter options and update the filtered products array.
+   */
   const processFilterOptions = () => {
     const filteredArray: Product[] = inventory.filter(entry => {
       return filterOptions.every(option => {
@@ -37,9 +50,32 @@ const FilteringAndSortingBar: React.FC = () => {
     return filteredArray
   }
 
+  /**
+   * Process sorting options and update the sorted products array.
+   */
+  const processSortingOption = () => {
+    let sortedArray: Product[] = []
+    switch(sortingOptions.field){
+        case "name":
+            sortedArray = filteredProducts.slice().sort((a: Product, b: Product) => {
+                const orderFactor: number = sortingOptions.order === 'asc' ? 1 : -1
+                return orderFactor * a.name.localeCompare(b.name)
+            })
+            break
+        case "price":
+            sortedArray = filteredProducts.slice().sort((a: Product, b: Product) => {
+                const orderFactor: number = sortingOptions.order === 'asc' ? 1 : -1
+                return orderFactor * (a.price - b.price)
+            })
+            break
+    }
+    setSortedProducts(sortedArray)
+}
+
   useEffect(() => {
     const newFilteredProducts: Product[] = processFilterOptions();
     setFilteredProducts(newFilteredProducts);
+    processSortingOption();
   }, [filterOptions, sortingOptions, inventory]);
 
 
@@ -47,7 +83,7 @@ const FilteringAndSortingBar: React.FC = () => {
       <>
       <div>
         <select id="brand" onChange={(e) => handleFilterChange(e.target.value)}>
-          <option value="---"></option>
+          <option value="">---</option>
           <option value="Babolat">Babolat</option>
           <option value="DoPadel">DoPadel</option>
           <option value="Head">Head</option>
@@ -55,21 +91,24 @@ const FilteringAndSortingBar: React.FC = () => {
           <option value="Osaka">Osaka</option>
         </select>
         <select id="shape" onChange={(e) => handleFilterChange(e.target.value)}>
-          <option value="---"></option>
-          <option value="">Runt</option>
-          <option value="">Droppformat</option>
-          <option value="">Diamantformat</option>
+          <option value="">---</option>
+          <option value="Rund">Rund</option>
+          <option value="Dropp">Dropp</option>
+          <option value="Diamant">Diamant</option>
+          <option value="Hybrid">Hybrid</option>
         </select>
         <select id="balance" onChange={(e) => handleFilterChange(e.target.value)}>
-          <option value="---"></option>
-          <option value="">Låg balans</option>
-          <option value="">Medel balans</option>
-          <option value="">Hög balans</option>
+          <option value="">---</option>
+          <option value="Låg">Låg</option>
+          <option value="Medel">Medel</option>
+          <option value="Hög">Hög</option>
         </select>
         <select id="sorting" onChange={(e) => handleSortingChange(e.target.value)}>
-          <option value="---"></option>
-          <option value=""></option>
-          <option value=""></option>
+          <option value="">---</option>
+          <option value="price:asc">Pris: Stigande</option> {/* strängen splittas i field och sort order */}
+          <option value="price:desc">Pris: Fallande</option>
+          <option value="name:asc">Namn: A - Ö</option>
+          <option value="name:desc">Namn: Ö - A</option>
         </select>
           <div>
               <input
@@ -91,7 +130,7 @@ const FilteringAndSortingBar: React.FC = () => {
           <input type="range" id="price" onChange={(e) => handleFilterChange(e.target.value)}></input>
           <button type="button" id="reset-filter" onClick={() => handleResetButtonClick("")}></button>
       </div>
-      {isProductDetailModalOpen ? <ProductDetailModal /> : <ProductList products = { filteredProducts } />}
+      {isProductDetailModalOpen ? <ProductDetailModal /> : <ProductList products = { sortedProducts } />}
       </>
     );
 }

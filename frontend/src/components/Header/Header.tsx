@@ -1,7 +1,11 @@
 import { FaShoppingBag, FaCheck } from "react-icons/fa";
 import { GiTennisRacket } from "react-icons/gi";
 
-
+/**
+ * Header component displaying the PadelRacket logo and promotional banners.
+ * @component
+ * @returns {JSX.Element} - Header component
+ */
 const Header = () => {
 
     return(
