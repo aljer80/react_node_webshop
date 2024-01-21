@@ -7,7 +7,7 @@ import { FaEnvelope } from "react-icons/fa";
  */
 const ContactPanel = () => {
     return (
-        <div>
+        <div className="container contactPanel-container">
           <p>Alexandra Jernberg</p>
           <p>E-post:
           <a href="mailto:alexandra.jernberg@medieinstitutet.se"><FaEnvelope /></a>

@@ -11,7 +11,7 @@ import { ProductProvider } from '../../context/ProductContext.tsx';
  */
 const Layout = () => {
     return (
-        <>
+        <div className='container layout-div'>
         {/* <CartProvider> */}
         < ProductProvider>
             <Header />
@@ -19,7 +19,7 @@ const Layout = () => {
             <Footer />
         </ProductProvider>
         {/* </CartProvider> */}
-        </>
+        </div>
     );
 };
 

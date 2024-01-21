@@ -6,7 +6,7 @@ interface ErrorProps{
 
 const Error: React.FC<ErrorProps> = ({ errorMessages }) => {
     return (
-        <div className="errorMessage-container">
+        <div className="container errorMessage">
           <h1>Error</h1>
             <ul>
               {errorMessages.map((errorMessage, index) =>(

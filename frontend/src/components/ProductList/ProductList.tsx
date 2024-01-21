@@ -16,7 +16,7 @@ const ProductList: React.FC<ProductListProps> = ({products}) => {
   }
 
   return (
-    <div className="product-list">
+    <div className="container product-list">
       {products.map((product: Product) => (
       <ProductCard key={product.id} product={product} />
       ))};

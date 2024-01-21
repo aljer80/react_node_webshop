@@ -27,10 +27,10 @@ const DisclaimerPanel = () => {
   ];
   
     return (
-        <section>
+        <section className="disclaimerPanel-container">
           {policies.map((policy, index) => ( 
           <article key={index}>
-            <h3>{policy.title}</h3> {policy.text}
+            <h1>{policy.title}</h1> {policy.text}
           </article>
           ))}
         </section>
@@ -38,4 +38,3 @@ const DisclaimerPanel = () => {
 }
 
 export default DisclaimerPanel
-

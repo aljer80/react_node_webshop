@@ -46,14 +46,14 @@ const Hero: React.FC = () => {
 
 
     return (
-      <div className="hero-section">
+      <div className=" container hero-div">
         <div className="two-column-layout">
           <div className="image-column">
             {/* göra bilderna i Hero klickbara så de leder till ProductDetail för den produkten  */}
             <img className="hero-img" src={slides[currentSlide].imageUrl} alt="hero image" />
           </div>
           <div className="text-column">
-            <p>{slides[currentSlide].text}</p>
+            <p className="slide-text">{slides[currentSlide].text}</p>
           </div>
         </div>
         <div className="arrow-icons">
@@ -61,7 +61,7 @@ const Hero: React.FC = () => {
           <MdOutlineKeyboardArrowRight className="arrows" onClick={() => scroll('right')} />
         </div>
         <div className="banner">
-        <p>Babolat utökar Juan Lebróns kollektion så att fler ska få möjlighet att spela som "El Lobo"! 10% rabatt på Juan Lebróns kollektion med rabattkoden "LEBRON24". </p>
+        <p className="CTA-text">Babolat utökar Juan Lebróns kollektion så att fler ska få möjlighet att spela som "El Lobo"! 10% rabatt på Juan Lebróns kollektion med rabattkoden "LEBRON24". </p>
         </div>
       </div>
     );

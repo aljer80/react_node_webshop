@@ -51,22 +51,19 @@ const Payment = ({ customerDetails, cardDetails, orderDetails, order, onPaymentS
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <CardElement />
-      <button type="submit">BETALA</button>
-    </form>
+    <div className="container payment-div"></div>
+      <form onSubmit={handleSubmit}>
+        <CardElement />
+        <button type="submit">BETALA</button>
+      </form>
   );
 };
-
-    
-
-
-    return (
-        <div>
-          < ConfirmationModal />
-        </div>
-      );
-}
+//     return (
+//         <div>
+//           < ConfirmationModal />
+//         </div>
+//       );
+// }
 
 export default Payment
 

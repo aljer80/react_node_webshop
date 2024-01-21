@@ -9,12 +9,12 @@ import { GiTennisRacket } from "react-icons/gi";
 const Header = () => {
 
     return(
-        <>
-            <div>
-                <GiTennisRacket />
-                <h1>Padel<span>Racket</span></h1>
-                <FaShoppingBag />
+        <div className="container header-div">
+            <div className="logo-div">
+                <GiTennisRacket className="logo"/>
+                <p className="webShop-name">Padel<span>Racket</span></p>
             </div>
+            <FaShoppingBag className="cart-icon"/>
             <div className="header-banner">
                 <p>
                     <FaCheck />Öppet köp i 30 dagar
@@ -26,7 +26,7 @@ const Header = () => {
                     <FaCheck />Fria returer
                 </p>
             </div>
-        </>
+        </div>
     );
 }
 

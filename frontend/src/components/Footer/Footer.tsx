@@ -9,8 +9,8 @@ import SocialMediaBar from "../SocialMediaBar/SocialMediaBar";
  */
 const Footer = () => {
     return(
-        <div>
-            <ContactPanel />
+        <div className="container footer-div">
+            <ContactPanel/>
             <SocialMediaBar />
             <DisclaimerPanel />
         </div>

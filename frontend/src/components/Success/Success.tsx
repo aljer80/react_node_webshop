@@ -2,9 +2,7 @@
 
 const Success = () => {
     return (
-        <>
-           
-        </>
+        <div className="container success"></div>
       )
     
 }

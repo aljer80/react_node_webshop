@@ -77,7 +77,7 @@ const Checkout: React.FC<CheckoutProps>  = ({ cart }) => {
 
   return (
     //kolla CartModal, eller annat sätt?
-    <div>
+    <div className="container checkOut-div">
       <CartModal />
         <form autoComplete="on" onSubmit={handlePayment}>
           <input type="text" id="first-name" placeholder="Förnamn"></input>

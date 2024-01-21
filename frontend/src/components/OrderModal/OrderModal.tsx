@@ -56,7 +56,7 @@ const OrderModal: React.FC<OrderModalProps> = () => {
 
 
   return (
-    <div>
+    <div className="container orderModal-div">
         <form onSubmit={handleOrderOperation}>
             <select id="order-operation">
                 <option value="GET" selected>Find</option>
@@ -70,7 +70,7 @@ const OrderModal: React.FC<OrderModalProps> = () => {
             <button id="order-operation" value="GET_ALL"onClick={handleOrderOperation}>Get all</button>
         </form>
         <div id="order-list" role="list">
-            <h2>Order List</h2>
+            <h1>Order List</h1>
             {orders.map((order) => (
                 <li key={order.id}>
                     <strong>Order ID:</strong>{order.id}, 

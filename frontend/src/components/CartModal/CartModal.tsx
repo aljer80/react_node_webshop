@@ -64,12 +64,12 @@ const CartModal = () => {
 
   return (
     //kolla att cartItem finns
-    <div>
-        <button type="submit" className="appButton">X</button>
+    <div className="container cartModal-div">
+        <button type="submit" className="appButton" id="x-button">X</button>
           <section id="item-list">
           <CartItem callbacks={callbacks} />
           </section>
-          <button type="submit" className="appButton" onClick={handleCheckoutClick}>Checkout</button>
+          <button type="submit" className="appButton" id="toPaymentButton" onClick={handleCheckoutClick}>Till Kassan</button>
       </div>
     );
 }
