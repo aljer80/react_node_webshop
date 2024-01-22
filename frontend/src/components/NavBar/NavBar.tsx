@@ -1,7 +1,5 @@
-import { Link } from 'react-router-dom';
 import { FaShoppingBag } from "react-icons/fa";
-import { GiTennisRacket } from "react-icons/gi";
-
+import { NavLink } from "react-router-dom";
 /**
  * NavBar component representing the navigation bar.
  * @component
@@ -10,21 +8,37 @@ import { GiTennisRacket } from "react-icons/gi";
 const NavBar: React.FC = () => {
 
     return (
-        <div className="container navBar-div">
-            <div className="logo-div">
-                <Link to="/">
-                    <GiTennisRacket className="logo"/>
-                    <p className="webShop-name"><span>P</span>adel<span>R</span>acket</p>
-                </Link>
-            </div>
-            <div className="nav-links">
-                <Link to="/">Hem</Link>
-                <Link to="/about">Om oss</Link>
-            </div>
-            <div>
-                <FaShoppingBag className="cart-icon"/>
-            </div>
-        </div>
+        <nav id="main-navbar">
+            <li className="li-nav">
+                <NavLink
+                    to="/"
+                    className={({ isActive, isPending }) =>
+                        isPending ? "pending" : isActive ? "active" : ""
+                    }
+                    style={{
+                        textDecoration: 'none',
+                        color: 'var(--main-text-color)',
+                    }}
+                    >
+                    Hem
+                </NavLink>
+            </li>
+            <li className="li-nav">
+                <NavLink
+                    to="/om-oss"
+                    className={({ isActive, isPending }) =>
+                        isPending ? "pending" : isActive ? "active" : ""
+                    }
+                    style={{
+                        textDecoration: 'none',
+                        color: 'var(--main-text-color)',
+                    }}
+                    >
+                    Om oss
+                </NavLink>
+            </li>
+            <FaShoppingBag id="cart-icon" onClick={handleOpenCartModalClick}/>
+        </nav>
     );
 }
 

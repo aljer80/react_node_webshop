@@ -11,7 +11,7 @@ import { ProductProvider } from '../../context/ProductContext.tsx';
  */
 const Layout = () => {
     return (
-        <div className='container layout-div'>
+        <div id="layout-div" role="group">
         {/* <CartProvider> */}
         < ProductProvider>
             <Header />

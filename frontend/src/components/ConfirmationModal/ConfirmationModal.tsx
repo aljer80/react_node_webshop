@@ -38,7 +38,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   };
 
   return (
-    <div className="container confirmationModal">
+    <div className="container" id="confirmationModal">
       {showConfirmation && (
         <div className="payment-success">
           <h1>Tack för ditt köp!</h1>

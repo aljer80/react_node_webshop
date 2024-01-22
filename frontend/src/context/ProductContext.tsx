@@ -28,7 +28,7 @@ export interface ProductContextProps {
 export const ProductContext = createContext<ProductContextProps | undefined>(undefined);
 
 export const useProductContext = () => {
-  const context:ProductContextProps | undefined = useContext(ProductContext)
+  const context:ProductContextProps | undefined = useContext(ProductContext);
   if(!context){
       throw new Error("Unable to load context!")
   }
@@ -131,10 +131,8 @@ export const ProductProvider: React.FC<{children: ReactNode}> = ({children}) => 
       openProductDetailModal,
       handleCloseProductDetailModalButtonClick,
       closeProductDetailModal
-      // handleAddToCartClick,
     }}>
       {children}
     </ProductContext.Provider>
   );
-
 }

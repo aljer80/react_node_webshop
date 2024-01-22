@@ -46,23 +46,17 @@ const Hero: React.FC = () => {
 
 
     return (
-      <div className=" container hero-div">
-        <div className="two-column-layout">
-          <div className="image-column">
-            {/* göra bilderna i Hero klickbara så de leder till ProductDetail för den produkten  */}
-            <img className="hero-img" src={slides[currentSlide].imageUrl} alt="hero image" />
-          </div>
-          <div className="text-column">
-            <p className="slide-text">{slides[currentSlide].text}</p>
-          </div>
+      <div className="container" id="hero-div">
+        <div id="hero-slider">
+          <MdOutlineKeyboardArrowLeft className="arrows" id="arrow-left" onClick={() => scroll('left')} />
+            <div className="slide">
+              {/* göra bilderna i Hero klickbara så de leder till ProductDetail för den produkten  */}
+              <img id="hero-img" src={slides[currentSlide].imageUrl} alt="hero image" />
+              <p id="slide-text">{slides[currentSlide].text}</p>
+            </div>
+          <MdOutlineKeyboardArrowRight className="arrows" id="arrow-right" onClick={() => scroll('right')} />
         </div>
-        <div className="arrow-icons">
-          <MdOutlineKeyboardArrowLeft className="arrows" onClick={() => scroll('left')} />
-          <MdOutlineKeyboardArrowRight className="arrows" onClick={() => scroll('right')} />
-        </div>
-        <div className="banner">
-        <p className="CTA-text">Babolat utökar Juan Lebróns kollektion så att fler ska få möjlighet att spela som "El Lobo"! 10% rabatt på Juan Lebróns kollektion med rabattkoden "LEBRON24". </p>
-        </div>
+          <p className="CTA-text">Babolat utökar Juan Lebróns kollektion så att fler ska få möjlighet att spela som "El Lobo"! 10% rabatt på Juan Lebróns kollektion med rabattkoden "LEBRON24". </p>
       </div>
     );
 }
