@@ -1,4 +1,4 @@
-import { ProductContext } from "../../context/ProductContext";
+import { ProductContextProvider } from "../../context/ProductContext";
 import Hero from "../Hero/Hero";
 import FilteringAndSortingBar from "../FilteringAndSortingBar/FilteringAndSortingBar";
 
@@ -7,16 +7,16 @@ import FilteringAndSortingBar from "../FilteringAndSortingBar/FilteringAndSortin
  * @returns {JSX.Element} JSX for the Products component.
  */
 const Products: React.FC = () => {
- 
+
   if(!FilteringAndSortingBar){
     throw new Error("Unable to load dependency!");
   }
 
   return (
-    <ProductContext>
-      <Hero />
-      <FilteringAndSortingBar /> 
-    </ProductContext>
+      <ProductContextProvider>
+        <Hero />
+        <FilteringAndSortingBar />
+      </ProductContextProvider>
   );
 }
 

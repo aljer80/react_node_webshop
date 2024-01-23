@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
-import { Slide } from "../../types/slide.types";
+import { Slide } from "../../types/hero.types";
 import veron from "../../assets/images/babolat-technical-veron-juan-lebron-2024.jpg"
 import vertuo from "../../assets/images/babolat-technical-vertuo-juan-lebron-2024.jpg"
 import viper from "../../assets/images/babolat-technical-viper-juan-lebron-2024.jpg"
 import { MdOutlineKeyboardArrowLeft, MdOutlineKeyboardArrowRight } from "react-icons/md";
-import "./Hero.css";
 
 const slides: Slide[] = [
   { src: veron, text: 'Babolat utökar Juan Lebróns kollektion så att fler ska få möjlighet att spela som "El Lobo"! Technical Veron Juan Lebrón är samma modell som den ordinarie Technical Veron men med en unik design tillägnad världstjärnan. Veron är de rack från Babolat med allra bredast målgrupp, detta tack vare sin innovativa design. Med den innovativa Carbon Flex Technology utnyttjar Babolat fördelarna med två material för att hitta en perfekt kombination mellan fart och tillgänglighet. Resultatet är ett mer förlåtande racket som enklare ger spelaren fart på bollen. Technical Veron är valet för den offensiva spelaren som använder sig av främst smash och tunga overhead-slag i sitt spel.'},
@@ -18,27 +17,27 @@ const slides: Slide[] = [
  */
 const Hero: React.FC = () => {
 
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const totalSlides = slides.length;
+  const [currentSlide, setCurrentSlide] = useState<number>(0);
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      setCurrentSlide((prevSlide) => (prevSlide + 1) % totalSlides);
+    const intervalId:number = setInterval(() => {
+      setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length-1);
     }, 20000);
     return () => clearInterval(intervalId);
-  }, [totalSlides]);
+  }, [currentSlide]);
 
   /**
    * Scrolls to the next or previous slide based on the specified direction.
    * @param {string} direction - The direction of the scroll ('left' or 'right').
    */
   const scroll = (direction: "left" | "right") => {
-    let newIndex = direction === "left" ? currentSlide - 1 : currentSlide + 1;
+    let newIndex: number = currentSlide;
+    newIndex = direction === "left" ? newIndex-=1  : newIndex+=1 ;
 
     if(newIndex < 0) {
-      newIndex = totalSlides - 1;
-    } else if (newIndex >= totalSlides) {
-      newIndex = 0;
+      setCurrentSlide(slides.length - 1);
+    } else if (newIndex === slides.length) {
+      setCurrentSlide(0);
     }
 
     setCurrentSlide(newIndex);
@@ -50,8 +49,7 @@ const Hero: React.FC = () => {
         <div id="hero-slider">
           <MdOutlineKeyboardArrowLeft className="arrows" id="arrow-left" onClick={() => scroll('left')} />
             <div className="slide">
-              {/* göra bilderna i Hero klickbara så de leder till ProductDetail för den produkten  */}
-              <img id="hero-img" src={slides[currentSlide].imageUrl} alt="hero image" />
+              <img id="hero-img" src={slides[currentSlide].src} alt="hero image" />
               <p id="slide-text">{slides[currentSlide].text}</p>
             </div>
           <MdOutlineKeyboardArrowRight className="arrows" id="arrow-right" onClick={() => scroll('right')} />

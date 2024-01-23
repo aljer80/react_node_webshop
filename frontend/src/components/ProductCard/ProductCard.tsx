@@ -9,11 +9,11 @@ import { ProductCardProps } from "../../types/product.types";
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   const {
-    handleProductCardClick
+    handleToggleProductDetailModalClick
   } = useProductContext();
 
     return (
-        <div className="container productCard-div" key={product.id} id={`product-card-${product.id}`} className="product-card" role="group" onClick={() => { handleProductCardClick(product.id) }}>
+        <div key={product.id} id={`product-card-${product.id}`} className="productCard-div" role="group" onClick={() => { handleToggleProductDetailModalClick(product.id) }}>
           <img src={`/images/products/${product.brand}/${product.name}.jpg`} alt={`${product.brand}: ${product.name} @ ${product.price}`}/>
           <p className="productName">{product.name}</p>
           <p className="productDescription">{product.description}</p>

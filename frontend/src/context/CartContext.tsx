@@ -8,7 +8,8 @@ export interface CartContextProps{
     removeFromCart: (itemId: number) => void
     removeProductFromCart: (itemId: number) => void
     handleAddToCartButtonClick: (e:React.MouseEvent<HTMLButtonElement>) => void
-    handleCloseModalButtonClick: (e:React.MouseEvent<HTMLButtonElement>) => void
+    handleToggleCartModalClick: () => void
+    toggleCartModal:() => void
     handleRemoveFromCartButtonClick: (e:React.MouseEvent<HTMLButtonElement>) => void
     handleRemoveProductFromCartButtonClick: (e:React.MouseEvent<HTMLButtonElement>) => void
 }
@@ -23,13 +24,13 @@ export const useCartContext= () => {
     return context;
 }
 
-export const CartProvider: React.FC<{ children: ReactNode }> = ( { children }) => {
+export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [cart, setCart] = useState<CartItem[]>([]);
     const [isCartModalOpen, setIsCartModalOpen] = useState<boolean>(false);
 
     function addToCart(product: CartItem){
         const existingProductIndex: number = cart.findIndex(item => item.id === product.id);
-        if(existingProductIndex !== -1) {
+        if(existingProductIndex !== -1) { //om inte ingenting (om man hittar någonting)
             const updatedCart: CartItem[] = [...cart];
             updatedCart[existingProductIndex].count += 1;
             setCart(updatedCart)
@@ -39,13 +40,14 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ( { children }) =
     }
 
     function removeFromCart(itemId: number) {
-        const existingProductIndex: number = cart.findIndex(item => item.id === item.id);
+        const existingProductIndex: number = cart.findIndex(item => item.id === itemId);
         if(existingProductIndex !== -1) {
             const updatedCart: CartItem[] = [...cart];
             updatedCart[existingProductIndex].count -= 1;
-            setCart(updatedCart)
-        } else {
-            setCart(cart.filter(item => item.id !== itemId));
+            if(updatedCart[existingProductIndex].count <1) {
+                removeProductFromCart(existingProductIndex)
+            }
+            setCart(updatedCart);
         }
     }
 
@@ -53,33 +55,42 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ( { children }) =
         setCart(cart.filter(item => item.id !== itemId))
     }
 
-    function handleAddToCartButtonClick(e:React.MouseEvent<HTMLButtonElement>) {
+    function handleAddToCartButtonClick(e: React.MouseEvent<HTMLButtonElement>) {
         const json: string | undefined = e.currentTarget?.dataset.cartitem; 
         if(json) {
-            const cartitem: cartItem = JSON.parse(json);
-            addToCart(cartitem.id);
+            const cartitem: CartItem = JSON.parse(json);
+            addToCart(cartitem);
         }
     }
 
-    function handleRemoveFromCartButtonClick(e:React.MouseEvent<HTMLButtonElement>) {
+    function handleRemoveFromCartButtonClick(e: React.MouseEvent<HTMLButtonElement>) {
         const json: string | undefined = e.currentTarget?.dataset.cartitem; 
         if(json) {
-            const cartitem: cartItem = JSON.parse(json);
+            const cartitem: CartItem = JSON.parse(json);
             removeFromCart(cartitem.id);
         }
     }
 
-    function handleRemoveProductFromCartButtonClick(e:React.MouseEvent<HTMLButtonElement>) {
+    function handleRemoveProductFromCartButtonClick(e: React.MouseEvent<HTMLButtonElement>) {
         const json: string | undefined = e.currentTarget?.dataset.cartitem; 
         if(json) {
-            const cartitem: cartItem = JSON.parse(json);
+            const cartitem: CartItem = JSON.parse(json);
             removeProductFromCart(cartitem.id);
         }
     }
 
-    function handleCloseModalButtonClick() {
-        setIsCartModalOpen(false);
+    function handleToggleCartModalClick() {
+        toggleCartModal();
     }
+
+    function toggleCartModal() {
+        if(isCartModalOpen === false) {
+            setIsCartModalOpen(true);
+        } else{
+            setIsCartModalOpen(false);
+        }
+    }
+    
 
     useEffect(() => {
         console.log("Nisse");
@@ -93,12 +104,13 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ( { children }) =
         addToCart,
         removeFromCart,
         removeProductFromCart,
-        handleCloseModalButtonClick,
         handleAddToCartButtonClick,
         handleRemoveFromCartButtonClick, 
-        handleRemoveProductFromCartButtonClick
+        handleRemoveProductFromCartButtonClick,
+        handleToggleCartModalClick,
+        toggleCartModal
     }}>
-        {children}
+        { children }
     </CartContext.Provider>
   );
 }

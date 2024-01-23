@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { fetchAllProducts } from "../utilities/ApiUtilities";
 import { Product, sort } from "../types/product.types";
 
@@ -16,13 +16,9 @@ export interface ProductContextProps {
   handleResetButtonClick: (value: string) => void
   handleSearchButtonClick: (value: string) => void
   handleProductCardClick: (id: number) => void
-  openProductDetailModal: (id: number) => void
-  handleCloseProductDetailModalButtonClick: () => void
-  closeProductDetailModal: () => void
-  //handleAddToCartClick: (productId: string) => void; 
-
+  toggleProductDetailModal:(id: number) => void
+  handleToggleProductDetailModalClick: (e:React.MouseEvent<HTMLButtonElement>) => void
 }
-
 
 //allt som är gemensamt för komponentträdet vi använder
 export const ProductContext = createContext<ProductContextProps | undefined>(undefined);
@@ -35,7 +31,7 @@ export const useProductContext = () => {
   return context
 }
 
-export const ProductProvider: React.FC<{children: ReactNode}> = ({children}) => {
+export const ProductContextProvider: React.FC<{children: ReactNode}> = ({children}) => {
   const [inventory, setInventory] = useState<Product[]>([])
   const [filterOptions, setFilterOptions] = useState<string[]>([])
   const [sortingOptions, setSortingOptions] = useState<sort>({field:"name", order:"asc"})
@@ -91,21 +87,25 @@ export const ProductProvider: React.FC<{children: ReactNode}> = ({children}) => 
   }
 
   const handleProductCardClick = (id: number) => {
-    openProductDetailModal(id);
+    toggleProductDetailModal(id);
   }
 
-  const openProductDetailModal = (id: number) => {
-    setSelectedProductId(id);
-    setIsProductDetailModalOpen(true);
+  const handleToggleProductDetailModalClick = (e:React.MouseEvent<HTMLButtonElement>) => {
+    const json: string | undefined = e.currentTarget?.dataset.cartitem; 
+    if(json) {
+        const item: Product = JSON.parse(json);
+        toggleProductDetailModal(item.id);
+    } 
   }
 
-  const handleCloseProductDetailModalButtonClick = () => {
-    closeProductDetailModal();
-  }
-
-  const closeProductDetailModal = () => {
-    setSelectedProductId(null);
-    setIsProductDetailModalOpen(false);
+  function toggleProductDetailModal(id: number) {
+    if(isProductDetailModalOpen === false) {
+        setIsProductDetailModalOpen(true);
+        setSelectedProductId(id);
+    } else{
+        setIsProductDetailModalOpen(false);
+        setSelectedProductId(null);
+    }
   }
 
   useEffect(() => {
@@ -128,9 +128,8 @@ export const ProductProvider: React.FC<{children: ReactNode}> = ({children}) => 
       handleResetButtonClick,
       handleSearchButtonClick,
       handleProductCardClick,
-      openProductDetailModal,
-      handleCloseProductDetailModalButtonClick,
-      closeProductDetailModal
+      handleToggleProductDetailModalClick,
+      toggleProductDetailModal
     }}>
       {children}
     </ProductContext.Provider>

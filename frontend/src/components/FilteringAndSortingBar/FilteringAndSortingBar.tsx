@@ -20,31 +20,28 @@ const FilteringAndSortingBar: React.FC = () => {
     filterOptions, 
     sortingOptions, 
     isProductDetailModalOpen,
-      selectedProductId,
     handleFilterChange,
-      changeFilterState,
-      changeSortingState,
     handleSortingChange, 
     handleResetButtonClick,
     handleSearchButtonClick,
   } = useProductContext();
 
   const [searchInput, setSearchInput] = useState<string>("");
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [sortedProducts, setSortedProducts] = useState<Product[]>([]);
+
   const getSuggestions = ():Product[] => {
     return inventory.filter(product => product.name.toLowerCase().includes(searchInput.toLowerCase()));
   }
-
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
-  const [sortedProducts, setSortedProducts] = useState<Product[]>([]);
 
   /**
    * Process filter options and update the filtered products array.
    */
   const processFilterOptions = () => {
-    const filteredArray: Product[] = inventory.filter(entry => {
+    const filteredArray: Product[] = inventory.filter(item => {
       return filterOptions.every(option => {
         const [property, value] = option.split(":")
-        return entry[property as keyof Product] === value;
+        return item[property as keyof Product] === value;
       })
     })
     return filteredArray
@@ -81,54 +78,54 @@ const FilteringAndSortingBar: React.FC = () => {
 
   return (
     <>
-    <div className="container filteringAndSortingBar-div">
-      <select id="brand" onChange={(e) => handleFilterChange(e.target.value)}>
+    <div className="container" id="filteringAndSortingBar-div">
+      <select id="brand" defaultValue={""} onChange={(e) => handleFilterChange(e.target.value)}>
         <option value="">---</option>
-        <option value="Babolat">Babolat</option>
-        <option value="DoPadel">DoPadel</option>
-        <option value="Head">Head</option>
-        <option value="Nox">Nox</option>
-        <option value="Osaka">Osaka</option>
+        <option value="brand:Babolat">Babolat</option>
+        <option value="brand:DoPadel">DoPadel</option>
+        <option value="brand:Head">Head</option>
+        <option value="brand:Nox">Nox</option>
+        <option value="brand:Osaka">Osaka</option>
       </select>
-      <select id="shape" onChange={(e) => handleFilterChange(e.target.value)}>
+      <select id="shape" defaultValue={""} onChange={(e) => handleFilterChange(e.target.value)}>
         <option value="">---</option>
-        <option value="Rund">Rund</option>
-        <option value="Dropp">Dropp</option>
-        <option value="Diamant">Diamant</option>
-        <option value="Hybrid">Hybrid</option>
+        <option value="shape:Rund">Rund</option>
+        <option value="shape:Dropp">Dropp</option>
+        <option value="shape:Diamant">Diamant</option>
+        <option value="shape:Hybrid">Hybrid</option>
       </select>
-      <select id="balance" onChange={(e) => handleFilterChange(e.target.value)}>
+      <select id="balance" defaultValue={""} onChange={(e) => handleFilterChange(e.target.value)}>
         <option value="">---</option>
-        <option value="Låg">Låg</option>
-        <option value="Medel">Medel</option>
-        <option value="Hög">Hög</option>
+        <option value="balance:Låg">Låg</option>
+        <option value="balance:Medel">Medel</option>
+        <option value="balance:Hög">Hög</option>
       </select>
-      <select id="sorting" onChange={(e) => handleSortingChange(e.target.value)}>
+      <select id="sorting" defaultValue={""} onChange={(e) => handleSortingChange(e.target.value)}>
         <option value="">---</option>
         <option value="price:asc">Pris: Stigande</option> {/* strängen splittas i field och sort order */}
         <option value="price:desc">Pris: Fallande</option>
         <option value="name:asc">Namn: A - Ö</option>
         <option value="name:desc">Namn: Ö - A</option>
       </select>
-        <div className="">
-          <input
-            type="text"
-            value={searchInput}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchInput(e.target.value)}
-            placeholder="Skriv för att söka..."
-          />
-          <ul>
-              {getSuggestions().map((suggestion: Product, index) => (
-                  <li key={index} onClick={() => handleSearchButtonClick(suggestion.name)}>
-                      {suggestion.name}
-                  </li>
-              ))}
-          </ul>
-          <input type="button" onClick={() => handleSearchButtonClick(searchInput)}></input>
-        </div>
-        <input type="range" id="weight" onChange={(e) => handleFilterChange(e.target.value)}></input>
-        <input type="range" id="price" onChange={(e) => handleFilterChange(e.target.value)}></input>
-        <button type="button" id="reset-filter" onClick={() => handleResetButtonClick("")}></button>
+      <div id="searchInput-div">
+        <input
+          type="text"
+          value={searchInput}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchInput(e.target.value)}
+          placeholder="Skriv för att söka..."
+        />
+        <ul>
+            {getSuggestions().map((suggestion: Product, index) => (
+                <li key={index} onClick={() => handleSearchButtonClick(suggestion.name)}>
+                    {suggestion.name}
+                </li>
+            ))}
+        </ul>
+        <input type="button" onClick={() => handleSearchButtonClick(searchInput)}></input>
+      </div>
+      <input type="range" id="weight" onChange={(e) => handleFilterChange(e.target.value)}></input>
+      <input type="range" id="price" onChange={(e) => handleFilterChange(e.target.value)}></input>
+      <button type="button" id="reset-filter" onClick={() => handleResetButtonClick("")}></button>
     </div>
     {isProductDetailModalOpen ? <ProductDetailModal /> : <ProductList products = { sortedProducts } />}
     </>

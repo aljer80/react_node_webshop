@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useStripe } from '@stripe/react-stripe-js';
 import CartModal from "../CartModal/CartModal";
-import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
+import ConfirmationModal from "../ConfirmationPanel/ConfirmationPanel";
 //import Payment from "../Payment/Payment";
 import { Order, CustomerDetails, CardDetails, OrderDetails } from "../../types/checkout.types"; 
 

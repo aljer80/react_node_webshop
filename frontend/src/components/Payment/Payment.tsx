@@ -1,7 +1,29 @@
-import React, { useState } from 'react';
-import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import { CustomerDetails, CardDetails } from "../../types/checkout.types"
-import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
+import { useEffect } from 'react';
+import ConfirmationPanel from "../ConfirmationPanel/ConfirmationPanel";
+
+
+const Payment: React.FC = () => {
+  const {
+    confirmOrder, 
+    setResponse
+  } = usePostCartContext();
+
+  useEffect(() => {
+    const getResponse = async () => {
+      const paymentResponse: string | object | undefined = await sendPaymentRequest(confirmOrder);
+      setResponse(paymentResponse);
+    }
+    getResponse();
+  },[]);
+
+  return (
+    <ConfirmationPanel data={[true, ["Nisse"]]} />
+  );
+}
+
+export default Payment
+
+----------------------------------------------------------------------------------------------------------------
 
 
 const Payment = ({ customerDetails, cardDetails, orderDetails, order, onPaymentSuccess, onPaymentError }) => {
