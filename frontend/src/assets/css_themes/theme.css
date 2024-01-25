@@ -3,17 +3,20 @@
 :root{
     --fluidlineheight: calc(1.5 * var(--fluidfont-size));
     --fluid_font-size: calc(12, max(20, min(16, 1080-720)) / 100);
-
+    
     --appButtonBackground: #c1121f;
     --appButtonBackgroundHover: #780000;
+    --grey-ButtonBackground: #6c757d;
+    --dark-grey-ButtonBackgroundHover: #495057;
     --light-theme-color: #fdf0d5;
-    --dark-blue: #003049;
-    --light-blue: #669bbc;
+    --light-blue-theme-color: #669bbc;
+    --dark-blue-theme-color: #003049;
+    --light-border: #ccc;
+    --dark-border: #495057;
+    --main-text-color: #00171f;
+    --white-text-color: #ffffff; 
     --black: #00171f;
     --white: #ffffff; 
-    --grey: #6c757d;
-    --dark-grey: #495057;
-    --main-text-color: #00171f;
 }
 
 body{
@@ -29,7 +32,7 @@ body{
 /* KNAPPAR */
 /* knapparna add/remove/delete/checkout */
 button{
-    background-color: var(--grey);
+    background-color: var(--grey-ButtonBackground);
     color: var(--white);
     border-radius: 25px;
     cursor: pointer;
@@ -70,13 +73,29 @@ li{
 
 /* ProductCard*/
 .productCard-div {
-    width: 100%;
+    display: flex;
+    flex: 0 0 100%;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: baseline;
+    align-content: stretch;
 }
 .product-card {
-    width: 20%;
+    max-width: 50%;
+    display: flex;
+    /* flex: 0 0 100%; */
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: baseline;
+    align-content: stretch;
 }
 .productCard-div img {
-    width:100%;
+    /* width:100%; */
+    flex: 0 0 100%;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: baseline;
+    align-content: stretch;
 }
 .productName{
     /* font-size:  */
@@ -84,7 +103,13 @@ li{
 .productName,
 .productDescription,
 .productPrice {
+    flex: 0 0 100%;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: baseline;
+    align-content: stretch;
     margin-bottom: 1vmax;
+    align-content: space-around; /* "Padding"*/
 }
 
 /* ProductDetailModal*/
@@ -139,8 +164,8 @@ li{
 .filteringAndSortingBar-div button {
     margin: 0.5vmax;
     padding: 1vmax;
-    border: 1px solid (var(--grey));
-    border-radius: 3px;
+    border: 1px solid (var(--dark-border));
+    border-radius: 5px;
 }
 .filteringAndSortingBar-div input[type="text"] {
     width: 200px; /* Adjust the width of the text input */
@@ -204,7 +229,7 @@ width: 150px; /* Adjust the width of the text input */
     align-items: center;
     justify-content: space-between;
     padding: 1vmax;
-    border-bottom: 1px solid var(--dark-grey);
+    border-bottom: 1px solid var(--light-border);
 }
 .cartItem-div img{
     /* width: */
@@ -246,7 +271,7 @@ form{
 }
 form input{
     padding: 1vmax;
-    border: 1px solid var(--grey);
+    border: 1px solid var(--grey-ButtonBackground);
     border-radius: 3px;
 }
 
@@ -261,8 +286,8 @@ form input{
 .error-message {
   background-color: var(--white);
   padding: 2vmax;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 1px solid- var(--light-border);
+  border-radius: 5px;
   text-align: center;
 }
 .error-message p {
@@ -286,7 +311,7 @@ form input{
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: 2px solid red;
+    /* border: 2px solid red; */
     width:50%;
 }
 /*-------------------------------------*/
@@ -299,13 +324,13 @@ form input{
 }
 /* Navbar*/
 nav {
-    background-color: var(--light-blue);
+    background-color: var(--light-blue-theme-color);
 }
 .business-title{
-    color: var(--dark-blue);
+    color: var(--dark-blue-theme-color);
 }
 span{
-    color: var(--black);
+    color: var(--main-text-color);
 } */
 
 /*-------------------------------------*/
@@ -361,7 +386,7 @@ span{
 .disclaimerPanel-container article {
     width: 100%;
     padding: 2vmax;
-    border-bottom: 1px solid var(--dark-grey);
+    border-bottom: 1px solid var(--light-border);
 }
 .disclaimerPanel-container h1{
     margin-bottom: 1vmax;
@@ -386,7 +411,7 @@ form input,
 form button {
   margin: 5px;
   padding: 8px;
-  border-radius: 3px;
+  border-radius: 5px;
 }
 form select{
     width: 10%;

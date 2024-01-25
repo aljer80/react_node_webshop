@@ -2,6 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const controller = require("../controllers/endpointsController.js");
+const paymentController = require("../controllers/paymentController.js")
 
 /**
  * Responds to the client with a 200 status and JSON data.
@@ -35,6 +36,16 @@ function unsuccessful(res) {
     error.status = 404;
     return error;
 }
+
+router.post("/payments", async(req, res, next) => {
+    try {
+        const paymentResponse = await paymentController.createPaymentRequest(req, res, next);
+        respond(res, paymentResponse);
+    } catch (error) {
+        return next(error);
+    }
+})
+
 
 /**
  * Retrieves all products.

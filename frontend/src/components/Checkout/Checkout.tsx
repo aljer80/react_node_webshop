@@ -1,109 +1,40 @@
-import { useState } from "react";
-import { useStripe } from '@stripe/react-stripe-js';
-import CartModal from "../CartModal/CartModal";
-import ConfirmationModal from "../ConfirmationPanel/ConfirmationPanel";
-//import Payment from "../Payment/Payment";
-import { Order, CustomerDetails, CardDetails, OrderDetails } from "../../types/checkout.types"; 
+import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
+import { PaymentMethodResult, PaymentIntentResult } from "@stripe/stripe-js";
+import { sendPaymentRequest } from '../../utilities/ApiUtilities';
+import { PaymentData } from '../../types/checkout.types';
 
-interface CheckoutProps {
-  //cart: 
-}
 
-const Checkout: React.FC<CheckoutProps>  = ({ cart }) => {
-  const [showConfirmation, setShowConfirmation] = useState<boolean>(false); 
-  const [showError, setShowError] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>("");
-  
+const Checkout: React.FC = () => {
   const stripe = useStripe();
+  const elements = useElements();
 
-  //kolla e
-  const handlePayment = (e) => {
+  const handlePayment= async (e: React.FormEvent) => {
     e.preventDefault();
+    const body = e.target;
+
+    if(!stripe || !elements) {
+      throw new Error("Missing dependency")
+    }
+    const {paymentMethod}:PaymentMethodResult = await stripe.createPaymentMethod({
+      type: "card", 
+      card: elements.getElement(CardElement) as any
+    });
     
-    const customerDetails: CustomerDetails = {
-      firstName: e.target["first-name"].value,
-      lastName: e.target["last-name"].value, 
-      email: e.target["email"].value, 
-      phone: e.target["phone"].value, 
-      address: {
-        street: e.target["street"].value, 
-        zipCode: e.target["zip-code"].value, 
-        country: e.target["country"].value, 
-      }
-    }
-    
-    const cardDetails: CardDetails = {
-      number: e.target["card-number"].value,
-      expirations: e.target["street"].value,
-      cvc: e.target["cvc"].value
+    const data: PaymentData = {
+      paymentMethodId: paymentMethod.id,
+      currency: body.currency,
+      amount: body.amount
     }
 
-    const orderDetails: OrderDetails = {
-      //e.cartModal?
-    }
-
-    const order: Order = {
-      customerDetails, 
-      cardDetails, 
-      orderDetails
-    }
-
-    const handleProcessPayment = async () => {
-      console.log("Från handleProcessPayment");
-      try {
-        const result = await stripe.confirmPayment(/* Confirmation options? */);
-
-        if (result.error) {
-          setShowError(true);
-          setErrorMessage(result.error.message);
-        } else {
-          setShowConfirmation(true);
-        }
-      } catch (error) {
-        setShowError(true);
-        setErrorMessage("An error occurred during payment confirmation.");
-      }
-    }
-
-    await handleProcessPayment();
-
-    const handleRetryPayment = () => {
-      setShowError(false);
-      setShowConfirmation(false);
-      setErrorMessage("");
-      //kanske e.target.reset(); för att tömma formuläret? Eller setCustomerDetails(null);
-    };
+    const paymentIntent: PaymentIntentResult = await sendPaymentRequest(data);
+  }
+  //visa success eller error
   
-
   return (
-    //kolla CartModal, eller annat sätt?
-    <div className="container checkOut-div">
-      <CartModal />
-        <form autoComplete="on" onSubmit={handlePayment}>
-          <input type="text" id="first-name" placeholder="Förnamn"></input>
-          <input type="text" id="last-name" placeholder="Efternamn"></input>
-          <input type="text" id="street" placeholder="Gata"></input>
-          <input type="text" id="zip-code" placeholder="Postnummer"></input>
-          <input type="text" id="country" placeholder="Land"></input>
-          <input type="text" id="email" placeholder="E-post"></input>
-          <input type="text" id="phone" placeholder="Telefon"></input>
-          <input type="text" id="cardholders-name" placeholder="Kortinnehavare"></input>
-          <input type="text" id="card-number" placeholder="Kortnummer"></input>
-          <input type="text" id="card-expiration" placeholder="MM/YY (Expiration)"></input>
-          <input type="text" id="cvc" placeholder="CVC"></input>
-          <button type="submit" id="pay-for-cart" className="appButton">Gå till betalning</button>
-        </form>
-
-        {showConfirmation && (
-        <ConfirmationModal
-          showConfirmation={showConfirmation}
-          showError={showError}
-          errorMessage={errorMessage}
-          handleRetryPayment={handleRetryPayment}
-          order={order}
-        />
-      )}
-    </div>
+      <form onSubmit={handlePayment}> 
+        <CardElement />
+        <button type="submit" id="pay-for-cart" className="appButton">Gå till betalning</button>
+      </form>
   );
 }
 

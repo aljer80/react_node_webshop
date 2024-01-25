@@ -1,14 +1,12 @@
 import { Product } from "../types/product.types";
 import { Order } from "../types/order.types";
 import { CustomerDetails, OrderDetails } from "../types/checkout.types";
-import dotenv from "dotenv";
+import { PaymentIntentResult } from "@stripe/stripe-js";
+import { PaymentData } from "../types/checkout.types";
 
-dotenv.config();
 const host: string = "https://localhost";
 const port: number = 8080;
 const version: string = "v1";
-// const stripeSK = process.env.STRIPE_SK; 
-// const stripePaymentURI = "https://api.stripe.com/v1/payment_intents";
 
 async function getData(endpoint: string, id: number | undefined): Promise<string | object[]> {
   if(!endpoint) {
@@ -95,7 +93,7 @@ async function putData(endpoint: string, data: [CustomerDetails, OrderDetails]):
   }
 
   try{
-    if(!endpoint || body) {
+    if(!endpoint || !body) {
       throw new Error("Missing data!")
     }
     return await fetch(endpoint, requestOptions)
@@ -153,45 +151,6 @@ async function deleteData(endpoint: string): Promise<string | object> {
   }
 }
 
-// check data type
-async function requestPaymentIntent(data:any): Promise<string | object> {
-  const endpoint: string = `${host}:${port}/api/${version}/payment/`;
-  const method: string = "POST";
-  const headers: HeadersInit = new Headers({
-    "Content-Type": "application/json"
-})
-const body: BodyInit = JSON.stringify(data)
-const requestOptions: RequestInit = {
-    method: method,
-    headers: headers,
-    body: body
-  }
-  try{
-    if(!body){
-        throw new Error("Missing data!")
-    }
-    return await fetch(endpoint, requestOptions)
-    .then(async (response) => {
-        if(!response.ok){
-            throw new Error(`${response.status}: ${response.statusText}`)
-        }
-        let data: string = await response.text()
-        let parsedData: object = JSON.parse(data)
-
-        if(!parsedData){
-            return data
-        }
-        return parsedData
-    })
-    .catch((error) => {
-        throw error
-    })
-  }
-  catch(error){
-      throw error
-  }
-}
-
 async function fetchAllProducts(): Promise<object[] | string> {
   const endpoint: string = `${host}:${port}/api/${version}/products`;
   const id: number | undefined = undefined;
@@ -214,13 +173,49 @@ async function fetchProduct(id: number): Promise<object | string>{
 }
 
 //check data type
-async function sendPaymentRequest(data:any): Promise<string | object> {
-  if(!data) {
+async function sendPaymentRequest(paymentData: PaymentData): Promise<PaymentIntentResult> {
+  if(!paymentData) {
     throw new Error("Missing payment data");
   }
+  const endpoint: string = `${host}:${port}/api/${version}/payments`;
+  const method: string = "POST";
+  const headers: HeadersInit = new Headers({
+    "Content-Type": "application/json"
+  })
+  const body: BodyInit = JSON.stringify(paymentData)
+  const requestOptions: RequestInit = {
+    method: method,
+    headers: headers,
+    body: body
+  }
+  try{
+    if(!body){
+        throw new Error("Missing data!")
+    }
+    return await fetch(endpoint, requestOptions)
+    .then(async (response) => {
+        if(!response.ok){
+            throw new Error(`${response.status}: ${response.statusText}`)
+        }
+        let data: string = await response.text()
+        let parsedData: object = JSON.parse(data)
+        if(!parsedData){
+            throw new Error(data)
+        }
+        if(!parsedData.paymentIntent){
+            throw new Error("Missing intent!")
+        }
+        const paymentIntent: PaymentIntentResult = parsedData.paymentIntent //resultatet av parsed data (objektet paymentIntent i parsed data)
+        return paymentIntent
+    })
+    .catch((error) => {
+        throw error
+    })
+  }
+  catch(error){
+      throw error
+  }
 
-  const response: string | object = await requestPaymentIntent(data);
-  return response;
 }
 
 async function createOrder(data: [CustomerDetails, OrderDetails]): Promise <string | object> {
@@ -233,25 +228,11 @@ async function createOrder(data: [CustomerDetails, OrderDetails]): Promise <stri
   return response;
 }
 
-//   const method = "POST";
-//   const headers = { };
-//   const body = {
-//     customerDetails,
-//     orderDetails,
-//   }
-//   const requestOptions = { 
-//   method: method, 
-//   headers: headers, 
-//   body: body 
-// }
-
-//   return await postData(endpoint, requestOptions);
-// }
 
 async function getAllOrders(): Promise<string | object> {
   const endpoint: string = `${host}:${port}/api/${version}/orders`
   const id: number | undefined = undefined;
-  const response: object[] | string = await getData(endpoint, id);
+  const response: object[] | string = await getData(endpoint, id); //id är undefined, den hämtar alla. 
   if(typeof response !== "object") {
     throw new Error(`Unexpected response ${response}`);
   }
@@ -260,11 +241,11 @@ async function getAllOrders(): Promise<string | object> {
 
 async function getOrder(id: number): Promise<string | object> {
   const endpoint: string = `${host}:${port}/api/${version}/orders`;
-  const response: object[] | string = await getData(endpoint, id);
+  const response: object | string = await getData(endpoint, id);
   if(typeof response !== "object") {
     throw new Error(`Unexpected response ${response}`);
   }
-  return response as Order[]; //ska det vara [] här?
+  return response as Order;
 }
 
 async function changeOrder(data: [CustomerDetails, OrderDetails]): Promise<string | object> {
@@ -291,4 +272,4 @@ export {
   getOrder, 
   changeOrder, 
   removeOrder
-};
+}; //exportera alla funktioner utom de hemliga

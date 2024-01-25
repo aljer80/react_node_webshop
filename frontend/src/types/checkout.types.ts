@@ -1,3 +1,9 @@
+export interface PaymentData {
+    paymentMethodId: string
+    currency: string
+    amount: number
+}
+
 export interface CustomerDetails {
     firstName: string;
       lastName: string;
