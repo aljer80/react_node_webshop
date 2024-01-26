@@ -1,4 +1,4 @@
-import { useProductContext } from "../../context/ProductContext";
+import { useProductContext } from "../../contexts/ProductContext";
 import { ProductCardProps } from "../../types/product.types";
 
 /**

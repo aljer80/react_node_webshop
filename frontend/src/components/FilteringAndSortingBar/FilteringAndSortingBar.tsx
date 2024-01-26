@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useProductContext } from "../../context/ProductContext";
+import { useProductContext } from "../../contexts/ProductContext";
 import ProductList from "../ProductList/ProductList";
 import ProductDetailModal from "../ProductDetailModal/ProductDetailModal";
 import { Product } from "../../types/product.types";
@@ -125,7 +125,7 @@ const FilteringAndSortingBar: React.FC = () => {
       </div>
       <input type="range" id="weight" onChange={(e) => handleFilterChange(e.target.value)}></input>
       <input type="range" id="price" onChange={(e) => handleFilterChange(e.target.value)}></input>
-      <button type="button" id="reset-filter" onClick={() => handleResetButtonClick("")}></button>
+      <button type="button" id="reset-filter" onClick={() => handleResetButtonClick("")}>Reset Filter</button>
     </div>
     {isProductDetailModalOpen ? <ProductDetailModal /> : <ProductList products = { sortedProducts } />}
     </>

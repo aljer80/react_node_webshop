@@ -1,18 +1,15 @@
-//visar bara felmeddelanden (alla)
+import { useCheckoutContext } from "../../contexts/CheckoutContext";
 
-interface ErrorProps{
-  errorMessages: string[];
-}
+const Error: React.FC= () => {
 
-const Error: React.FC<ErrorProps> = ({ errorMessages }) => {
+  const {
+    paymentResponse
+  } = useCheckoutContext();
+
     return (
-        <div className="container errorMessage">
-          <h1>Error</h1>
-            <ul>
-              {errorMessages.map((errorMessage, index) =>(
-                <li key={index}>{errorMessage}</li>
-              ))}
-            </ul>
+        <div id="errorMessage">
+          { paymentResponse }
+          <button type="button" id="retry-button" className="appButton" title="Retry operation" onClick={handleRetryButtonClick}>Försök igen</button>
         </div>
       );
 }

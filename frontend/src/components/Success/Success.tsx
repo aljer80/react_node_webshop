@@ -1,19 +1,27 @@
-//visar bara successmeddelanden (alla)
+import { useEffect } from "react";
+import { useCheckoutContext } from "../../contexts/CheckoutContext";
 
-interface SuccessProps{
-  successMessages: string[];
-}
+const Success: React.FC= () => {
 
-const Success: React.FC<SuccessProps> = ({ sucessMessages }) => {
+  const {
+    paymentResponse,
+    handleConfirmationButtonClick
+  } = useCheckoutContext();
+
+  
+  useEffect(() => {
+    const navigate = useNavigate();
+    setInterval(() => {
+        navigate("/")
+    }, 20 * 1000)
+  },[]);
+
+
     return (
-        <div className="container" id="successMessage">
-          <h1>Error</h1>
-            <ul>
-              {successMessages.map((successMessage, index) =>(
-                <li key={index}>{successMessage}</li>
-              ))}
-            </ul>
-        </div>
+      <div id="successMessage">
+        { paymentResponse }
+        <button type="button" id="confirmation-button" className="appButton" title="confirmation" onClick={handleConfirmationButtonClick}>Ok</button>
+      </div>
       );
 }
 

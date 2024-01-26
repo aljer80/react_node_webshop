@@ -1,7 +1,8 @@
 import Header from '../Header/Header.tsx';
 import { Outlet } from "react-router";
 import Footer from '../Footer/Footer.tsx';
-import { ProductProvider } from '../../context/ProductContext.tsx';
+import { CartContextProvider } from '../../contexts/CartContext.tsx';
+import { OrderContextProvider } from '../../contexts/OrderContext.tsx';
 
 /**
  * Layout component serving as the overall structure for the application.
@@ -12,13 +13,11 @@ import { ProductProvider } from '../../context/ProductContext.tsx';
 const Layout = () => {
     return (
         <div id="layout-div" role="group">
-        {/* <CartProvider> */}
-        < ProductProvider>
-            <Header />
-            <Outlet />
-            <Footer />
-        </ProductProvider>
-        {/* </CartProvider> */}
+            <CartContextProvider>
+                <Header />
+            </CartContextProvider>
+                <Outlet />
+                <Footer />
         </div>
     );
 };

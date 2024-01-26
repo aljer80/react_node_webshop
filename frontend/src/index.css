@@ -116,7 +116,7 @@ order: 1;
   order: 2;
 }
 #hero-img{
-  flex: 1 1 50%;
+  flex: 1 1 10%;
   order: 1;
 }
 #slide-text{

@@ -173,7 +173,7 @@ async function fetchProduct(id: number): Promise<object | string>{
 }
 
 //check data type
-async function sendPaymentRequest(paymentData: PaymentData): Promise<PaymentIntentResult> {
+async function requestPaymentIntent(paymentData: PaymentData): Promise<PaymentIntentResult> {
   if(!paymentData) {
     throw new Error("Missing payment data");
   }
@@ -229,7 +229,7 @@ async function createOrder(data: [CustomerDetails, OrderDetails]): Promise <stri
 }
 
 
-async function getAllOrders(): Promise<string | object> {
+async function fetchAllOrders(): Promise<string | object> {
   const endpoint: string = `${host}:${port}/api/${version}/orders`
   const id: number | undefined = undefined;
   const response: object[] | string = await getData(endpoint, id); //id är undefined, den hämtar alla. 
@@ -239,7 +239,7 @@ async function getAllOrders(): Promise<string | object> {
   return response as Order[];
 }
 
-async function getOrder(id: number): Promise<string | object> {
+async function fetchOrder(id: number): Promise<string | object> {
   const endpoint: string = `${host}:${port}/api/${version}/orders`;
   const response: object | string = await getData(endpoint, id);
   if(typeof response !== "object") {
@@ -266,10 +266,10 @@ async function removeOrder(id: number): Promise<string | object>{
 export { 
   fetchAllProducts,
   fetchProduct,
-  sendPaymentRequest, 
+  requestPaymentIntent, 
   createOrder,
-  getAllOrders, 
-  getOrder, 
+  fetchAllOrders, 
+  fetchOrder,
   changeOrder, 
   removeOrder
 }; //exportera alla funktioner utom de hemliga

@@ -20,11 +20,10 @@ export interface ProductContextProps {
   handleToggleProductDetailModalClick: (e:React.MouseEvent<HTMLButtonElement>) => void
 }
 
-//allt som är gemensamt för komponentträdet vi använder
 export const ProductContext = createContext<ProductContextProps | undefined>(undefined);
 
-export const useProductContext = () => {
-  const context:ProductContextProps | undefined = useContext(ProductContext);
+export const useProductContext = ():ProductContextProps => {
+  const context = useContext(ProductContext);
   if(!context){
       throw new Error("Unable to load context!")
   }
@@ -52,7 +51,7 @@ export const ProductContextProvider: React.FC<{children: ReactNode}> = ({childre
     }
   }
   
-  //dropdowns och rangesliders
+
   const handleFilterChange = (value: string | undefined) => {
     changeFilterState(value);
   }

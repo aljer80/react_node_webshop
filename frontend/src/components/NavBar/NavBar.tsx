@@ -1,11 +1,16 @@
 import { FaShoppingBag } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
+import { useCartContext } from "../../contexts/CartContext";
 /**
  * NavBar component representing the navigation bar.
  * @component
  * @returns {JSX.Element} - NavBar component
  */
 const NavBar: React.FC = () => {
+
+    const {
+        handleToggleCartModalClick
+      } = useCartContext();
 
     return (
         <nav id="main-navbar">
@@ -37,7 +42,8 @@ const NavBar: React.FC = () => {
                     Om oss
                 </NavLink>
             </li>
-            <FaShoppingBag id="cart-icon" onClick={handleOpenCartModalClick}/>
+            <FaShoppingBag id="cart-icon" onClick={handleToggleCartModalClick}/>
+            {/* onClick={handleOpenCartModalClick} */}
         </nav>
     );
 }

@@ -33,7 +33,7 @@ const SocialMediaBar: React.FC<SocialMediaBarProps> = () => {
   ]
 
   return (
-      <div id="social-media-icons" role="menubar">
+      <div id="social-media-bar" role="menubar">
           {/* Mapping through icons and rendering each one */}
           {myIcons.map((icon, index) => (
             <a key={index} href={icon.href} title={icon.title} target="_blank" rel="noopener noreferrer">

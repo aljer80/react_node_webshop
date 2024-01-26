@@ -1,5 +1,6 @@
 import { BrowserRouter } from "react-router-dom";
 import Router from "./components/Router/Router"; 
+import Layout from "./components/Layout/Layout";
 
 /**
  * Main App component serving as the entry point for the React application.
@@ -13,6 +14,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Router />
+      <Layout />
     </BrowserRouter>
   );
 };

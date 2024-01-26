@@ -16,15 +16,15 @@ export interface CartContextProps{
 
 export const CartContext = createContext<CartContextProps | undefined>(undefined);
 
-export const useCartContext= () => {
-    const context: CartContextProps | undefined = useContext(CartContext);
+export const useCartContext = (): CartContextProps => {
+    const context = useContext(CartContext);
     if(!context) {
         throw new Error("Unable to load context!")
     }
     return context;
 }
 
-export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const CartContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [cart, setCart] = useState<CartItem[]>([]);
     const [isCartModalOpen, setIsCartModalOpen] = useState<boolean>(false);
 
@@ -115,4 +115,3 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   );
 }
 
-export default CartContext

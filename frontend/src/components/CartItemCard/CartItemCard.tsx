@@ -1,5 +1,5 @@
 import { CartItemProps } from "../../types/cart.types";
-import { useCartContext } from "../../context/CartContext";
+import { useCartContext } from "../../contexts/CartContext";
 
 const CartItemCard: React.FC<CartItemProps> = ( {item} ) => {
   

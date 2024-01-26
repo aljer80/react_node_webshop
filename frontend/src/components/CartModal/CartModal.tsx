@@ -1,30 +1,33 @@
-import { useCartContext } from "../../context/CartContext";
-import CartItemCard from "../CartItemCard/CartItemCard";
-import { CartItem } from "../../types/cart.types";
-import { use-BlaBla-Context } from "../../context/BlaBla-Context";
+import { useCartContext } from "../../contexts/CartContext"
+import { useCheckoutContext } from "../../contexts/CheckoutContext"
+import CartItemCard from "../CartItemCard/CartItemCard"
+import { CartItem } from "../../types/cart.types"
 
-const CartModal = () => { 
+const CartModal: React.FC = () => {
 
-const {
-  handleToggleCartModalClick,
-  cart, 
-} = useCartContext();
+    const {
+        cart,
+        handleToggleCartModalClick,
+    } = useCartContext()
 
-const {
-  handleCheckoutClick
-} = use-BlaBla-Context();
+    const {
+        handleCheckoutButtonClick
+    } = useCheckoutContext()
 
-  return (
-    <div className="container" id="cartModal-div">
-        <button type="submit" className="appButton" id="x-button" onClick={handleToggleCartModalClick}>X</button>
-          <section id="item-list">
-            {cart.map((item: CartItem) => (
+    return (
+
+        <div id="cartModal-div">
+            <button type="button" className="appButton" onClick={handleToggleCartModalClick}>x</button>
+            {cart.length > 0 ? (
+            cart.map((item: CartItem) => (
                 <CartItemCard key={ item.id } item={ item } />
-            ))}
-          </section>
-        <button type="submit" className="appButton" id="toPaymentButton" onClick={handleCheckoutClick}>Till Kassan</button>
-    </div>
-  );
+            ))
+    ) : (
+        <p>No items in cart</p>
+    )}
+            <button type="button" className="appButton" onClick={handleCheckoutButtonClick}>Checkout</button>
+        </div>
+    )
 }
 
 export default CartModal

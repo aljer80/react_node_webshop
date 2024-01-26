@@ -1,7 +1,6 @@
 import { NavLink } from "react-router-dom";
 import NavBar from "../NavBar/NavBar";
-// import { GiTennisRacket } from "react-icons/gi";
-import logoPicture from "../../assets/logo/logo.jpg"; //skapa logga, lägg i assets
+import logoPicture from "../../assets/logo/logo.svg";
 
 /**
  * Header component containing navigation bar.
@@ -26,8 +25,3 @@ const Header: React.FC = () => {
 }
 
 export default Header;
-
- {/* <div className="logo-div">
-                <GiTennisRacket className="logo"/>
-                <p className="webShop-name"><span>P</span>adel<span>R</span>acket</p>
-            </div> */}

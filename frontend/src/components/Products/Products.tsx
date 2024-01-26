@@ -1,4 +1,4 @@
-import { ProductContextProvider } from "../../context/ProductContext";
+import { ProductContextProvider } from "../../contexts/ProductContext";
 import Hero from "../Hero/Hero";
 import FilteringAndSortingBar from "../FilteringAndSortingBar/FilteringAndSortingBar";
 
