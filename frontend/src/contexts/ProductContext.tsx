@@ -1,136 +1,211 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { fetchAllProducts } from "../utilities/ApiUtilities";
-import { Product, sort } from "../types/product.types";
+import { createContext, useContext, useState, useEffect, PropsWithChildren } from "react";
+import { fetchAllProducts } from "../utilities/ApiUtility";
+import { product, sort } from "../types/product.types";
 
-export interface ProductContextProps {
-  inventory: Product[] | undefined
-  sortingOptions: sort | undefined
-  filterOptions: string[] | undefined
-  isProductDetailModalOpen: boolean
-  selectedProductId: number | null
-  loadAllProducts: () => void,
-  handleFilterChange:(value: string | undefined) => void
-  changeFilterState: (value: string | undefined) => void
-  handleSortingChange:(value: string) => void
-  changeSortingState:(value: string) => void
-  handleResetButtonClick: (value: string) => void
-  handleSearchButtonClick: (value: string) => void
-  handleProductCardClick: (id: number) => void
-  toggleProductDetailModal:(id: number) => void
-  handleToggleProductDetailModalClick: (e:React.MouseEvent<HTMLButtonElement>) => void
+/**
+ * Interface defining the shape of the product context.
+ */
+export interface ProductContextProps{
+    inventory: product[] | null
+    filterOptions: string[] | undefined
+    sortingOptions: sort | undefined
+    isProductDetailModalOpen: boolean
+    selectedProductId: number | null
+    loadAllProducts: () => void
+    handleFilterChange: (value: string | undefined) => void
+    changeFilterState: (value: string | undefined) => void
+    handleSortingChange: (value: string) => void
+    changeSortingState: (value: string) => void
+    handleResetButtonClick: (value: string) => void
+    handleSearchButtonClick: (value: string) => void
+    handleProductCardClick: (id: number) => void
+    openProductDetailModal: (id: number) => void
+    handleCloseProductDetailModalButtonClick: () => void
+    closeProductDetailModal: () => void
 }
 
+/**
+ * Context for managing product-related state and actions.
+ */
 export const ProductContext = createContext<ProductContextProps | undefined>(undefined);
 
-export const useProductContext = ():ProductContextProps => {
-  const context = useContext(ProductContext);
-  if(!context){
-      throw new Error("Unable to load context!")
-  }
-  return context
+/**
+ * Hook to access the product context.
+ * @returns Product context object.
+ * @throws Error if product context is not found.
+ */
+export const useProductContext = (): ProductContextProps => {
+    const context = useContext(ProductContext);
+    if(!context){
+        throw new Error("Unable to load context!");
+    }
+
+    return context
 }
 
-export const ProductContextProvider: React.FC<{children: ReactNode}> = ({children}) => {
-  const [inventory, setInventory] = useState<Product[]>([])
-  const [filterOptions, setFilterOptions] = useState<string[]>([])
-  const [sortingOptions, setSortingOptions] = useState<sort>({field:"name", order:"asc"})
-  const [isProductDetailModalOpen, setIsProductDetailModalOpen] = useState<boolean>(false)
-  const [selectedProductId, setSelectedProductId] = useState<number | null>(null)
+/**
+ * Provider component for the product context.
+ * Manages product-related state and provides access to it.
+ */
+export const ProductContextProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
+    const [inventory, setInventory] = useState<product[] | null >(null);
+    const [filterOptions, setFilterOptions] = useState<string[]>([]);
+    const [sortingOptions, setSortingOptions] = useState<sort>({field:"name", order:"asc"});
+    const [isProductDetailModalOpen, setIsProductDetailModalOpen] = useState<boolean>(false);
+    const [selectedProductId, setSelectedProductId] = useState<number | null>(null);
 
-  const loadAllProducts = async () => {
-    try {
-      const fetchedProducts: Product[] | string = await fetchAllProducts();
-      if(typeof fetchedProducts === "string") {
-        const parsedData: Product[] = JSON.parse(fetchedProducts)
-        setInventory(parsedData);
-      } else {
-        setInventory(fetchedProducts);
-      }
-    } catch(error) {
-      throw error;
+    /**
+     * Loads all products from the API.
+     */
+    const loadAllProducts = async () => {
+        try{
+            const fetchedProducts: product[] | string = await fetchAllProducts();
+            if (Array.isArray(fetchedProducts)){
+                setInventory(fetchedProducts)
+            }
+            else{
+                console.error("Failed to fetch products!");
+            }
+        }
+        catch(error){
+            console.error("Error loading products:", error);
+        }
+        finally{
+            if(!inventory){
+                setInventory([
+                    {
+                        id: 1,
+                        name: "Testname",
+                        brand: "TestBrand",
+                        weight: 300,
+                        shape: "diamond",
+                        balance: "top",
+                        price: 500,
+                        type: "Pro",
+                        description: "Testing",
+                        material: "carbon"
+                    }
+                ]);
+            }
+        }
     }
-  }
-  
 
-  const handleFilterChange = (value: string | undefined) => {
-    changeFilterState(value);
-  }
-
-  const changeFilterState = (value: string | undefined) => {
-    if(!value) {
-      setFilterOptions([]);
-    } else {
-      setFilterOptions((prevFilterOptions) => [...prevFilterOptions, value]);
+    /**
+     * Handles changes in filter options.
+     * @param value - New filter value.
+     */
+    const handleFilterChange = (value: string | undefined) => {
+        changeFilterState(value);
     }
-  }
-
-  const handleSortingChange = (value: string) => {
-    changeSortingState(value);
-  }
-
-  const changeSortingState = (value: string) => {
-    const [field, order] = value.split(":");
-    if(order === "asc" || order === "desc") {
-      setSortingOptions({ field, order});
-    } else {
-      throw new Error("Incorrect sort order!");
+    
+    /**
+     * Handles changes in filter options.
+     * @param value - New filter value.
+     */
+    const changeFilterState = (value: string | undefined) => {
+        if(!value){
+            setFilterOptions([]);
+        }
+        else{
+            setFilterOptions((prevFilterOptions) => [...prevFilterOptions, value]);
+        }
     }
-  }
 
-  const handleResetButtonClick = (value: string) => {
-    changeFilterState(value);
-  }
+    /**
+     * Handles changes in sorting options.
+     * @param value - New sorting value.
+     */
+    const handleSortingChange = (value: string) => {
+        changeSortingState(value);
+    }
 
-  const handleSearchButtonClick = (value: string) => {
-    changeFilterState(value);
-  }
+    /**
+     * Handles changes in sorting options.
+     * @param value - New sorting value.
+     */
+    const changeSortingState = (value: string) => {
+        const [field, order] = value.split(':');
+        if(order === "asc" || order === "desc"){
+            setSortingOptions({ field, order });
+        }
+        else{
+            throw new Error("Incorrect sort order!");
+        }
+    }
+    
+    /**
+     * Handles the click event on the reset filter button.
+     * @param {string} value - The value to reset the filter.
+     */
+    const handleResetButtonClick = (value: string) => {
+        changeFilterState(value);
+    }
+    
+    /**
+     * Handles the click event on the search button.
+     * @param {string} value - The value to search.
+     */
+    const handleSearchButtonClick = (value: string) => {
+        changeFilterState(value);
+    }
 
-  const handleProductCardClick = (id: number) => {
-    toggleProductDetailModal(id);
-  }
+    /**
+     * Handles the click event on a product card.
+     * @param {number} id - The ID of the product card clicked.
+     */
+    const handleProductCardClick = (id: number) => {
+        openProductDetailModal(id);
+    }
 
-  const handleToggleProductDetailModalClick = (e:React.MouseEvent<HTMLButtonElement>) => {
-    const json: string | undefined = e.currentTarget?.dataset.cartitem; 
-    if(json) {
-        const item: Product = JSON.parse(json);
-        toggleProductDetailModal(item.id);
-    } 
-  }
-
-  function toggleProductDetailModal(id: number) {
-    if(isProductDetailModalOpen === false) {
-        setIsProductDetailModalOpen(true);
+    /**
+     * Opens the product detail modal.
+     * @param {number} id - The ID of the product to show in the detail modal.
+     */
+    const openProductDetailModal = (id: number) => {
         setSelectedProductId(id);
-    } else{
-        setIsProductDetailModalOpen(false);
-        setSelectedProductId(null);
+        setIsProductDetailModalOpen(true);
     }
-  }
 
-  useEffect(() => {
-    loadAllProducts();
-  }, [])
+    /**
+     * Handles the click event to close the product detail modal.
+     */
+    const handleCloseProductDetailModalButtonClick = () => {
+        closeProductDetailModal();
+    }
 
-  
-  return (
-    <ProductContext.Provider value={{
-      inventory,
-      filterOptions,
-      sortingOptions,
-      isProductDetailModalOpen,
-      selectedProductId,
-      loadAllProducts,
-      handleFilterChange,
-      changeFilterState,
-      handleSortingChange,
-      changeSortingState,
-      handleResetButtonClick,
-      handleSearchButtonClick,
-      handleProductCardClick,
-      handleToggleProductDetailModalClick,
-      toggleProductDetailModal
-    }}>
-      {children}
-    </ProductContext.Provider>
-  );
+    /**
+     * Closes the product detail modal.
+     */
+    const closeProductDetailModal = () => {
+        setSelectedProductId(null);
+        setIsProductDetailModalOpen(false);
+    }
+
+    useEffect(() => {
+        loadAllProducts();
+    }, []);
+
+    return (
+        <ProductContext.Provider
+        value={{
+            inventory,
+            filterOptions,
+            sortingOptions,
+            isProductDetailModalOpen,
+            selectedProductId,
+            loadAllProducts,
+            handleFilterChange,
+            changeFilterState,
+            handleSortingChange,
+            changeSortingState,
+            handleResetButtonClick,
+            handleSearchButtonClick,
+            handleProductCardClick,
+            openProductDetailModal,
+            handleCloseProductDetailModalButtonClick,
+            closeProductDetailModal
+        }}>
+            {children}
+        </ProductContext.Provider>
+    );
 }

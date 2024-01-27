@@ -1,6 +1,6 @@
 import { BrowserRouter } from "react-router-dom";
-import Router from "./components/Router/Router"; 
-import Layout from "./components/Layout/Layout";
+import Router from "./services/Router/Router"; 
+import Layout from "./services/Layout/Layout";
 
 /**
  * Main App component serving as the entry point for the React application.

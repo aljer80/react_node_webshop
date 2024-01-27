@@ -47,6 +47,7 @@ body{
   justify-content: center;
   align-items: baseline;
   align-content: stretch;
+  /* order: 1; */
 }
 
 /* Header*/
@@ -57,7 +58,7 @@ body{
   justify-content: flex-start;
   align-items: baseline;
   align-content: space-between;
-  order: 1;
+  /* order: 1; */
 }
 
 /* Navbar*/
@@ -79,7 +80,7 @@ nav{
   justify-content: center ;
   align-content: stretch;
   align-items: baseline ;
-  order: 2;
+  /* order: 2; */
   flex:3 0 100%;
 }
 #hero-slider{
@@ -89,17 +90,17 @@ nav{
   align-content: stretch;
   align-items: baseline ;
   flex: 1 1 100%;
-  order: 1;
+  /* order: 1; */
 }
 .arrows{
   flex: 1 1 auto;
   max-width: 5%;
 }
 #arrow-left{
-order: 1;
+/* order: 1; */
 }
 #arrow-right{
-  order: 3;
+  /* order: 3; */
 }
 .slide {
   display: flex;
@@ -108,22 +109,36 @@ order: 1;
   align-content: stretch;
   align-items: baseline ;
   flex: 3 1 auto;
-  order: 2;
+  /* order: 2; */
 }
-.CTA-text{
-  color: var(--white);
+#CTA-text{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-evenly;
+  align-content: center;
+  align-items: center ;
   flex: 1 1 100%;
-  order: 2;
+  /* order: 2; */
+  color: var(--white);
 }
 #hero-img{
   flex: 1 1 10%;
-  order: 1;
+  /* order: 1; */
 }
 #slide-text{
   flex: 1 1 50%;
-  order: 2;
+  /* order: 2; */
 }
 
+#productsComponent-div{
+  display: flex;
+  flex: 0 0 100%;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: baseline;
+  align-content: stretch;
+  
+}
 
 
 

@@ -172,7 +172,6 @@ async function fetchProduct(id: number): Promise<object | string>{
   return response as Product;
 }
 
-//check data type
 async function requestPaymentIntent(paymentData: PaymentData): Promise<PaymentIntentResult> {
   if(!paymentData) {
     throw new Error("Missing payment data");

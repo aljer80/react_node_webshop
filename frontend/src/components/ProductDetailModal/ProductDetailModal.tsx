@@ -1,67 +1,74 @@
-import { useEffect, useState } from "react";
-import { useProductContext } from "../../contexts/ProductContext";
-import { Product } from "../../types/product.types";
-import { useCartContext } from "../../contexts/CartContext";
-import { CartItem } from "../../types/cart.types";
+import { PropsWithChildren, useEffect, useState } from "react"
+import { useProductContext } from "../../contexts/ProductContext"
+import { useCartContext } from "../../contexts/CartContext"
+import { product } from "../../types/product.types"
 
 /**
- * ProductDetailModal component for displaying detailed information about a selected product.
- * @returns {JSX.Element} JSX for the ProductDetailModal component.
+ * A modal component displaying details of a selected product.
+ * Fetches product details from the product context based on the selectedProductId.
+ * @returns JSX representing the product detail modal.
  */
-const ProductDetailModal: React.FC = () => {
+const ProductDetailModal: React.FC<PropsWithChildren<{}>> = () => {
 
-  const {
-    inventory,
-    selectedProductId,
-    handleToggleProductDetailModalClick
-  } = useProductContext();
-  const {
-    handleAddToCartButtonClick
-  } = useCartContext
+    const {
+        inventory,
+        selectedProductId,
+        handleCloseProductDetailModalButtonClick,
+    } = useProductContext();
 
-  const [displayProduct, setDisplayProduct] = useState<Product | undefined>(undefined);
-  const [cartItem, setCartItem] = useState<CartItem | undefined>(undefined);
+    const {
+        handleAddToCartButtonClick
+    } = useCartContext();
 
-  useEffect(() => {
-    /**
-     * Loads the selected product information into the displayProduct state.
-     */
-    const loadProduct = async () => {
-      const newProduct: Product = inventory.filter(item => {
-        item.id !== selectedProductId
-        return item
-      })
-      setDisplayProduct(newProduct);
-      setCartItem({
-        id: displayProduct.id, 
-        name: displayProduct.name,
-        brand: displayProduct.brand,
-        price: displayProduct.price, 
-        count: 0
-      })
+    const [displayProduct, setDisplayProduct] = useState<product | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
+
+    useEffect(() => {
+        if(inventory){
+            const loadProduct = async () => {
+                try{
+                    const newProduct: product | undefined = inventory.find(entry => entry.id === selectedProductId);
+                    if(newProduct){
+                        setDisplayProduct(newProduct);
+                    }
+                    else{
+                        throw new Error("Product not found");
+                    }
+                }
+                catch(error){
+                    console.error(error);
+                }
+                finally {
+                    setLoading(false);
+                }
+            }
+            loadProduct();
+        }
+    }, [inventory, selectedProductId]);
+    if(loading){
+        return <p>Not quite ready yet!</p>
     }
-    loadProduct();
-  },[selectedProductId])
+    if(!displayProduct){
+        return <p>Your product is elsewhere!</p>
+    }
 
-  
     return (
-        <div className="container" id="productDetail-modal">
-          <button onClick={handleToggleProductDetailModalClick}>x</button>
-          <img src={`/images/products/${displayProduct.brand}/${displayProduct.name}.jpg`} />
-          <div className="productDetail-content">
-            <aside id="productFacts-panel">
-              <p className="productFact">{displayProduct.brand}</p>
-              <p className="productFact">{displayProduct.name}</p>
-              <p className="productFact">{displayProduct.weight}</p>
-              <p className="productFact">{displayProduct.balance}</p>
-              <p className="productFact">{displayProduct.shape}</p>
+        <div id="product-detail-modal" role="group">
+            <button type="button" className="appButton" title="Close" onClick={handleCloseProductDetailModalButtonClick}>x</button>
+            <img src={`/images/products/${displayProduct.brand}/${displayProduct.name}.jpg`}/>
+            <p className="productName">{displayProduct.name}</p>
+            <p className="productPrice">{displayProduct.price}</p>
+            <aside id="product-facts-panel">
+                <p className="productFact">{displayProduct.brand}</p>
+                <p className="productFact">{displayProduct.type}</p>
+                <p className="productFact">{displayProduct.weight}</p>
+                <p className="productFact">{displayProduct.balance}</p>
+                <p className="productFact">{displayProduct.shape}</p>
             </aside>
             <p className="productDescription">{displayProduct.description}</p>
-            <p className="productPrice">{displayProduct.price}</p>
-            <button type="button" className="appButton" title="Add to cart" data-cart-item={JSON.stringify(cartItem)} onClick={ handleAddToCartButtonClick }>Lägg i varukorgen</button>
-          </div>
+            <button type="button" className="appButton" title="Add to cart" onClick={handleAddToCartButtonClick}>Add to cart</button>
         </div>
-      );
+    );
 }
 
 export default ProductDetailModal

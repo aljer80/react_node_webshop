@@ -1,117 +1,142 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { CartItem } from "../types/cart.types";
+import { createContext, useContext, useState, useEffect, Dispatch, PropsWithChildren } from "react"
+import { cartItem } from "../types/cart.types"
+import { useNavigate } from "react-router-dom"
 
+/**
+ * Interface defining the shape of the cart context.
+ */
 export interface CartContextProps{
-    cart: CartItem[]
+    cart: cartItem[]
+    setCart: Dispatch<cartItem[]>
     isCartModalOpen: boolean
-    addToCart: (product: CartItem) => void
+    setIsCartModalOpen: Dispatch<boolean>
+    addToCart: (product: cartItem) => void
     removeFromCart: (itemId: number) => void
     removeProductFromCart: (itemId: number) => void
-    handleAddToCartButtonClick: (e:React.MouseEvent<HTMLButtonElement>) => void
-    handleToggleCartModalClick: () => void
-    toggleCartModal:() => void
-    handleRemoveFromCartButtonClick: (e:React.MouseEvent<HTMLButtonElement>) => void
-    handleRemoveProductFromCartButtonClick: (e:React.MouseEvent<HTMLButtonElement>) => void
+    handleCloseModalButtonClick: () => void
+    handleAddToCartButtonClick: (item: cartItem) => void
+    handleRemoveFromCartButtonClick: (item: number) => void
+    handleRemoveProductFromCartButtonClick: (item: number) => void
 }
 
-export const CartContext = createContext<CartContextProps | undefined>(undefined);
+/**
+ * Context for managing cart-related state and actions.
+ */
+export const CartContext = createContext<CartContextProps | undefined>(undefined)
 
 export const useCartContext = (): CartContextProps => {
     const context = useContext(CartContext);
-    if(!context) {
-        throw new Error("Unable to load context!")
+    if(!context){
+        throw new Error("Unable to load context!");
     }
-    return context;
+
+    return context
 }
 
-export const CartContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [cart, setCart] = useState<CartItem[]>([]);
-    const [isCartModalOpen, setIsCartModalOpen] = useState<boolean>(false);
+/**
+ * Provider component for the cart context.
+ * Manages cart-related state and provides access to it.
+ * @param {PropsWithChildren<{}>} children - The child elements.
+ * @returns {JSX.Element} JSX for the CartContextProvider component.
+ */
+export const CartContextProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
+    const [cart, setCart] = useState<cartItem[]>([]);
+    const [isCartModalOpen, setIsCartModalOpen] = useState<boolean>(true);
+    const navigate = useNavigate();
 
-    function addToCart(product: CartItem){
+    /**
+     * Adds a product to the cart or increments its count if already present.
+     * @param {cartItem} product - The product to add to the cart.
+     */
+    function addToCart(product: cartItem){
         const existingProductIndex: number = cart.findIndex(item => item.id === product.id);
-        if(existingProductIndex !== -1) { //om inte ingenting (om man hittar någonting)
-            const updatedCart: CartItem[] = [...cart];
+        if(existingProductIndex !== -1){
+            const updatedCart: cartItem[] = [...cart];
             updatedCart[existingProductIndex].count += 1;
-            setCart(updatedCart)
-        } else {
+            setCart(updatedCart);
+        }
+        else{
             setCart(prevCart => [...prevCart, { ...product, count: 1 }]);
         }
     }
 
-    function removeFromCart(itemId: number) {
-        const existingProductIndex: number = cart.findIndex(item => item.id === itemId);
-        if(existingProductIndex !== -1) {
-            const updatedCart: CartItem[] = [...cart];
+    /**
+     * Removes a product from the cart or decrements its count if multiple items.
+     * @param {number} itemId - The ID of the item to remove from the cart.
+     */
+    function removeFromCart(itemId: number){
+        const existingProductIndex = cart.findIndex(item => item.id === itemId);
+        if(existingProductIndex !== -1){
+            const updatedCart = [...cart];
             updatedCart[existingProductIndex].count -= 1;
-            if(updatedCart[existingProductIndex].count <1) {
-                removeProductFromCart(existingProductIndex)
+            if(updatedCart[existingProductIndex].count < 1){
+                removeProductFromCart(existingProductIndex);
             }
             setCart(updatedCart);
         }
     }
 
+    /**
+     * Removes a product completely from the cart.
+     * @param {number} itemId - The ID of the item to remove from the cart.
+     */
     function removeProductFromCart(itemId: number){
-        setCart(cart.filter(item => item.id !== itemId))
+        setCart(cart.filter(item => item.id !== itemId));
     }
 
-    function handleAddToCartButtonClick(e: React.MouseEvent<HTMLButtonElement>) {
-        const json: string | undefined = e.currentTarget?.dataset.cartitem; 
-        if(json) {
-            const cartitem: CartItem = JSON.parse(json);
-            addToCart(cartitem);
-        }
+    /**
+     * Handler for the add to cart button click event.
+     * Calls the addToCart function to add the specified item to the cart.
+     * @param {cartItem} item - The item to add to the cart.
+     */
+    function handleAddToCartButtonClick(item: cartItem){
+        addToCart(item);
     }
 
-    function handleRemoveFromCartButtonClick(e: React.MouseEvent<HTMLButtonElement>) {
-        const json: string | undefined = e.currentTarget?.dataset.cartitem; 
-        if(json) {
-            const cartitem: CartItem = JSON.parse(json);
-            removeFromCart(cartitem.id);
-        }
+    /**
+     * Handler for the remove from cart button click event.
+     * Calls the removeFromCart function to remove the item with the specified ID from the cart.
+     * @param {number} itemId - The ID of the item to remove from the cart.
+     */
+    function handleRemoveFromCartButtonClick(itemId: number){
+        removeFromCart(itemId);
     }
 
-    function handleRemoveProductFromCartButtonClick(e: React.MouseEvent<HTMLButtonElement>) {
-        const json: string | undefined = e.currentTarget?.dataset.cartitem; 
-        if(json) {
-            const cartitem: CartItem = JSON.parse(json);
-            removeProductFromCart(cartitem.id);
-        }
+    /**
+     * Handler for the remove product from cart button click event.
+     * Calls the removeProductFromCart function to remove the product with the specified ID from the cart.
+     * @param {number} itemId - The ID of the product to remove from the cart.
+     */
+    function handleRemoveProductFromCartButtonClick(itemId: number){
+        removeProductFromCart(itemId);
     }
 
-    function handleToggleCartModalClick() {
-        toggleCartModal();
+    /**
+     * Closes the cart modal.
+     */
+    function handleCloseModalButtonClick(){
+        setIsCartModalOpen(false);
+        navigate("/");
     }
-
-    function toggleCartModal() {
-        if(isCartModalOpen === false) {
-            setIsCartModalOpen(true);
-        } else{
-            setIsCartModalOpen(false);
-        }
-    }
-    
 
     useEffect(() => {
-        console.log("Nisse");
-    },[]);
+    }, []);
 
-
-  return (
-    <CartContext.Provider value={{
-        cart,
-        isCartModalOpen, 
-        addToCart,
-        removeFromCart,
-        removeProductFromCart,
-        handleAddToCartButtonClick,
-        handleRemoveFromCartButtonClick, 
-        handleRemoveProductFromCartButtonClick,
-        handleToggleCartModalClick,
-        toggleCartModal
-    }}>
-        { children }
-    </CartContext.Provider>
-  );
+    return (
+        <CartContext.Provider value={{
+            cart,
+            setCart,
+            isCartModalOpen,
+            setIsCartModalOpen,
+            addToCart,
+            removeFromCart,
+            removeProductFromCart,
+            handleCloseModalButtonClick,
+            handleAddToCartButtonClick,
+            handleRemoveFromCartButtonClick,
+            handleRemoveProductFromCartButtonClick
+        }}>
+            {children}
+        </CartContext.Provider>
+    );
 }
-

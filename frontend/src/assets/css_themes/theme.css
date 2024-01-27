@@ -24,10 +24,10 @@ body{
 }
 
 /* yttersta div:en i varje return */
-.container{
+/* .container{
  display: flex;
  order: 2;
-}
+} */
 
 /* KNAPPAR */
 /* knapparna add/remove/delete/checkout */
@@ -403,26 +403,29 @@ form input{
 
 
 /* Header*/
-.CTA-banner{
+#header-div{
+    background-color: #669bbc;
+}
+#CTA-banner{
     background-color: var(--dark-blue);
     color: var(--white);
+    margin-right: 5vmax;
+    margin-left: 5vmax;
 }
 /* Navbar*/
 nav {
     background-color: var(--light-blue-theme-color);
 }
-.business-title{
+a.active{
+    text-decoration: none;
     color: var(--dark-blue-theme-color);
 }
-span{
-    color: var(--main-text-color);
-} */
 
 /*-------------------------------------*/
 
 /* FOOTER */
 /* Footer*/
-.footer-div{
+#footer-div{
     display: flex;
     flex:1 1 auto; 
     flex-flow: row nowrap;
@@ -430,6 +433,8 @@ span{
     align-items: baseline;
     align-content: space-between;
     order: 5;
+    background-color: #00171f;
+    color: var(--white-text-color);
 }
 /* .footer-div > * {
     flex: 1;
@@ -485,7 +490,7 @@ span{
     align-content: center;
     padding: 2vmax;
     border-bottom: 1px solid var(--light-border);
-    z-index: 1000;
+    /* z-index: 1000; */
 }
 .disclaimerPanel-container h1{
     margin-bottom: 1vmax;

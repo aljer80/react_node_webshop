@@ -1,6 +1,6 @@
-import Header from '../Header/Header.tsx';
+import Header from '../../components/PageHeader/Header.tsx';
 import { Outlet } from "react-router";
-import Footer from '../Footer/Footer.tsx';
+import Footer from '../../components/PageFooter/Footer.tsx';
 import { CartContextProvider } from '../../contexts/CartContext.tsx';
 import { OrderContextProvider } from '../../contexts/OrderContext.tsx';
 
@@ -12,13 +12,13 @@ import { OrderContextProvider } from '../../contexts/OrderContext.tsx';
  */
 const Layout = () => {
     return (
-        <div id="layout-div" role="group">
+        <>
             <CartContextProvider>
                 <Header />
             </CartContextProvider>
                 <Outlet />
                 <Footer />
-        </div>
+        </>
     );
 };
 

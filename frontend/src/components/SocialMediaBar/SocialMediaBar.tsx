@@ -3,7 +3,7 @@ import gitHub from "../../assets/gitHub.png";
 import { Icon } from "../../types/icon.types";
 
 interface SocialMediaBarProps {
- icon: Icon 
+ icons?: Icon[]
 }
 
 /**

@@ -1,33 +1,28 @@
+import { PropsWithChildren } from "react"
+import CartItemList from "../../components/CartItemList/CartItemList"
 import { useCartContext } from "../../contexts/CartContext"
 import { useCheckoutContext } from "../../contexts/CheckoutContext"
-import CartItemCard from "../CartItemCard/CartItemCard"
-import { CartItem } from "../../types/cart.types"
 
-const CartModal: React.FC = () => {
-
+/**
+ * CartModal component responsible for displaying the cart items and checkout button within a modal.
+ * This component retrieves necessary functions from CartContext and CheckoutContext to handle closing modal and checkout.
+ * @returns {JSX.Element} JSX for the CartModal component.
+ */
+const CartModal: React.FC<PropsWithChildren<{}>> = () => {
     const {
-        cart,
-        handleToggleCartModalClick,
-    } = useCartContext()
-
+        handleCloseModalButtonClick
+    } = useCartContext();
     const {
         handleCheckoutButtonClick
-    } = useCheckoutContext()
-
+    } = useCheckoutContext();
     return (
-
-        <div id="cartModal-div">
-            <button type="button" className="appButton" onClick={handleToggleCartModalClick}>x</button>
-            {cart.length > 0 ? (
-            cart.map((item: CartItem) => (
-                <CartItemCard key={ item.id } item={ item } />
-            ))
-    ) : (
-        <p>No items in cart</p>
-    )}
+        <>
+        <h1>Your Cart</h1>
+            <button type="button" className="appButton" onClick={handleCloseModalButtonClick}>x</button>
+            <CartItemList />
             <button type="button" className="appButton" onClick={handleCheckoutButtonClick}>Checkout</button>
-        </div>
-    )
+        </>
+    );
 }
 
 export default CartModal

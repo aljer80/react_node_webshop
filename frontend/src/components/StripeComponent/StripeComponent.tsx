@@ -2,35 +2,44 @@ import { useElements, CardElement, useStripe } from "@stripe/react-stripe-js"
 import { PaymentIntentResult, PaymentMethodResult } from "@stripe/stripe-js"
 import { useCheckoutContext } from "../../contexts/CheckoutContext"
 import { useCartContext } from "../../contexts/CartContext"
-import { requestPaymentIntent } from "../../utilities/ApiUtilities"
+import { requestPaymentIntent } from "../../utilities/ApiUtility"
 import { PaymentData } from "../../types/checkout.types"
 
-const PaymentElement: React.FC = () => {
-    const stripe = useStripe()
-    const elements = useElements()
+/**
+ * StripeComponent responsible for handling Stripe payment.
+ * @returns {JSX.Element} JSX for the StripeComponent.
+ */
+const StripeComponent: React.FC = () => {
+
+    const stripe = useStripe();
+    const elements = useElements();
     const { 
         customerDetailsFormData,
         setIsPaymentSuccessful,
         setPaymentResponse
-    } = useCheckoutContext()
+    } = useCheckoutContext();
     const {
         cart
-    } = useCartContext
+    } = useCartContext();
 
+    /**
+     * Handles form submission for Stripe payment.
+     * @param {React.FormEvent} e - The form event.
+     */
     const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault()
+        e.preventDefault();
         const selectedCurrency = 'sek'
         const cartTotal = cart.reduce((total, item) => total += item.price, 0)
-        const customerDetails = JSON.stringify(customerDetailsFormData)
+        const customerDetails = JSON.stringify(customerDetailsFormData);
 
         if(!stripe || !elements){
-            !stripe ? console.log("Stripe"):console.log("Elements")
+            !stripe ? console.log("Stripe"):console.log("Elements");
         }
 
         const { paymentMethod }: PaymentMethodResult = await stripe.createPaymentMethod({
             type: 'card',
             card: elements.getElement(CardElement) as any
-        })
+        });
 
         const data: PaymentData = {
             paymentMethodId: paymentMethod.id,
@@ -39,17 +48,17 @@ const PaymentElement: React.FC = () => {
         }
         const paymentIntent: PaymentIntentResult = await requestPaymentIntent(data)
         if(paymentIntent.error){
-            setIsPaymentSuccessful(false)
+            setIsPaymentSuccessful(false);
         }
-        setIsPaymentSuccessful(true)
-        setPaymentResponse(paymentIntent)
+        setIsPaymentSuccessful(true);
+        setPaymentResponse(paymentIntent);
     }
     return (
         <form onSubmit={ handleSubmit }>
             <CardElement />
-            <button type="submit">Betala</button>
+            <button type="submit">Pay</button>
         </form>
-    )
+    );
 }
 
-export default PaymentElement
+export default StripeComponent

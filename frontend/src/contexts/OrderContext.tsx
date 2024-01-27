@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react"
-import { createOrder, fetchAllOrders, fetchOrder, changeOrder, removeOrder } from "../utilities/ApiUtilities"
+import { createOrder, fetchAllOrders, fetchOrder, changeOrder, removeOrder } from "../utilities/ApiUtility"
 import { order } from "../types/order.types"
 
 export interface OrderContextProps{

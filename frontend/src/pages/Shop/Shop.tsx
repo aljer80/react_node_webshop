@@ -1,6 +1,6 @@
 import { ProductContextProvider } from "../../contexts/ProductContext";
-import Hero from "../Hero/Hero";
-import FilteringAndSortingBar from "../FilteringAndSortingBar/FilteringAndSortingBar";
+import Hero from "../../components/ShopHero/Hero";
+import FilteringAndSortingBar from "../../components/FilteringSortingBar/FilteringAndSortingBar";
 
 /**
  * Products component responsible for rendering the Hero and FilteringAndSortingBar components.
@@ -21,3 +21,5 @@ const Products: React.FC = () => {
 }
 
 export default Products;
+
+{/* <div className="container" id="productsComponent-div"></div> */}

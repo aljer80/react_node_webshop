@@ -1,27 +1,28 @@
-import ProductCard from "../ProductCard/ProductCard";
-import { Product, ProductListProps } from "../../types/product.types";
+import ProductCard from "../ProductCard/ProductCard"
+import { product, ProductListProps } from "../../types/product.types"
 
 /**
- * ProductList component for displaying a list of products using ProductCard.
- * @param {ProductListProps} props - Props for the ProductList component.
- * @returns {JSX.Element} JSX for the ProductList component.
+ * A component that renders a list of products using ProductCard component.
+ * @param props - The props passed to the component.
+ * @param props.products - An array of product objects to render.
+ * @returns JSX representing the product list.
+ * @example
+ * // Example usage of ProductList component
+ * <ProductList products={[{ id: 1, name: 'Product A', price: 20.99, image: 'product-a.jpg' }, { id: 2, name: 'Product B', price: 15.99, image: 'product-b.jpg' }]} />
  */
-const ProductList: React.FC<ProductListProps> = ({products}) => {
+const ProductList: React.FC<ProductListProps> = ({ products }) => {
 
-  if(!ProductCard){
-    throw new Error("Missing dependency");
-  }
-  if(!products){
-    throw new Error("Missing products");
-  }
-
-  return (
-    <div className="container" id="product-list">
-      {products.map((product: Product) => (
-      <ProductCard key={product.id} product={product} />
-      ))};
-    </div>
-  );
+    return (
+        <>
+        {products.length > 0 ? (
+            products.map((product: product) => (
+                <ProductCard key={product.id} product={ product } />
+            ))
+        ) : (
+            <p>There are no products!</p>
+        )}
+        </>
+    );
 }
 
-export default ProductList;
+export default ProductList

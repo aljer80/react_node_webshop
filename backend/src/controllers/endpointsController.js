@@ -1,168 +1,174 @@
-// import required files
-const DbObject = require("../models/DbObject.js");
-
 /**
- * Database configuration object.
- * @typedef {Object} DbConfig
- * @property {string} host - Database host.
- * @property {number} port - Database port.
- * @property {string} database - Database name.
- * @property {string} user - Database user.
- * @property {string} password - Database password.
+ * Creates a new instance of DbObject using the provided configuration.
+ * If an error occurs during the creation, it is forwarded to the next middleware.
  */
+const DbObject = require("../models/DbObject");
+const dbConfig = {
+    host:process.env.DB_HOST,
+    port:process.env.DB_PORT,
+    user:process.env.DB_USER,
+    pass:process.env.DB_PASS,
+    name:process.env.DB_NAME
+};
 
-/** Database configuration. */
-const dbConfig /** @type {DbConfig} */ = {
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    database: process.env.DB_NAME, 
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD
-} 
-
-/** Database instance. */
 let db;
-try { 
+try{
     db = new DbObject(dbConfig);
-} catch(error) {
+}
+catch(error){
     next(error);
 }
 
 /**
- * Get all products from the database.
- * @param {function} next - Callback function to handle results or errors.
+ * Retrieves all products from the database.
+ * @async
+ * @param {Function} next - Callback function to pass results or errors to the next middleware.
  */
 const getAllProducts = async (next) => {
-    const query = "SELECT * FROM products;"; 
-    try {
+    const query = "SELECT * FROM products;";
+    try{
         const results = await db.query(query);
         next(null, results);
-    } catch (err) { 
+    }
+    catch(err){
         next(err);
-    }  finally {
+    }
+    finally{
         await db.end();
     }
-}
+};
 
 /**
- * Get a product by its ID from the database.
- * @param {string} id - Product ID.
- * @param {function} next - Callback function to handle results or errors.
+ * Retrieves a product with the specified ID from the database.
+ * @async
+ * @param {string} id - The ID of the product to retrieve.
+ * @param {Function} next - Callback function to pass results or errors to the next middleware.
  */
-const getProductById = async (id, next) => {
+const getProduct = async (id, next) => {
     const query = "SELECT * FROM products WHERE id = :id;";
-    try {
+    try{
         const results = await db.query(query, { id });
         next(null, results);
-    } catch (err) { 
+    }
+    catch(err){
         next(err);
-    }  finally {
+    }
+    finally{
         await db.end();
     }
-} 
+};
 
 /**
- * Get all orders from the database.
- * @param {function} next - Callback function to handle results or errors.
+ * Retrieves all orders from the database.
+ * @async
+ * @param {Function} next - Callback function to pass results or errors to the next middleware.
  */
-const getOrders = async (next) => {
+const getAllOrders = async (next) => {
     const query = "SELECT * FROM orders;";
-    try {
+    try{
         const results = await db.query(query);
         next(null, results);
-    } catch (err) { 
+    }
+    catch(err){
         next(err);
-    } finally {
+    }
+    finally{
         await db.end();
     }
-} 
+};
 
 /**
- * Get an order by its ID from the database.
- * @param {string} id - Order ID.
- * @param {function} next - Callback function to handle results or errors.
+ * Retrieves an order with the specified ID from the database.
+ * @async
+ * @param {string} id - The ID of the order to retrieve.
+ * @param {Function} next - Callback function to pass results or errors to the next middleware.
  */
-const getOrderById = async (id, next) => {
+const getOrder = async (id, next) => {
     const query = "SELECT * FROM orders WHERE id = :id;";
-    try {
+    try{
         const results = await db.query(query, { id });
         next(null, results);
-    } catch (err) { 
+    }
+    catch(err){
         next(err);
-    } finally {
+    }
+    finally{
         await db.end();
     }
-} 
+};
 
 /**
- * Add a new order to the database.
- * @param {Object} data - Order data to be inserted.
- * @param {function} next - Callback function to handle results or errors.
+ * Creates a new order in the database.
+ * @async
+ * @param {Object} data - The data to be inserted into the order.
+ * @param {Function} next - Callback function to pass results or errors to the next middleware.
  */
 const newOrder = async (data, next) => {
-    let columnString = "";
-    let valueString = "";
-    const query = `INSERT INTO orders (${columnString}) VALUES (${valueString});`;
-    try {
+    try{
         const columns = Object.keys(data).join(', ');
         const namedPlaceholders = Object.keys(data).map(param => `:${param}`).join(', ');
         const query = `INSERT INTO orders (${columns}) VALUES (${namedPlaceholders});`;
         const results = await db.query(query, data);
-    next(null, results);
-    } catch (err) { 
+        next(null, results);
+    }
+    catch(err){
         next(err);
-    } finally {
+    }
+    finally{
         await db.end();
     }
-} 
+};
 
 /**
- * Modify an existing order in the database.
- * @param {Object} req - Express request object.
- * @param {Object} res - Express response object.
- * @param {function} next - Callback function to handle results or errors.
+ * Modifies an existing order in the database.
+ * @async
+ * @param {string} id - The ID of the order to be modified.
+ * @param {Object} data - The data to be updated in the order.
+ * @param {Function} next - Callback function to pass results or errors to the next middleware.
  */
 const modifyOrder = async (id, data, next) => {
-    let columnString = "";
-    let valueString = "";
-    const query = `UPDATE orders SET (${columnString}) = (${valueString}) WHERE id = :id;`;
-    try {
+    try{
         const updates = Object.keys(data).map(column => `${column} = :${column}`);
         const namedPlaceholders = Object.keys(data).map(param => `:${param}`).join(', ');
         const query = `UPDATE orders SET (${updates.join(', ')}) = (${namedPlaceholders}) WHERE id = :id;`;
         data.id = id;
         const results = await db.query(query, data);
         next(null, results);
-    } catch (err) { 
+    }
+    catch(err){
         next(err);
-    } finally {
+    }
+    finally{
         await db.end();
     }
-} 
+};
 
 /**
- * Delete an existing order from the database.
- * @param {string} id - Order ID.
- * @param {function} next - Callback function to handle results or errors.
+ * Deletes an order with the specified ID from the database.
+ * @async
+ * @param {string} id - The ID of the order to be deleted.
+ * @param {Function} next - Callback function to pass results or errors to the next middleware.
  */
 const deleteOrder = async (id, next) => {
     const query = "DELETE FROM orders WHERE id = :id;";
-    try {
+    try{
         const results = await db.query(query, { id });
         next(null, results);
-    } catch (err) { 
+    }
+    catch(err){
         next(err);
-    } finally {
+    }
+    finally{
         await db.end();
     }
-} 
+};
 
-module.exports = { 
-    getAllProducts, 
-    getProductById, 
-    getOrders, 
-    getOrderById,
-    newOrder, 
-    modifyOrder, 
+module.exports = {
+    getAllProducts,
+    getProduct,
+    getAllOrders,
+    getOrder,
+    newOrder,
+    modifyOrder,
     deleteOrder
-}
+};

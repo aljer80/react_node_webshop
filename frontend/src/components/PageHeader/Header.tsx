@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
-import NavBar from "../NavBar/NavBar";
+import NavBar from "../Navbar/NavBar";
+import { Logo } from "../../types/logo.types";
 import logoPicture from "../../assets/logo/logo.svg";
 
 /**
@@ -8,16 +9,25 @@ import logoPicture from "../../assets/logo/logo.svg";
  * @returns {JSX.Element} - Header component
  */
 const Header: React.FC = () => {
+
+    const logo: Logo = {
+        src: logoPicture,
+        alt: "logo", 
+        title: "My logo",
+    }
+
     return (
-    <div id="header-div">
+    <div className="container" id="header-div">
         <NavLink
             to="/"
             className={({ isActive, isPending }) =>
                 isPending ? "pending" : isActive ? "active" : ""
             }
             >
-            <img src={ logoPicture } alt="logo" />
-            <h1 className="business-title"><span>P</span>adel<span>R</span>acket</h1>
+                <img src={logo.src} alt={logo.alt} />
+                    <h1 id="business-title" style={{ color: "#003049" }}>
+                        <span style={{ color: "black" }}>P</span>adel<span style={{ color: "black" }}>R</span>acket
+                    </h1>
         </NavLink>
         <NavBar />
     </div>

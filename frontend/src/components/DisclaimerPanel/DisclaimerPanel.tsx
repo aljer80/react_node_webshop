@@ -5,7 +5,7 @@ import { Policy } from "../../types/policy.types"
  * @component
  * @returns {JSX.Element} - DisclaimerPanel component
  */
-const DisclaimerPanel = () => {
+const DisclaimerPanel: React.FC = () => {
 
   const policies: Policy[] = [
     {

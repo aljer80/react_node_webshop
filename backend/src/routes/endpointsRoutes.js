@@ -1,167 +1,196 @@
-// import required files
-const express = require("express");
-const router = express.Router();
-const controller = require("../controllers/endpointsController.js");
-const paymentController = require("../controllers/paymentController.js")
-
 /**
- * Responds to the client with a 200 status and JSON data.
- * @param {Object} res - Express response object.
- * @param {Object} data - Data to be sent as a JSON response.
+ * Express.js Router Configuration for Endpoints
+ * - Defines routes for various product and order endpoints.
+ * - Routes are handled by functions in the 'endpointsController' module.
+ *
+ * @module endpointsRoutes
  */
-function respond(res, data) {
-    res.status(200).json(data);
-}
+
+const express = require("express");
+const controller = require('../controllers/endpointsController'); 
+const paymentController = require('../controllers/paymentController'); 
+const router = express.Router();
 
 /**
- * Creates a 404 error for entry not found.
- * @param {Object} res - Express response object.
- * @returns {Error} - 404 error object.
+ * Creates a custom error object for "Entry Not Found" scenarios.
+ *
+ * @param {Response} res - Express response object.
+ * @returns {Error} - Custom error object with a 404 status.
  */
 function entryNotFound(res){
     const message = "Did not find an entry!"
     const error = new Error(message);
     error.status = 404;
+
     return error;
 }
 
 /**
- * Creates a 404 error for unsuccessful operations.
- * @param {Object} res - Express response object.
- * @returns {Error} - 404 error object.
+ * Creates a custom error object for unsuccessful operations.
+ *
+ * @param {Response} res - Express response object.
+ * @returns {Error} - Custom error object with a 500 status.
  */
-function unsuccessful(res) {
-    const message = "Operation Failed!"
+function unsuccessful(res){
+    const message = "Operation Failed!";
     const error = new Error(message);
     error.status = 404;
+
     return error;
 }
 
-router.post("/payments", async(req, res, next) => {
-    try {
-        const paymentResponse = await paymentController.createPaymentRequest(req, res, next);
-        respond(res, paymentResponse);
-    } catch (error) {
-        return next(error);
-    }
-})
-
-
 /**
- * Retrieves all products.
+ * Sends a JSON response with a 200 status.
+ *
+ * @param {Response} res - Express response object.
+ * @param {any} data - Data to be included in the response.
  */
-router.get("/products", async (req, res, next) => {
-    try {
-        const products = await controller.getAllProducts(next);
-        if(!products || products.lenght === 0) {
-            return next(entryNotFound(res)); 
-        }
-        respond(res, products);
-    } catch (error) {
+function respond(res, data){
+    res.status(200).json(data);
+}
+
+router.post('/payments', async (req, res, next) => {
+    try{
+        const response = await paymentController.createPaymentIntent(req, res, next);
+
+        return respond(res, response);
+    }
+    catch(error){
         return next(error);
     }
 });
 
 /**
- * Retrieves a product by ID.
- * @param {string} req.params.id - Product ID.
+ * GET all products.
+ * @route GET /products
+ * @handler endpointsController.getAllProducts
  */
-router.get("/products/:id", async (req, res, next) => {
+router.get('/products', async (req, res, next) => {
+    try{
+        const products = await controller.getAllProducts(next);
+        if(!products || products.length === 0){
+            return next(entryNotFound(res));
+        }
+        return respond(res, products);
+    }
+    catch(error){
+        return next(error);
+    }
+});
+
+
+/**
+ * GET a specific product by ID.
+ * @route GET /products/:id
+ * @handler endpointsController.getProduct
+ */
+router.get('/products/:id', async (req, res, next) => {
     const productId = req.params.id;
     try{
-        const product = await controller.getProductById(productId, next);
-        if(!product) {
+        const product = await controller.getProduct(productId, next);
+        if(!product){
             return next(entryNotFound(res));
         }
-        respond(res, product);
-    } catch(error) {
+        return respond(res, product);
+    }
+    catch(error){
         return next(error);
     }
 });
 
 /**
- * Retrieves all orders.
+ * GET all orders.
+ * @route GET /orders
+ * @handler endpointsController.getAllOrders
  */
-router.get("/orders", async (req, res, next) => {
-    try {
+router.get('/orders', async (req, res, next) => {
+    try{
         const orders = await controller.getOrders(next);
-        if(!orders || orders.lenght === 0) {
+        if(!orders || orders.length === 0){
             return next(entryNotFound(res));
         }
-        respond(res, orders);
-    } catch (error) {
+        return respond(res, orders);
+    }
+    catch(error){
         return next(error);
     }
 });
 
 /**
- * Retrieves an order by ID.
- * @param {string} req.params.id - Order ID.
+ * GET a specific order by ID.
+ * @route GET /orders/:id
+ * @handler endpointsController.getOrder
  */
-router.get("/orders/:id", async (req, res, next) => {
+router.get('/orders/:id', async (req, res, next) => {
     const orderId = req.params.id;
-    try {
-        const order = await controller.getOrderById(orderId, next);
-        if(!order) {
+    try{
+        const order = await controller.getOrder(orderId, next);
+        if(!order){
             return next(entryNotFound(res));
         }
-        respond(res, order);
-    } catch (error) {
+        return respond(res, order);
+    }
+    catch(error){
         return next(error);
     }
 });
 
 /**
- * Creates a new order.
- * @param {Object} req.body - Request body containing order data.
+ * POST a new order.
+ * @route POST /orders
+ * @handler endpointsController.createOrder
  */
 router.post('/orders', async (req, res, next) => {
     const data = req.body;
-    try {
+    try{
         const isAdded = await controller.newOrder(data, next);
         if(!isAdded){
             return next(unsuccessful(res));
         }
-        respond(res, isAdded);
-    } catch (error) {
+        return respond(res, isAdded);
+    }
+    catch(error){
         return next(error);
     }
 });
 
 /**
- * Modifies an existing order.
- * @param {string} req.params.id - Order ID.
- * @param {Object} req.body - Request body containing updated order data.
+ * PUT (modify) a specific order by ID.
+ * @route PUT /orders/:id
+ * @handler endpointsController.modifyOrder
  */
 router.put('/orders/:id', async (req, res, next) => {
     const orderId = req.params.id;
     const data = req.body;
-    try {
+    try{
         const isModified = await controller.modifyOrder(orderId, data, next);
         if(!isModified){
             return next(unsuccessful(res));
         }
-        respond(res, isModified); 
-    } catch (error) {
+        return respond(res, isModified);
+    }
+    catch(error){
         return next(error);
     }
 });
 
 /**
- * Deletes an existing order.
- * @param {string} req.params.id - Order ID.
+ * DELETE a specific order by ID.
+ * @route DELETE /orders/:id
+ * @handler endpointsController.deleteOrder
  */
 router.delete('/orders/:id', async (req, res, next) => {
     const orderId = req.params.id;
-    try {
+    try{
         const isRemoved = await controller.deleteOrder(orderId, next);
         if(!isRemoved){
             return next(unsuccessful(res));
         }
-        respond(res, isRemoved); 
-    } catch (error) {
+        return respond(res, isRemoved);
+    }
+    catch(error){
         return next(error);
     }
 });
 
-module.exports = router;
+module.exports = router

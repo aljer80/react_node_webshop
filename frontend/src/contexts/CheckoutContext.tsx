@@ -1,7 +1,10 @@
-import { useNavigate } from "react-router-dom";
-import { PaymentIntentResult } from "@stripe/stripe-js";
-import { createContext, useContext, useState, ReactNode, Dispatch } from "react";
+import { useNavigate } from "react-router-dom"
+import { PaymentIntentResult } from "@stripe/stripe-js"
+import { createContext, useContext, useState, useEffect, ReactNode, Dispatch } from "react"
 
+/**
+ * Interface defining the shape of the checkout context.
+ */
 export interface CheckoutContextProps{
     isPaymentSuccessful: boolean
     setIsPaymentSuccessful: Dispatch<boolean>
@@ -9,62 +12,81 @@ export interface CheckoutContextProps{
     setPaymentResponse: Dispatch<PaymentIntentResult>
     customerDetailsFormData: object
     isCheckoutModalOpen: boolean
-    handleCustomerDetailsInputChange: (e:React.ChangeEvent<HTMLInputElement>) => void
+    handleCustomerDetailsInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void
     handleCheckoutButtonClick: () => void
-    startNavigationTimer: () => void 
-    handleConfirmationButtonClick: () => void 
+    startNavigationTimer: () => void
 }
 
+/**
+ * Context for managing checkout-related state and actions.
+ */
 export const CheckoutContext = createContext<CheckoutContextProps | undefined>(undefined);
 
+/**
+ * Custom hook to access the checkout context.
+ * @returns {CheckoutContextProps} The checkout context.
+ */
 export const useCheckoutContext = (): CheckoutContextProps => {
     const context = useContext(CheckoutContext);
-    if(!context) {
-        throw new Error("Unable to load Context")
+    if(!context){
+        throw new Error("Unable to load context");
     }
+
     return context
 }
 
-export const CheckoutContextProvider: React.FC<{ children: ReactNode }> =({children}) => {
+/**
+ * Provider component for the checkout context.
+ * Manages checkout-related state and provides access to it.
+ * @param {React.FC<{ children: ReactNode}>} children - The child components.
+ * @returns {JSX.Element} JSX for the CheckoutContextProvider component.
+ */
+export const CheckoutContextProvider: React.FC<{ children: ReactNode}> = ({ children }) => {
     const navigationTimerLimit = 20;
     const [isPaymentSuccessful, setIsPaymentSuccessful] = useState<boolean>(false);
-    const [paymentResponse, setPaymentResponse] = useState<PaymentIntentResult>(null!); // "null!" ok så länge det inte är null. Det enda som funkar, man vet inte vad PaymentIntentResult är
+    const [paymentResponse, setPaymentResponse] = useState<PaymentIntentResult>(null!);
     const [customerDetailsFormData, setCustomerDetailsFormData] = useState<object>({
-        legal_name: '',
-        family_name: '',
-        email_address: '',
-        phone_number: '',
-        address_line_1: '',
-        address_line_2: '',
-        address_line_3: ''
-    })
-    const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState<boolean>(false)
+            legal_name: '',
+            family_name: '',
+            email_address: '',
+            phone_number: '',
+            address_line_1: '',
+            address_line_2: '',
+            address_line_3: ''
+        })
+    const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState<boolean>(false);
+    const navigate = useNavigate();
+
+    /**
+     * Handles changes in customer details input fields.
+     * @param {React.ChangeEvent<HTMLInputElement>} e - The event object.
+     */
     const handleCustomerDetailsInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { id, value } = e.target;
+        const { id, value } = e.target
         setCustomerDetailsFormData(prevFormData => ({...prevFormData, [id]: value}));
     }
+
+    /**
+     * Handles the checkout button click event.
+     */
     const handleCheckoutButtonClick = () => {
-        setIsCheckoutModalOpen(true)
+        setIsCheckoutModalOpen(true);
+        navigate("/checkout");
     }
 
-    const handleConfirmationButtonClick = () => {
-        confirmation();
-    }
-
-    const confirmation = () => {
-        setCart([]);
-        const navigate = useNavigate();
-        navigate("/")
-    }
-
+    /**
+     * Starts a timer to navigate to the home page after a specified time limit.
+     */
     const startNavigationTimer = () => {
-        const navigate = useNavigate();
-        setInterval(() => {
+		const intervalId = setInterval(() => {
             navigate("/")
-        }, navigationTimerLimit * 1000)
+		}, navigationTimerLimit * 1000);
+		return()=>{
+			clearInterval(intervalId);
+		}
     }
 
-    return(
+    return ( 
         <CheckoutContext.Provider value={{
             isPaymentSuccessful,
             setIsPaymentSuccessful,
@@ -74,10 +96,9 @@ export const CheckoutContextProvider: React.FC<{ children: ReactNode }> =({child
             isCheckoutModalOpen,
             handleCustomerDetailsInputChange,
             handleCheckoutButtonClick,
-            startNavigationTimer,
-            handleConfirmationButtonClick
+            startNavigationTimer
                 }}>
             { children }
         </CheckoutContext.Provider>
     );
-}
+}   

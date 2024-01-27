@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { fetchAllOrders, changeOrder, removeOrder } from "../../utilities/ApiUtilities";
+import { fetchAllOrders, changeOrder, removeOrder } from "../../utilities/ApiUtility";
 import { Order } from "../../types/order.types";
 
 /**
