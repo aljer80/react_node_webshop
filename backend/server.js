@@ -19,19 +19,28 @@ process.on('uncaughtException', (error) => {
 
 //importing required code
 const express = require('express');
+require("dotenv").config();
 const { errorHandler } = require('./src/middleware/errorHandling');
 const routes = require('./src/routes/endpointsRoutes');
 
 //setting required values
 const app = express();
+const cors = require("cors"); //added this 
 const port = process.env.PORT || 3000;
 
 //setting request decoders to interpret the information sent from form.
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+// app.use(cors({ origin: true, credentials: true })); //added this
 
 //setting middleware
-app.use('/', routes);
+app.use((req, res, next) => {
+    console.log(`Incoming request from: ${req.ip}`);
+    console.log(`Request URL: ${req.url}`);
+    console.log(`Request Method: ${req.method}`);
+    next(); // Call next middleware in the chain
+});
+app.use('/api/v1', routes);
 app.use(errorHandler);
 
 //setting up server to listen
@@ -40,7 +49,7 @@ listener.on('error', (error) => {
     handleListenerError(error, port);
 });
 listener.on('listening', () => {
-    console.log('Your app is listening on port ' + listener.address().port);
+    console.log('Your app is listening on port ' + listener.address().port)
 });
 
 /**

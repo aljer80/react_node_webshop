@@ -1,37 +1,23 @@
-import { NavLink } from "react-router-dom";
-import NavBar from "../Navbar/NavBar";
-import { Logo } from "../../types/logo.types";
-import logoPicture from "../../assets/logo/logo.svg";
+import Navbar from "../Navbar/Navbar"
+import logoPicture from "../../assets/images/logo.png"
+import { useNavigate } from "react-router-dom"
 
-/**
- * Header component containing navigation bar.
- * @component
- * @returns {JSX.Element} - Header component
- */
 const Header: React.FC = () => {
 
-    const logo: Logo = {
-        src: logoPicture,
-        alt: "logo", 
-        title: "My logo",
-    }
+    const navigate = useNavigate();
 
     return (
-    <div className="container" id="header-div">
-        <NavLink
-            to="/"
-            className={({ isActive, isPending }) =>
-                isPending ? "pending" : isActive ? "active" : ""
-            }
-            >
-                <img src={logo.src} alt={logo.alt} />
-                    <h1 id="business-title" style={{ color: "#003049" }}>
-                        <span style={{ color: "black" }}>P</span>adel<span style={{ color: "black" }}>R</span>acket
-                    </h1>
-        </NavLink>
-        <NavBar />
-    </div>
-    );
+    <>
+    <section id="logo">
+        <img src={ logoPicture } alt="" onClick={navigate("/")}/>
+        <h1 id="business-title" style={{ color: "#003049" }}>
+            <span style={{ color: "black" }}>P</span>adel<span style={{ color: "black" }}>R</span>acket
+        </h1>
+    </section>
+  
+    <Navbar />
+    </>
+    )
 }
 
 export default Header;

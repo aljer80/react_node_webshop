@@ -14,8 +14,10 @@ const Products: React.FC = () => {
 
   return (
       <ProductContextProvider>
-        <Hero />
-        <FilteringAndSortingBar />
+        <article className="container-article" id="shop-page"> 
+          <Hero />
+          <FilteringAndSortingBar />
+        </article>
       </ProductContextProvider>
   );
 }

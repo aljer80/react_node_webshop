@@ -6,10 +6,10 @@
  * @module endpointsRoutes
  */
 
-const express = require("express");
+const express = require("express")
 const controller = require('../controllers/endpointsController'); 
 const paymentController = require('../controllers/paymentController'); 
-const router = express.Router();
+const router = express.Router()
 
 /**
  * Creates a custom error object for "Entry Not Found" scenarios.
@@ -193,4 +193,4 @@ router.delete('/orders/:id', async (req, res, next) => {
     }
 });
 
-module.exports = router
+module.exports = router;

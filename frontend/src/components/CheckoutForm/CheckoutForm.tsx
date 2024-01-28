@@ -6,7 +6,7 @@ const CheckoutForm: React.FC = () => {
         handleCustomerDetailsInputChange
     } = useCheckoutContext()
 
-    return (
+     return (
         <form id="customer-details" autoComplete="on">
             <input type="text" id="legal_name" placeholder="First name" onChange={handleCustomerDetailsInputChange} value={customerDetailsFormData["legal_name"]}></input>
             <input type="text" id="family_name" placeholder="Last name" onChange={handleCustomerDetailsInputChange} value={customerDetailsFormData["family_name"]}></input>
@@ -16,7 +16,7 @@ const CheckoutForm: React.FC = () => {
             <input type="text" id="address_line_2" placeholder="Post code" onChange={handleCustomerDetailsInputChange} value={customerDetailsFormData["address_line_2"]}></input>
             <input type="text" id="address_line_3" placeholder="City" onChange={handleCustomerDetailsInputChange} value={customerDetailsFormData["address_line_3"]}></input>
         </form>
-    )
+    );
 }
 
 export default CheckoutForm

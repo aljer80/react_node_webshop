@@ -1,15 +1,18 @@
 /**
- * Middleware function to handle errors and send an Internal Server Error response.
+ * Express.js Error Handling Middleware
+ * - Logs the error stack trace to the console.
+ * - Sends a 500 Internal Server Error response to the client.
  *
- * @param {Error} err - The error object.
- * @param {Object} req - The request object.
- * @param {Object} res - The response object.
- * @param {Function} next - The next middleware function.
- * @returns {void}
+ * @param {Error} err - The error object representing the failure.
+ * @param {Request} req - Express request object.
+ * @param {Response} res - Express response object.
+ * @param {NextFunction} next - The next middleware function in the stack.
  */
 async function errorHandler(err, req, res, next) {
     console.error(err.stack);
-    res.status(500).send("Internal Server Error");
+    res.status(500).send('Internal Server Error');
 }
 
-module.exports = { errorHandler };
+module.exports = {
+    errorHandler
+}

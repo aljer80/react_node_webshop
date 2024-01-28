@@ -4,8 +4,8 @@ import { CustomerDetails, OrderDetails } from "../types/checkout.types";
 import { PaymentIntentResult } from "@stripe/stripe-js";
 import { PaymentData } from "../types/checkout.types";
 
-const host: string = "https://localhost";
-const port: number = 8080;
+const host: string = "http://localhost";
+const port: number = 3000;
 const version: string = "v1";
 
 async function getData(endpoint: string, id: number | undefined): Promise<string | object[]> {

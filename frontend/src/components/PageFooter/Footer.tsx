@@ -9,11 +9,11 @@ import DisclaimerPanel from "../DisclaimerPanel/DisclaimerPanel";
  */
 const Footer = () => {
     return(
-        <div className="container" id="footer-div">
+        <footer>
             <ContactPanel/>
             <SocialMediaBar />
             <DisclaimerPanel />
-        </div>
+        </footer>
     )
 };
 

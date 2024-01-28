@@ -16,12 +16,12 @@ const CartModal: React.FC<PropsWithChildren<{}>> = () => {
         handleCheckoutButtonClick
     } = useCheckoutContext();
     return (
-        <>
-        <h1>Your Cart</h1>
+        <article className="container-article" id="cart-page"> 
+            <h1>Your Cart</h1>
             <button type="button" className="appButton" onClick={handleCloseModalButtonClick}>x</button>
             <CartItemList />
             <button type="button" className="appButton" onClick={handleCheckoutButtonClick}>Checkout</button>
-        </>
+        </article>
     );
 }
 

@@ -10,9 +10,10 @@ import CartPanel from "../../components/CartPanel/CartPanel"
  */
 const Cart: React.FC<PropsWithChildren<{}>> = () => {
     return (
+         
         <CartContextProvider>
             <CheckoutContextProvider>
-                <CartPanel />
+                    <CartPanel />
             </CheckoutContextProvider>
         </CartContextProvider>
     )
