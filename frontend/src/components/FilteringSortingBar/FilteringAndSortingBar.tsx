@@ -3,7 +3,6 @@ import { useProductContext } from "../../contexts/ProductContext"
 import ProductList from "../ProductList/ProductList"
 import ProductDetailModal from "../ProductDetailModal/ProductDetailModal"
 import { product } from "../../types/product.types"
-import { CartContextProvider } from "../../contexts/CartContext"
 
 /**
  * FilteringSortingBar component responsible for handling filtering and sorting of products.
@@ -75,65 +74,63 @@ const FilteringSortingBar: React.FC<PropsWithChildren<{}>> = () => {
     }, [filterOptions, sortingOptions, inventory])
 
     return (
-        <section id="filtering-and-sorting-bar-section">
+        <section>
             <div id="filtering-and-sorting-bar" role="toolbar">
-                <select id="brand" defaultValue="" onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleFilterChange(e.target.value)}>
-                    <option value="">---</option>
-                    <option value="brand:Babolat">Babolat</option>
-                    <option value="brand:DoPadel">DoPadel</option>
-                    <option value="brand:Head">Head</option>
-                    <option value="brand:Nox">Nox</option>
-                    <option value="brand:Osaka">Osaka</option>
-                </select>
-                <select id="shape" defaultValue="" onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleFilterChange(e.target.value)}>
-                    <option value="">---</option>
-                    <option value="shape:Round">Round</option>
-                    <option value="shape:Drop">Drop</option>
-                    <option value="shape:Diamond">Diamond</option>
-                    <option value="shape:Hybrid">Hybrid</option>
-                </select>
-                <select id="balance" defaultValue="" onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleFilterChange(e.target.value)}>
-                    <option value="">---</option>
-                    <option value="balance:Bottom">Bottom</option>
-                    <option value="balance:Center">Center</option>
-                    <option value="balance:Top">Top</option>
-                </select>
-                <select id="sorting" defaultValue="" onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleSortingChange(e.target.value)}>
-                    <option value="">---</option>
-                    <option value="price:asc">Price: Low to High</option>
-                    <option value="price:desc">Price: High to Low</option>
-                    <option value="name:asc">Name: A - Z</option>
-                    <option value="name:desc">Name: Z - A</option>
-                </select>
-                <div>
-                    <input
-                        type="text"
-                        value={searchInput}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchInput(e.target.value)}
-                        placeholder="Type to search..."
-                    />
-                    <ul className="dropDownUl">
-                        {getSuggestions().map((suggestion: product) => (
-                            <li key={suggestion.name} className="dropDownLi" onClick={() => handleSearchButtonClick(suggestion.name)}>
-                                {suggestion.name}
-                            </li>
-                        ))}
-                    </ul>
-                    <button type="button" onClick={() => handleSearchButtonClick(searchInput)}>Filter</button>
-                </div>
-                <label id="weight-label" htmlFor="weight">Weight</label>
-                <input type="range" id="weight" min="0" max="500" onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleFilterChange(e.target.value)}></input>
-                <label id="price-label" htmlFor="price">Price</label>
-                <input type="range" id="price" min="0" max="3000" onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleFilterChange(e.target.value)}></input>
-                <button type="button" id="reset-filter" onClick={() => handleResetButtonClick("")}>Reset filters</button>
-            </div>    
-                {isProductDetailModalOpen ?
-                    <CartContextProvider>
-                        <ProductDetailModal />
-                    </CartContextProvider> :
-                    <ProductList products = { filterOptions ? sortedProducts : inventory } />}
+            <select id="brand" defaultValue="" onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleFilterChange(e.target.value)}>
+                <option value="">---</option>
+                <option value="brand:Babolat">Babolat</option>
+                <option value="brand:DoPadel">DoPadel</option>
+                <option value="brand:Head">Head</option>
+                <option value="brand:Nox">Nox</option>
+                <option value="brand:Osaka">Osaka</option>
+            </select>
+            <select id="shape" defaultValue="" onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleFilterChange(e.target.value)}>
+                <option value="">---</option>
+                <option value="shape:rund">Rund</option>
+                <option value="shape:dropp">Dropp</option>
+                <option value="shape:diamant">Diamant</option>
+                <option value="shape:hybrid">Hybrid</option>
+            </select>
+            <select id="balance" defaultValue="" onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleFilterChange(e.target.value)}>
+                <option value="">---</option>
+                <option value="balance:hög">Hög</option>
+                <option value="balance:låg">Låg</option>
+                <option value="balance:medel">Medel</option>
+            </select>
+            <select id="sorting" defaultValue="" onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleSortingChange(e.target.value)}>
+                <option value="">---</option>
+                <option value="price:asc">Pris: Stigande</option>
+                <option value="price:desc">Pris: Fallande</option>
+                <option value="name:asc">Namn: A - Ö</option>
+                <option value="name:desc">Namn: Ö - A</option>
+            </select>
+            <div>
+                <input
+                    type="text"
+                    value={searchInput}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchInput(e.target.value)}
+                    placeholder="Type to search..."
+                />
+                <ul className="dropDownUl">
+                    {getSuggestions().map((suggestion: product) => (
+                        <li key={suggestion.name} className="dropDownLi" onClick={() => handleSearchButtonClick(suggestion.name)}>
+                            {suggestion.name}
+                        </li>
+                    ))}
+                </ul>
+                <button type="button" onClick={() => handleSearchButtonClick(searchInput)}>Filter</button>
+            </div>
+            <label id="weight-label" htmlFor="weight">Vikt</label>
+            <input type="range" id="weight" min="0" max="500" onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleFilterChange(e.target.value)}></input>
+            <label id="price-label" htmlFor="price">Pris</label>
+            <input type="range" id="price" min="0" max="3000" onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleFilterChange(e.target.value)}></input>
+            <button type="button" id="reset-filter" onClick={() => handleResetButtonClick("")}>Återställ filter</button>
+            {isProductDetailModalOpen &&
+                <ProductDetailModal />}
+                <ProductList products = { filterOptions ? sortedProducts : inventory } />
+            </div>
         </section>
-    );
+    )
 }
 
 export default FilteringSortingBar

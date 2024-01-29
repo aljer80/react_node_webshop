@@ -1,6 +1,9 @@
-import { BrowserRouter } from "react-router-dom";
-import Router from "./services/Router/Router"; 
-import Layout from "./services/Layout/Layout";
+import './App.css'
+import { BrowserRouter } from 'react-router-dom'
+import Router from './services/Router/Router'
+import Layout from './services/Layout/Layout'
+import { CartContextProvider } from "./contexts/CartContext"
+import { CheckoutContextProvider } from "./contexts/CheckoutContext"
 
 /**
  * Main App component serving as the entry point for the React application.
@@ -8,15 +11,16 @@ import Layout from "./services/Layout/Layout";
  * @component
  * @returns {JSX.Element} - App component
  */
-const App = () => {
-  //kolla att BrowserRouter och Router finns
-  
+function App() {
   return (
     <BrowserRouter>
-      <Router />
-      <Layout />
+      <CartContextProvider>
+        <CheckoutContextProvider>
+          <Router />
+          <Layout />
+        </CheckoutContextProvider>
+      </CartContextProvider>
     </BrowserRouter>
-  );
-};
-
-export default App;
+  )
+}
+export default App

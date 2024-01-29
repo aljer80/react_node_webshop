@@ -9,42 +9,38 @@ import { product } from "../../types/product.types"
  * @returns JSX representing the product detail modal.
  */
 const ProductDetailModal: React.FC<PropsWithChildren<{}>> = () => {
-
     const {
         inventory,
         selectedProductId,
         handleCloseProductDetailModalButtonClick,
-    } = useProductContext();
+    } = useProductContext()
+    const cartContext = useCartContext()
 
-    const {
-        handleAddToCartButtonClick
-    } = useCartContext();
-
-    const [displayProduct, setDisplayProduct] = useState<product | null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
+    const [displayProduct, setDisplayProduct] = useState<product | null>(null)
+    const [loading, setLoading] = useState<boolean>(true)
 
     useEffect(() => {
         if(inventory){
             const loadProduct = async () => {
                 try{
-                    const newProduct: product | undefined = inventory.find(entry => entry.id === selectedProductId);
+                    const newProduct: product | undefined = inventory.find(entry => entry.id === selectedProductId)
                     if(newProduct){
-                        setDisplayProduct(newProduct);
+                        setDisplayProduct(newProduct)
                     }
                     else{
-                        throw new Error("Product not found");
+                        throw new Error("Product not found")
                     }
                 }
                 catch(error){
-                    console.error(error);
+                    console.error(error)
                 }
                 finally {
-                    setLoading(false);
+                    setLoading(false)
                 }
             }
-            loadProduct();
+            loadProduct()
         }
-    }, [inventory, selectedProductId]);
+    }, [inventory, selectedProductId])
     if(loading){
         return <p>Not quite ready yet!</p>
     }
@@ -66,9 +62,15 @@ const ProductDetailModal: React.FC<PropsWithChildren<{}>> = () => {
                 <p className="productFact">{displayProduct.shape}</p>
             </aside>
             <p className="productDescription">{displayProduct.description}</p>
-            <button type="button" className="appButton" title="Add to cart" onClick={handleAddToCartButtonClick}>Add to cart</button>
+            <button type="button" className="appButton" title="Add to cart" onClick={() => cartContext.handleAddToCartButtonClick({
+                id: displayProduct.id,
+                name: displayProduct.name,
+                brand: displayProduct.brand,
+                price: displayProduct.price,
+                count: 0
+            })}>Add to cart</button>
         </div>
-    );
+    )
 }
 
 export default ProductDetailModal

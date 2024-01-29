@@ -1,19 +1,15 @@
-import { CheckoutContextProvider } from "../../contexts/CheckoutContext"
-import { CartContextProvider } from "../../contexts/CartContext"
-import CartModal from "../../components/CartModal/CartModal"
+import CartItemList from "../../components/CartItemList/CartItemList"
 import CheckoutForm from "../../components/CheckoutForm/CheckoutForm"
 import StripePayment from "../../components/StripePayment/StripePayment"
 
-const Checkout: React.FC = () => {
-  
+const Checkout = () => {
     return (
-        <CheckoutContextProvider>
-                <CartContextProvider>
-                    <CartModal />
-                </CartContextProvider>
-                <CheckoutForm />
-                <StripePayment/>
-        </CheckoutContextProvider>
+        <>
+        <CartItemList />
+        <CheckoutForm />
+        <StripePayment/>
+        </>
     )
 }
+
 export default Checkout
