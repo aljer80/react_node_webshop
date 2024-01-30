@@ -15,21 +15,21 @@ export interface OrderContextProps{
 export const OrderContext = createContext<OrderContextProps | undefined>(undefined)
 
 export const useOrderContext = (): OrderContextProps => {
-    const context = useContext(OrderContext)
+    const context = useContext(OrderContext);
     if(!context){
-        throw new Error("Unable to load context!")
+        throw new Error("Unable to load context!");
     }
 
     return context
 }
 
 export const OrderContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [orders, setOrders] = useState<order[]>([])
-    const [selectedOrder, setSelectedOrder] = useState<order | null>(null)
-    const [response, setResponse] = useState<string>('')
+    const [orders, setOrders] = useState<order[]>([]);
+    const [selectedOrder, setSelectedOrder] = useState<order | null>(null);
+    const [response, setResponse] = useState<string>('');
 
     const handlePaymentSuccess = (customerDetails:string , orderDetails: string) => {
-        newOrder(customerDetails, orderDetails)
+        newOrder(customerDetails, orderDetails);
     }
 
     const newOrder = async (customerDetails: string, orderDetails: string) => {
@@ -37,43 +37,47 @@ export const OrderContextProvider: React.FC<{ children: ReactNode }> = ({ childr
             customerDetails: customerDetails,
             orderDetails: orderDetails
         }
-        const operationStatus: string | object = createOrder(data)
+        const operationStatus: string | object = createOrder(data);
         if(typeof operationStatus === 'string'){
-            setResponse(operationStatus)
+            setResponse(operationStatus);
         }
     }
 
     const handleOrderItemClick = (json: string) => {
-        const parsedOrder: order = JSON.parse(json)
+        const parsedOrder: order = JSON.parse(json);
 
-        setSelectedOrder(parsedOrder)
+        setSelectedOrder(parsedOrder);
     }
 
     const handleDeleteButtonClick = (id: number) => {
-        deleteOrder(id)
+        deleteOrder(id);
     }
 
     const handleUpdateOrderSubmit = async (e: React.FormEvent) => {
-        e.preventDefault()
-        const form = e.target as HTMLFormElement
-        const formData = new FormData(form)
+        e.preventDefault();
+        const form = e.target as HTMLFormElement;
+        const formData = new FormData(form);
 
-        const orderId: number = parseInt(formData.get('order-number') as string)
-        const orderEmail: string = formData.get('order-customer-email') as string
-        const orderItems: string = formData.get('order-items') as string
-        
-        const operationStatus: string | object = await changeOrder(orderId, [orderEmail, orderItems])
+        const orderId: number = parseInt(formData.get('order-number') as string);
+        const orderEmail: string = formData.get('order-customer-email') as string;
+        const orderItems: string = formData.get('order-items') as string;
+        updateOrder(orderId, [orderEmail, orderItems]);
+        setSelectedOrder(null);
+    }
+
+    const updateOrder = async (orderId: number, data: string[]) => {
+        const operationStatus: string | object = await changeOrder(orderId, data);
         if(typeof operationStatus === 'string'){
-            setResponse(operationStatus)
+            setResponse(operationStatus);
         }
     }
 
     const deleteOrder = async (id: number) => {
         if(selectedOrder){
-            const operationStatus: string | object = await removeOrder(id)
+            const operationStatus: string | object = await removeOrder(id);
             if(typeof operationStatus === 'string'){
-                setResponse(operationStatus)
-                setOrders(orders.filter(order => order.id !== id))
+                setResponse(operationStatus);
+                setOrders(orders.filter(order => order.id !== id));
             }
         }
     }
@@ -96,11 +100,11 @@ export const OrderContextProvider: React.FC<{ children: ReactNode }> = ({ childr
                         email: "{emailaddress}",
                         items: "{[Product1, Product2]}",
                     }
-                ])    
+                ]);
             }
         }
 
-        loadAllOrders()
+        loadAllOrders();
     }, []);
 
     return (
@@ -116,5 +120,5 @@ export const OrderContextProvider: React.FC<{ children: ReactNode }> = ({ childr
         }}>
             {children}
         </OrderContext.Provider>
-    )
+    );
 }

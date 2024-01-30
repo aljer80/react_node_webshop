@@ -10,7 +10,9 @@ import OrderModal from "../../components/OrderModal/OrderModal"
 const Orders: React.FC<PropsWithChildren<{}>> = () => {
     return (
         <OrderContextProvider>
-            <OrderModal />
+            <main>
+                <OrderModal />
+            </main>
         </OrderContextProvider>
     )
 }

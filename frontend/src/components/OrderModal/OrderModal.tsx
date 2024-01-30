@@ -9,30 +9,31 @@ const OrderModal: React.FC<PropsWithChildren<{}>> = () => {
         handleUpdateOrderSubmit,
         handleOrderItemClick,
         handleDeleteButtonClick
-    } = useOrderContext()
+    } = useOrderContext();
 
     return (
-        <>
+        <section id="order-modal">
             {response &&
-            <div>{response}</div>}
+            <div id="response-text" role="banner">{response}</div>}
             {selectedOrder &&
             <form id="update-order" onSubmit={handleUpdateOrderSubmit}>
-                <input type="number" id="order-number" placeholder="Order #"></input>
-                <input type="text" id="order-customer-email" placeholder="Email"></input>
-                <input type="text" id="order-items" placeholder="Items"></input>
-                <button id="updateOrder" type="submit">Update</button>
+                <input type="number" id="order-number" placeholder="Order #" value={selectedOrder.id}></input>
+                <input type="text" id="order-customer-email" placeholder="Email" value={selectedOrder.email}></input>
+                <input type="text" id="order-items" placeholder="Items" value={selectedOrder.items}></input>
+                <button id="updateOrder" className="appButton" type="submit">Update</button>
             </form>}
             {orders ? <div id="order-list" role="list">
-                {orders.map(order => (<div id="order-item">
-                    <div key={order.id} role="list" onClick={() => {handleOrderItemClick(JSON.stringify(order))}}>
-                        <p>Customer: <span>{order.email}</span>Items:</p><pre>{order.items}</pre>
+                {orders.map(order => (
+                    <section id="order-item" key={order.id} role="listitem">
+                        <div id="order-item-text" role="group" onClick={() => {handleOrderItemClick(JSON.stringify(order))}}>
+                            <p>Kund: <span>{order.email}</span>Varor:</p><pre>{order.items}</pre>
                         </div>
-                        <button type="button" id="delete-order-button"className="appButton" onClick={() => {handleDeleteButtonClick(order.id)}}>D</button>
-                    </div>
+                        <button type="button" id="delete-order-button"className="appButton" onClick={() => {handleDeleteButtonClick(order.id)}}>Delete</button>
+                    </section>
                 ))}
             </div> : <p>There is a void in the fabric of space!</p>}
-        </>
-    )
+        </section>
+    );
 }
 
 export default OrderModal

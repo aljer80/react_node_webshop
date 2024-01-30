@@ -1,3 +1,5 @@
-export interface API {
-    
+export interface RequestOptions {
+    method: string
+    headers?: HeadersInit
+    body?: BodyInit
 }

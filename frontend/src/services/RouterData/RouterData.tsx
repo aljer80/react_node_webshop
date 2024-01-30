@@ -6,10 +6,6 @@ import Orders from "../../pages/Orders/Orders";
 import AboutUs from "../../pages/AboutUs/AboutUs";
 import Error from "../../pages/Error/Error";
 
-/**
- * Array containing route data for various pages.
- * @type {routerType[]}
- */
 // about us
 const RouterData: routerType[] = [
     {

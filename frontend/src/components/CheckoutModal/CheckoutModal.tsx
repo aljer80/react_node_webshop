@@ -7,14 +7,17 @@ const CheckoutModal = () => {
     const {
         isPaymentSuccessful,
         startNavigationTimer
-    } = useCheckoutContext();
+    } = useCheckoutContext()
 
     useEffect(() => {
-        startNavigationTimer();
-    }, []);
+        startNavigationTimer()
+    }, [])
+//}, [startNavigationTimer]);
 
     return (
+        <section id="confirmation-modal">
         isPaymentSuccessful ? <SuccessPanel /> : <ErrorPanel />
+        </section>
     )
 }
 

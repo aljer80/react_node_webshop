@@ -14,7 +14,7 @@ const HeroSlides: slide[] = [
     },
     {
         src: viper,
-        text: 'En ny och fräsch färg på ett av världens mest kända padelracket, Technical Viper Juan Lebrón. Ta chansen att spela som en av världens högst rankade padelspelare, Juan "El Lobo" Lebrón! Denna modell från Babolat är framtagen tillsammans med Lebrón och noga anpassad för hans aggressivt offensiva stil. Technical Viper Juan Lebrón har alla de egenskaperna som behövs för att leverera en överlägsen fart och spinn på bollen. Rackets kärna består av en solid styv kärna för maximal kraft vid bollträff. Vid hårda slag såsom smash svarar kärnan fort och skickar ut bollen med grym fart. Jämfört med Babolats ordinarie Technical Viper så består detta racks träffyta av ett 40% tjockare karbon-lager. Resultatet är en extra styv träffyta för dominerande explosivitet i slagen.'
+        text: 'En ny och fräsch färg på ett av världens mest kända padelracket, Technical Viper Juan Lebrón. Ta chansen att spela som en av världens högst rankade padelspelare, Juan ”El Lobo” Lebrón! Denna modell från Babolat är framtagen tillsammans med Lebrón och noga anpassad för hans aggressivt offensiva stil. Technical Viper Juan Lebrón har alla de egenskaperna som behövs för att leverera en överlägsen fart och spinn på bollen. Rackets kärna består av en solid styv kärna för maximal kraft vid bollträff. Vid hårda slag såsom smash svarar kärnan fort och skickar ut bollen med grym fart. Jämfört med Babolats ordinarie Technical Viper så består detta racks träffyta av ett 40% tjockare karbon-lager. Resultatet är en extra styv träffyta för dominerande explosivitet i slagen.'
     },
   ];
 

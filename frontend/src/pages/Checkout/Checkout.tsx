@@ -4,11 +4,13 @@ import StripePayment from "../../components/StripePayment/StripePayment"
 
 const Checkout = () => {
     return (
-        <>
-        <CartItemList />
-        <CheckoutForm />
-        <StripePayment/>
-        </>
+        <main>
+            <article id="checkout">
+                <CartItemList />
+                <CheckoutForm />
+                <StripePayment/>
+            </article>
+        </main>
     )
 }
 

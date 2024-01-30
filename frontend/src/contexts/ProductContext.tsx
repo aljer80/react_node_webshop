@@ -1,6 +1,6 @@
-import { createContext, useContext, useState, useEffect, PropsWithChildren } from "react";
-import { fetchAllProducts } from "../utilities/ApiUtility";
-import { product, sort } from "../types/product.types";
+import { createContext, useContext, useState, useEffect, PropsWithChildren } from "react"
+import { fetchAllProducts } from "../utilities/ApiUtility"
+import { product, sort } from "../types/product.types"
 
 /**
  * Interface defining the shape of the product context.
@@ -59,9 +59,9 @@ export const ProductContextProvider: React.FC<PropsWithChildren<{}>> = ({ childr
      */
     const loadAllProducts = async () => {
         try{
-            const fetchedProducts: product[] | string = await fetchAllProducts();
+            const fetchedProducts: product[] | string = await fetchAllProducts();
             if (Array.isArray(fetchedProducts)){
-                setInventory(fetchedProducts)
+                setInventory(fetchedProducts);
             }
             else{
                 console.error("Failed to fetch products!");

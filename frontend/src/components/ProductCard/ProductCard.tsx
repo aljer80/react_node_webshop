@@ -10,16 +10,16 @@ import { ProductCardProps } from "../../types/product.types"
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     const {
         handleProductCardClick
-    } = useProductContext()
+    } = useProductContext();
 
     return (
         <div key={product.id} id={`product-card-${product.id}`} className="productCard" role="group" onClick={() => { handleProductCardClick(product.id) }}>
-            <img src={`/images/products/${product.brand}/${product.name}.jpg`} alt={`${product.brand}: ${product.name} @ ${product.price}`} />
+            <img src={`/images/products/${product.brand}/${product.name}.jpg`} alt={`${product.brand}: ${product.name} @ ${product.price}`} className="productPicture" />
             <p className="productName">{product.name}</p>
             <p className="productDescription">{product.description}</p>
             <p className="productPrice">{product.price}</p>
         </div>
-    )
+    );
 }
 
 export default ProductCard

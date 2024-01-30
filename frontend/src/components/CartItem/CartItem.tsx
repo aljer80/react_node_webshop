@@ -9,19 +9,15 @@ import { cartItem } from "../../types/cart.types"
  * @returns {JSX.Element} JSX for the CartItem component.
  */
 const CartItem: React.FC<PropsWithChildren<{item: cartItem}>> = ({ item }) => {
-    const {
-        handleAddToCartButtonClick,
-        handleRemoveFromCartButtonClick,
-        handleRemoveProductFromCartButtonClick
-    } = useCartContext();
+    const cartContext = useCartContext()
 
     return (
-    <div className="cartItem">
-        <button onClick={() => handleAddToCartButtonClick(item)}>Add to Cart</button>
-        <img src={item.name} alt={item.name} />
-        <p>{item.price}</p>
-        <button onClick={() => handleRemoveFromCartButtonClick(item.id)}>Remove from Cart</button>
-        <button onClick={() => handleRemoveProductFromCartButtonClick(item.id)}>Remove Product</button>
+    <div className="cartItem" role="group">
+        <button type="button" id="add-to-cart-button" className="appButton" onClick={() => cartContext.handleAddToCartButtonClick(item)}>+</button>
+        <img className="productImage" src={item.name} alt={item.name} />
+        <p className="productPrice">{item.price}</p>
+        <button type="button" id="remove-from-cart-button" className="appButton" onClick={() => cartContext.handleRemoveFromCartButtonClick(item.id)}>-</button>
+        <button type="button" id="remove-product-from-cart-button" className="appButton" onClick={() => cartContext.handleRemoveProductFromCartButtonClick(item.id)}>x</button>
     </div>
     );
 }

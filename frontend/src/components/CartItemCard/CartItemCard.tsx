@@ -1,32 +1,25 @@
-import { CartItemProps } from "../../types/cart.types";
-import { useCartContext } from "../../contexts/CartContext";
+import { PropsWithChildren } from "react"
+import { useCartContext } from "../../contexts/CartContext"
+import { cartItem } from "../../types/cart.types"
 
-const CartItemCard: React.FC<CartItemProps> = ( {item} ) => {
-  
-  const {
-    handleAddToCartButtonClick,
-    handleRemoveFromCartButtonClick,
-    handleRemoveProductFromCartButtonClick
-} = useCartContext()
+/**
+ * CartItem component responsible for rendering a single item in the cart.
+ * Retrieves context functions for adding, removing, and removing a product from the cart.
+ * @param {CartItemCardProps} item - The cart item to be displayed.
+ * @returns {JSX.Element} JSX for the CartItem component.
+ */
+const CartItemCard: React.FC<PropsWithChildren<{item: cartItem}>> = ({ item }) => {
+    const cartContext = useCartContext();
 
-  
     return (
-        <div className="container" id="cartItem-div">
-          <button data-cart-item={JSON.stringify(item)} onClick={handleAddToCartButtonClick}>Add to Cart</button>
-          <img src={item.name} alt={item.name} />
-          <p>{item.price}</p>
-          <button data-cart-item={JSON.stringify(item)} onClick={handleRemoveFromCartButtonClick}>Remove from Cart</button>
-          <button data-cart-item={JSON.stringify(item)} onClick={handleRemoveProductFromCartButtonClick}>Remove Product</button>
+        <div className="cartItem" role="group">
+            <button type="button" id="add-to-cart-button" className="appButton" onClick={() => cartContext.handleAddToCartButtonClick(item)}>+</button>
+            <img className="productImage" src={item.name} alt={item.name} />
+            <p className="productPrice">{item.price}</p>
+            <button type="button" id="remove-from-cart-button" className="appButton" onClick={() => cartContext.handleRemoveFromCartButtonClick(item.id)}>-</button>
+            <button type="button" id="remove-product-from-cart-button" className="appButton" onClick={() => cartContext.handleRemoveProductFromCartButtonClick(item.id)}>x</button>
         </div>
-        //lägga till uträkning för totalsumma?
-      );
+        );
 }
 
-export default CartItemCard
-
-          // <img alt="Product"/>
-          // <p id="cartItemName-p">Namn</p>
-          // <p id="cartItemPrice-p">Pris</p>
-          // <button id="add-to-cart" className="appButton cart-action-button" onClick={handleAddToCartButtonClick}>+</button>
-          // <button id="remove-from-cart" className="appButton cart-action-button" onClick={handleRemoveFromCartButtonClick}>-</button>
-          // <button id="remove-product-from-cart" className="appButton cart-action-button" onClick={handleRemoveProductFromCartButtonClick}>Radera</button>
+export default CartItemCard 

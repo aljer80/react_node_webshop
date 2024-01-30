@@ -1,6 +1,4 @@
 import { PropsWithChildren } from "react"
-import { CartContextProvider } from "../../contexts/CartContext"
-import { CheckoutContextProvider } from "../../contexts/CheckoutContext"
 import CartPanel from "../../components/CartPanel/CartPanel"
 
 /**
@@ -10,12 +8,9 @@ import CartPanel from "../../components/CartPanel/CartPanel"
  */
 const Cart: React.FC<PropsWithChildren<{}>> = () => {
     return (
-         
-        <CartContextProvider>
-            <CheckoutContextProvider>
-                    <CartPanel />
-            </CheckoutContextProvider>
-        </CartContextProvider>
+        <main>
+            <CartPanel />
+        </main>
     )
 }
 

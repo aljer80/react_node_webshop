@@ -30,94 +30,105 @@ body{
   align-content: stretch;
 }
 
-/* order och flex på barnen */
-#root-div{
-  display: flex;
-  flex: 0 0 100%; /*får inte växa/får inte förminskas/är 100% bred i verkligheten */
-  flex-flow: column nowrap;
-  justify-content: center;
-  align-items: baseline;
-  align-content: stretch;
+body > *{ /* Prevents children from overflowing (effectively making it a no scroll page) */
+  flex:1 1 100%;
 }
 
-.container-article{
+main{
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
   align-items: baseline;
   align-content: stretch;
-  flex: 3 0 100%;
+  flex: 1 1 auto;
+  min-width: 100%;
   order: 2;
 }
 
-/* Header*/
 header{
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-start;
   align-items: baseline;
   align-content: space-between;
-  flex: 1 1 100%; 
+  flex: 0 0 auto;
+  min-width: 100%;
   order: 1;
-  background-color: blue;
 }
-/* Logo */
+
+footer{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: baseline;
+  align-content: space-between;
+  flex: 0 0 auto;
+  min-width: 100%;
+  order: 3;
+}
+
+nav{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: stretch;
+  align-content: space-around;
+  flex: 1 1 100%;
+}
+
 #logo{
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-start;
   align-items: flex-start;
   align-content: center;
-  flex: 1 0 100%;
-}
-/* Navbar*/
-nav{
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: center;
-  align-items: stretch;
-  align-content: space-around; /* "Padding"*/
-  flex: 1 0 100%;
-}
-.li-nav{
-  cursor: pointer;
+  flex: 1 1 100%;
 }
 
-/* Footer*/
-footer{
-  /* parent-inställningar */
+#contact-information-panel{
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-start;
-  align-items: baseline;
-  align-content: space-between;
-  /* child-inställningar */
-  flex: 1 1 100%; 
-  order: 3;
+  align-items: center;
+  align-content: stretch;
+  flex: 1 1 auto;
 }
 
-/* Hero*/
-#hero-div{
+#social-media-icons{
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  align-content: stretch;
+  flex: 1 1 auto;
+}
+
+#hero-carousel{
   display: flex;
   flex-flow: row wrap;
   justify-content: center ;
   align-content: stretch;
   align-items: baseline ;
-  /* order: 2; */
   flex:1 1 auto;
 }
+
 #hero-slider{
   display: flex;
   flex-flow: row nowrap;
-  justify-content: center; /* space between? */
-  align-content: stretch;
-  align-items: baseline ;
-  flex: 3 1 100%;
-  /* order: 1; */
+  justify-content: center;
+  align-content: stretch; /* row nowrap makes this useless */
+  align-items: center; /* using stretch makes button fill top to bottom */
+  flex: 1 1 100%;
 }
-.arrows{
+
+.cta-text{
+  flex: 1 1 100%;
+  background: black;
+  color: yellow;
+}
+
+.scrollButton{
   flex: 1 1 auto;
-  max-width: 5%;
 }
 
 .slide {
@@ -127,33 +138,253 @@ footer{
   align-content: stretch;
   align-items: baseline ;
   flex: 1 1 auto;
-  /* order: 2; */
 }
-#CTA-text{
-  flex: 1 1 100%;
-}
+
 #hero-img{
   flex: 1 1 auto;
 }
+
 #slide-text{
   flex: 1 1 auto;
 }
 
-/* Products */
-    /* only contains other components */
-
-/* FilteringAndSortingBar*/
-#filtering-and-sorting-bar-section {
+#product-grid-area{
+  width: 100%;
+  height: 100%;
   display: flex;
   flex: 1 1 100%;
   flex-flow: column nowrap;
   justify-content: center;
   align-content: center;
   align-items: center;
-  padding: 0.5vmax;
-  background-color: var(--dark-blue);
-  margin-bottom: 0.5vmax;
 }
 
+#filtering-and-sorting-bar{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  flex: 1 1 auto;
+  border-radius: 10vw;
+}
 
-/*-------------------------------------*/
+.dropdownUl{
+  outline: 2px solid black;
+  opacity: 0.5;
+  z-index: 2;
+}
+
+.dropdownLi{
+  outline: 1px solid black;
+}
+
+.filter-text{
+
+}
+
+.filterSelect{
+
+}
+
+.filterButton{
+
+}
+
+.filter-slide{
+
+}
+
+#product-detail-modal{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-content: center;
+  align-items: baseline;
+  flex: 1 1 auto;
+  position: absolute;
+  z-index: 255;
+}
+
+#product-facts-panel{
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  align-content: center;
+  align-items: stretch;
+  flex: 1 1 50%;
+  border: 2px solid black;
+}
+
+#product-display-panel{
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  align-content: center;
+  align-items: stretch;
+  flex: 1 1 50%;
+}
+
+#product-grid{
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-content: center;
+  align-items: stretch;
+  flex: 1 1 auto;
+}
+
+.appMessage{
+
+}
+
+.productCard{
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-content: center;
+  align-items: stretch;
+  flex: 1 1 auto;
+  max-width: 33%;
+}
+
+#cart-modal{
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-content: center;
+  align-items: stretch;
+  flex: 1 1 auto;
+  opacity: 0.8;
+  border: 1px solid var(--panelBorder);
+}
+
+.cartCounter{
+  border-radius: 25%;
+  z-index: 2;
+}
+
+#cart-list{
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-content: center;
+  align-items: stretch;
+  flex: 1 1 auto;
+}
+
+.cartItem{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-content: center;
+  align-items: stretch;
+  flex: 1 1 auto;
+}
+
+.productImage{
+
+}
+
+#checkout{
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-content: center;
+  align-items: stretch;
+  flex: 1 1 auto;
+}
+
+#customer-details{
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  align-content: center;
+  align-items: stretch;
+  flex: 1 1 50%;
+}
+
+#payment-form{
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  align-content: center;
+  align-items: stretch;
+  flex: 1 1 50%;
+}
+
+#response-text{
+
+}
+
+#update-order{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-content: center;
+  align-items: stretch;
+  flex: 1 1 auto;
+}
+
+#order-modal{
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  align-content: center;
+  align-items: stretch;
+  flex: 1 1 auto;
+}
+
+#confirmation-modal{
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  align-content: center;
+  align-items: stretch;
+  flex: 1 1 auto;  
+}
+
+#order-list{
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  align-content: center;
+  align-items: stretch;
+  flex: 1 1 auto;
+}
+
+#order-item{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-content: center;
+  align-items: stretch;
+  flex: 1 1 100%;
+}
+
+#order-item-text{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-content: center;
+  align-items: stretch;
+  flex: 1 1 100%;
+}
+
+#policies-modal{
+  display: flex;
+  flex: 1 1 auto;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+.policyPanel{
+  display: flex;
+  flex: 1 1 auto;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}

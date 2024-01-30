@@ -39,7 +39,9 @@ class DbObject{
      */
     async connect(){
         try{
+            console.log("Connecting to database");
             this.connection = await mysql.createConnection(this.config);
+            console.log("Successfully connected to database!");
         }
         catch(error){
             throw error;
@@ -55,13 +57,21 @@ class DbObject{
      * @param {Array} bindings - An array of parameter values to bind to the query.
      * @throws {Error} Throws an error if the query execution fails.
      */
-    async query(query, bindings){
+    async query(sql, values){
         try {
             if (!this.connection || this.connection.state === 'disconnected') {
                 await this.connect();
             }
+            console.log("Sending " + sql);
+            console.log("query: " + JSON.stringify(values))
+            const sqlOptions = {
+                sql,
+                ...(values && {values})
+            }
+            const [result, fields] = await this.connection.execute(sqlOptions);
 
-            return await this.connection.execute(query, bindings);
+            console.log(result);
+            return result;
         }
         catch(error){
             throw error;
@@ -86,6 +96,7 @@ class DbObject{
         }
         finally{
             this.connection = null;
+            console.log("Connection ended!");
         }
     }
 }

@@ -58,4 +58,4 @@ export const StripeContextProvider: React.FC<StripeContextProps> = ({ children }
             { children }
         </StripeContext.Provider>
     );
-}
+}   

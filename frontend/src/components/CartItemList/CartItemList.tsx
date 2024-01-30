@@ -8,21 +8,19 @@ import { cartItem } from "../../types/cart.types"
  * @returns {JSX.Element} JSX for the CartItemList component.
  */
 const CartItemList: React.FC = () => {
-    const {
-        cart
-    } = useCartContext();
+    const cartContext = useCartContext()
 
     return (
-        <div>
-            {cart.length > 0 ? (
-                cart.map((item: cartItem) => (
+        <section id="cart-list">
+            {cartContext.cart.length > 0 ? (
+                cartContext.cart.map((item: cartItem) => (
                 <CartItemCard key={ item.id } item={ item } />
                 ))
             ) : (
-                <p>No items in cart</p>
+                <p className="appMessage">Inga varor i kundvagnen</p>
             )}
-        </div>
-    );
+        </section>
+    )
 }
 
 export default CartItemList

@@ -1,47 +1,27 @@
-import linkedIn from "../../assets/linkedIn.png";
-import gitHub from "../../assets/gitHub.png";
-import { Icon } from "../../types/icon.types";
-
-interface SocialMediaBarProps {
- icons?: Icon[]
-}
+import { Link } from "../../types/socialmedia.types"
 
 /**
- * Component for displaying social media icons.
+ * SocialMediaBar is a React component that displays social media icons.
+ *
  * @component
- * @returns {JSX.Element} - SocialMediaBar component
+ * @example
+ * return (
+ *   <SocialMediaBar />
+ * );
+ *
+ * @param {Link[]} props - An array of Link objects representing social media icons.
+ * @returns {React.ReactElement} The rendered SocialMediaBar component.
  */
-const SocialMediaBar: React.FC<SocialMediaBarProps> = () => {
-
-  const linkedInIcon: Icon = {
-    src: linkedIn,
-    alt: "linkedIn", 
-    title: "My linkedIn",
-    href: "https://www.linkedin.com/in/alexandra-jernberg-a66316251"
-  }
-
-  const gitHubIcon: Icon = {
-    src: gitHub,
-    alt: "gitHub", 
-    title: "My GitHub",
-    href: "https://www.github.com/aljer80"
-  }
-
-  const myIcons: Icon[] = [
-    linkedInIcon,
-    gitHubIcon
-  ]
-
-  return (
-      <div id="social-media-bar" role="menubar">
-          {/* Mapping through icons and rendering each one */}
-          {myIcons.map((icon, index) => (
-            <a key={index} href={icon.href} title={icon.title} target="_blank" rel="noopener noreferrer">
-            <img src={icon.src} alt={icon.alt} />
-        </a>    
-          ))}
-      </div>
-    );
+const SocialMediaBar: React.FC<{myIcons: Link[]}> = ({ myIcons }) => {
+    return (
+        <section id="social-media-icons">
+            {myIcons.map((link, index) => (
+                <a key={index} href={link.href} target="_blank" rel="noopener noreferrer">
+                    <img src={link.src} alt={link.alt} title={link.title} />
+                </a>
+            ))}
+        </section>
+    )
 }
 
 export default SocialMediaBar

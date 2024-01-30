@@ -9,19 +9,20 @@ import { useCheckoutContext } from "../../contexts/CheckoutContext"
  * @returns {JSX.Element} JSX for the CartModal component.
  */
 const CartModal: React.FC<PropsWithChildren<{}>> = () => {
-    const cartContext = useCartContext()
+    const cartContext = useCartContext();
     const {
         handleCheckoutButtonClick
-    } = useCheckoutContext()
+    } = useCheckoutContext();
+
     return (
-        <>
-        <h1>Your Cart</h1>
+        <section id="cart-modal">
+        <h1>Din kundvagn</h1>
             <button type="button" className="appButton" onClick={cartContext.handleCloseModalButtonClick}>x</button>
             <CartItemList />
-            <button type="button" className="appButton" onClick={handleCheckoutButtonClick}>Checkout</button>
-        </>
+            <button type="button" className="appButton" onClick={handleCheckoutButtonClick}>Betalning</button>
+        </section>
  
-    )
+    );
 }
 
 export default CartModal

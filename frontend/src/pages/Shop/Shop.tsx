@@ -1,27 +1,23 @@
-import { ProductContextProvider } from "../../contexts/ProductContext";
-import Hero from "../../components/ShopHero/Hero";
-import FilteringAndSortingBar from "../../components/FilteringSortingBar/FilteringAndSortingBar";
+import { ProductContextProvider } from "../../contexts/ProductContext"
+import ShopHero from "../../components/ShopHero/ShopHero"
+import FilteringSortingBar from "../../components/FilteringSortingBar/FilteringSortingBar"
+import { PropsWithChildren } from "react"
 
 /**
- * Products component responsible for rendering the Hero and FilteringAndSortingBar components.
- * @returns {JSX.Element} JSX for the Products component.
+ * Shop component responsible for rendering the shop page.
+ * This component provides the context for product data and renders
+ * the shop hero section along with the filtering and sorting bar.
+ * @returns {JSX.Element} JSX for the Shop component.
  */
-const Products: React.FC = () => {
-
-  if(!FilteringAndSortingBar){
-    throw new Error("Unable to load dependency!");
-  }
-
-  return (
-      <ProductContextProvider>
-        <article className="container-article" id="shop-page"> 
-          <Hero />
-          <FilteringAndSortingBar />
-        </article>
-      </ProductContextProvider>
-  );
+const Shop: React.FC<PropsWithChildren<{}>> = () => {
+    return (
+        <ProductContextProvider>
+            <main>
+                <ShopHero />
+                <FilteringSortingBar />
+            </main>
+        </ProductContextProvider>
+    )
 }
 
-export default Products;
-
-{/* <div className="container" id="productsComponent-div"></div> */}
+export default Shop

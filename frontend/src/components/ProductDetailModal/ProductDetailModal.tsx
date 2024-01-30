@@ -13,8 +13,8 @@ const ProductDetailModal: React.FC<PropsWithChildren<{}>> = () => {
         inventory,
         selectedProductId,
         handleCloseProductDetailModalButtonClick,
-    } = useProductContext()
-    const cartContext = useCartContext()
+    } = useProductContext();
+    const cartContext = useCartContext();
 
     const [displayProduct, setDisplayProduct] = useState<product | null>(null)
     const [loading, setLoading] = useState<boolean>(true)
@@ -38,7 +38,7 @@ const ProductDetailModal: React.FC<PropsWithChildren<{}>> = () => {
                     setLoading(false)
                 }
             }
-            loadProduct()
+            loadProduct();
         }
     }, [inventory, selectedProductId])
     if(loading){
@@ -50,27 +50,29 @@ const ProductDetailModal: React.FC<PropsWithChildren<{}>> = () => {
 
     return (
         <div id="product-detail-modal" role="group">
-            <button type="button" className="appButton" title="Close" onClick={handleCloseProductDetailModalButtonClick}>x</button>
-            <img src={`/images/products/${displayProduct.brand}/${displayProduct.name}.jpg`}/>
-            <p className="productName">{displayProduct.name}</p>
-            <p className="productPrice">{displayProduct.price}</p>
-            <aside id="product-facts-panel">
-                <p className="productFact">{displayProduct.brand}</p>
-                <p className="productFact">{displayProduct.type}</p>
-                <p className="productFact">{displayProduct.weight}</p>
-                <p className="productFact">{displayProduct.balance}</p>
-                <p className="productFact">{displayProduct.shape}</p>
+            <button type="button" id="close-product-detail-modal" className="appButton" title="Close" onClick={handleCloseProductDetailModalButtonClick}>x</button>
+            <aside id="product-display-panel">
+                <img id="product-image" src={`/images/products/${displayProduct.brand}/${displayProduct.name}.jpg`}/>
+                <p id="product-name" className="productName">{displayProduct.name}</p>
+                <p id="product-price" className="productPrice">{displayProduct.price}</p>
+                <p  id="product-description"className="productDescription">{displayProduct.description}</p>
+                <button type="button" id="product-name" className="appButton" title="Add to cart" onClick={() => cartContext.handleAddToCartButtonClick({
+                    id: displayProduct.id,
+                    name: displayProduct.name,
+                    brand: displayProduct.brand,
+                    price: displayProduct.price,
+                    count: 0
+                })}>Add to cart</button>
             </aside>
-            <p className="productDescription">{displayProduct.description}</p>
-            <button type="button" className="appButton" title="Add to cart" onClick={() => cartContext.handleAddToCartButtonClick({
-                id: displayProduct.id,
-                name: displayProduct.name,
-                brand: displayProduct.brand,
-                price: displayProduct.price,
-                count: 0
-            })}>Add to cart</button>
+            <aside id="product-facts-panel">
+                <p id="product-brand" className="productFact">{displayProduct.brand}</p>
+                <p id="product-type" className="productFact">{displayProduct.type}</p>
+                <p id="product-weight" className="productFact">{displayProduct.weight}</p>
+                <p id="product-balance" className="productFact">{displayProduct.balance}</p>
+                <p id="product-shape" className="productFact">{displayProduct.shape}</p>
+            </aside>
         </div>
-    )
+    );
 }
 
 export default ProductDetailModal

@@ -62,7 +62,7 @@ export const CheckoutContextProvider: React.FC<{ children: ReactNode}> = ({ chil
      * @param {React.ChangeEvent<HTMLInputElement>} e - The event object.
      */
     const handleCustomerDetailsInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { id, value } = e.target
+        const { id, value } = e.target;
         setCustomerDetailsFormData(prevFormData => ({...prevFormData, [id]: value}));
     }
 
@@ -79,7 +79,7 @@ export const CheckoutContextProvider: React.FC<{ children: ReactNode}> = ({ chil
      */
     const startNavigationTimer = () => {
 		const intervalId = setInterval(() => {
-            navigate("/")
+            navigate("/");
 		}, navigationTimerLimit * 1000);
 		return()=>{
 			clearInterval(intervalId);

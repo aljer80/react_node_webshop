@@ -7,8 +7,8 @@ import './assets/css/index.css'
  * Use ReactDOM.createRoot for concurrent mode rendering.
  * @param {HTMLElement} rootElement - The root element to render the app into.
  */
-ReactDOM.createRoot(document.getElementById('root-div')!).render(
+ReactDOM.createRoot(document.body).render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
-)
+);

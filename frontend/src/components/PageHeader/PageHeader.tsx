@@ -1,23 +1,21 @@
 import Navbar from "../Navbar/Navbar"
-import logoPicture from "../../assets/images/logo.png"
-import { useNavigate } from "react-router-dom"
+import logoPicture from "../../assets/logo/logo.svg"
 
-const Header: React.FC = () => {
-
-    const navigate = useNavigate();
-
+const PageHeader: React.FC = () => {
     return (
-    <>
-    <section id="logo">
-        <img src={ logoPicture } alt="" onClick={navigate("/")}/>
-        <h1 id="business-title" style={{ color: "#003049" }}>
-            <span style={{ color: "black" }}>P</span>adel<span style={{ color: "black" }}>R</span>acket
-        </h1>
-    </section>
-  
-    <Navbar />
-    </>
+    <header>
+        <div id="logo" role="group">
+            <img src={ logoPicture } alt="myLogo" title="myWebshop" />
+            <h1>PadelRacket</h1>
+        </div>
+        <Navbar />
+    </header>
     )
 }
 
-export default Header;
+export default PageHeader;
+
+
+{/* <h1 id="business-title" style={{ color: "#003049" }}>
+    <span style={{ color: "black" }}>P</span>adel<span style={{ color: "black" }}>R</span>acket
+</h1> */}

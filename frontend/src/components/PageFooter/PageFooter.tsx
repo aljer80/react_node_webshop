@@ -1,20 +1,14 @@
-import ContactPanel from "../ContactInformationPanel/ContactPanel";
-import SocialMediaBar from "../SocialMediaBar/SocialMediaBar";
-import DisclaimerPanel from "../DisclaimerPanel/DisclaimerPanel";
+import ContactInformationPanel from "../ContactInformationPanel/ContactInformationPanel"
+import SocialMediaBar from "../SocialMediaBar/SocialMediaBar"
+import { myIcons } from "../../services/SocialMediaData/SocialMediaData"
 
-/**
- * Footer component containing contact information, social media links, and disclaimers.
- * @component
- * @returns {JSX.Element} - Footer component
- */
-const Footer = () => {
-    return(
+const PageFooter: React.FC = () => {
+    return (
         <footer>
-            <ContactPanel/>
-            <SocialMediaBar />
-            <DisclaimerPanel />
+            <ContactInformationPanel />
+            <SocialMediaBar myIcons = { myIcons }/>
         </footer>
-    )
-};
+    );
+}
 
-export default Footer;
+export default PageFooter

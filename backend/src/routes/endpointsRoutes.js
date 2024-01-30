@@ -34,7 +34,7 @@ function entryNotFound(res){
 function unsuccessful(res){
     const message = "Operation Failed!";
     const error = new Error(message);
-    error.status = 404;
+    error.status = 500;
 
     return error;
 }
@@ -105,7 +105,7 @@ router.get('/products/:id', async (req, res, next) => {
  */
 router.get('/orders', async (req, res, next) => {
     try{
-        const orders = await controller.getOrders(next);
+        const orders = await controller.getAllOrders(next);
         if(!orders || orders.length === 0){
             return next(entryNotFound(res));
         }

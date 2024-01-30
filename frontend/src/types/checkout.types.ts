@@ -1,33 +1,39 @@
+import { cartItem } from "./cart.types"
+
 export interface PaymentData {
     paymentMethodId: string
     currency: string
     amount: number
 }
 
-export interface CustomerDetails {
-    firstName: string;
-      lastName: string;
-      email: string; 
-      phone: string;
-      address: {
-        street: string; 
-        zipCode: string;
-        country: string;
-    };
+export interface paymentdetailsform{
+    legal_name: string
+    family_name: string
+    email_address: string
+    phone_number: number
+    address_line_1: string
+    address_line_2: string
+    address_line_3: string
+    card_number: number
+    cvv_number: number
+    card_expiration: string
+    cart: cartItem[]
 }
 
-export interface CardDetails {
-    number: string;
-    expirations: string;
-    cvc: string;
+export interface customerDetails {
+    firstName: string
+    lastName: string
+    email: string
+    phone: number
+    address: string[]
 }
 
-export interface OrderDetails {
-    //behövs något här? Se orderDetails i Checkout.tsx
+export interface orderDetails{
+    items: cartItem[]
 }
 
-export interface Order {
-    customerDetails:  CustomerDetails;
-    //cardDetails:  CardDetails;
-    orderDetails: OrderDetails;
+export interface cardDetails{
+    number: number
+    cvv: number
+    expiration: string
 }

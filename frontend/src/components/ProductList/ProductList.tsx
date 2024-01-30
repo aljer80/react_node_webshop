@@ -13,16 +13,16 @@ import { product, ProductListProps } from "../../types/product.types"
 const ProductList: React.FC<ProductListProps> = ({ products }) => {
 
     return (
-        <>
+        <section id="product-grid">
         {products.length > 0 ? (
             products.map((product: product) => (
                 <ProductCard key={product.id} product={ product } />
             ))
         ) : (
-            <p>There are no products!</p>
+            <p className="appMessage">There are no products!</p>
         )}
-        </>
-    );
+        </section>
+    )
 }
 
 export default ProductList
