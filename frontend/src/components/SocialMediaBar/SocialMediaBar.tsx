@@ -17,7 +17,7 @@ const SocialMediaBar: React.FC<{myIcons: Link[]}> = ({ myIcons }) => {
         <section id="social-media-icons">
             {myIcons.map((link, index) => (
                 <a key={index} href={link.href} target="_blank" rel="noopener noreferrer">
-                    <img src={link.src} alt={link.alt} title={link.title} />
+                    <img className="socialMediaIcon" src={link.src} alt={link.alt} title={link.title} />
                 </a>
             ))}
         </section>

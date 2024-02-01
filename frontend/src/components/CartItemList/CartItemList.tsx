@@ -8,7 +8,7 @@ import { cartItem } from "../../types/cart.types"
  * @returns {JSX.Element} JSX for the CartItemList component.
  */
 const CartItemList: React.FC = () => {
-    const cartContext = useCartContext()
+    const cartContext = useCartContext();
 
     return (
         <section id="cart-list">

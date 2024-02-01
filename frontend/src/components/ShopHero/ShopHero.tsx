@@ -1,5 +1,6 @@
 import { useState, useEffect, PropsWithChildren } from "react";
 import HeroSlides from "../../services/HeroData/HeroData"
+import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
 /**
 * Hero component responsible for displaying a carousel of slides with product information.
 * This component cycles through slides fetched from the HeroData service.
@@ -28,7 +29,7 @@ const ShopHero: React.FC<PropsWithChildren<{}>> = () => {
 		// Set timing interval for carousel movement
 		const intervalId = setInterval(() => {
 			setCurrentSlide((prevSlide) => (prevSlide + 1) % totalSlides)
-		}, slideChangeInterval * 1000)
+		}, slideChangeInterval * 2500)
 		// Clear the interval after use
 		return()=>{
 			clearInterval(intervalId)
@@ -38,12 +39,12 @@ const ShopHero: React.FC<PropsWithChildren<{}>> = () => {
 	return (
 		<div id="hero-carousel" role="group">
 			<section id="hero-slider">
-				<button type="button" className="scrollButton" id="scroll-left-button" onClick={()=>{handleScrollButton("left")}}>P</button>
+				<button type="button" className="scrollButton" id="scroll-left-button" onClick={()=>{handleScrollButton("left")}}><FaAngleLeft /></button>
 					<div className="slide" role="group">
 						<img id="hero-img" src={HeroSlides[currentSlide].src} alt="hero image" />
 						<p id="slide-text">{HeroSlides[currentSlide].text}</p>
 					</div>
-				<button type="button" className="scrollButton" id="scroll-right-button" onClick={()=>{handleScrollButton("right")}}>N</button>
+				<button type="button" className="scrollButton" id="scroll-right-button" onClick={()=>{handleScrollButton("right")}}><FaAngleRight /></button>
 			</section>
 			<p className="cta-text">Babolat utökar Juan Lebróns kollektion så att fler ska få möjlighet att spela som "El Lobo"! 10% rabatt på Juan Lebróns kollektion med rabattkoden "LEBRON24". </p>
 		</div>

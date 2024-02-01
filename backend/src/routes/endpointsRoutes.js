@@ -46,6 +46,7 @@ function unsuccessful(res){
  * @param {any} data - Data to be included in the response.
  */
 function respond(res, data){
+    console.log(data)
     res.status(200).json(data);
 }
 

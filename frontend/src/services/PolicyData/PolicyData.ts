@@ -7,7 +7,7 @@ const PolicyData: Policy[] = [
     },
     {
         name: "data",
-        content: "We store a copy of your order and your personal details. We do not store card details."
+        content: "We store a copy of your order and your personal details. We do not store card details. All financial information is passed through and handled by our payment provider Stripe."
     },
     {
         name: "gdpr",
@@ -15,7 +15,7 @@ const PolicyData: Policy[] = [
     },
     {
         name: "regulatory",
-        content: "This site does not handle any financial information. All financial information is passed through and handled by our payment provider Stripe."
+        content: "This site does not handle any financial information. All financial information is passed through and handled by our payment provider Stripe. Stripe employs industry-standard security measures to protect the payment information during transactions."
     }
 ]
 

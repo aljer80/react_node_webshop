@@ -30,7 +30,7 @@ const DisclaimerPanel: React.FC = () => {
 
     return (
         <article id="policies-modal">
-            <button type="button" className="appButton" onClick={handleCloseModalButtonClick}>x</button>
+            {/* <button type="button" className="appButton" onClick={handleCloseModalButtonClick}>x</button> */}
             {policies.map((policy, index) => (
                 <section key={index} id={`${policy.name}-policy`} className="policyPanel">
                     <h1>{policy.name}</h1>

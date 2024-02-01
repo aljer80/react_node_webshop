@@ -62,15 +62,15 @@ class DbObject{
             if (!this.connection || this.connection.state === 'disconnected') {
                 await this.connect();
             }
-            console.log("Sending " + sql);
-            console.log("query: " + JSON.stringify(values))
             const sqlOptions = {
                 sql,
                 ...(values && {values})
             }
-            const [result, fields] = await this.connection.execute(sqlOptions);
 
+            console.log(sqlOptions);
+            const [result, fields] = await this.connection.execute(sqlOptions);
             console.log(result);
+
             return result;
         }
         catch(error){

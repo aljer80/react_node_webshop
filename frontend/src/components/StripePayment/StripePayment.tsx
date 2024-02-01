@@ -18,3 +18,4 @@ const StripePayment: React.FC = () => {
 }
 
 export default StripePayment
+

@@ -12,11 +12,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         handleProductCardClick
     } = useProductContext();
 
+    const modifiedProductName = product.name.toLowerCase().replace(/\s+/g, '_');
+
     return (
         <div key={product.id} id={`product-card-${product.id}`} className="productCard" role="group" onClick={() => { handleProductCardClick(product.id) }}>
-            <img src={`/images/products/${product.brand}/${product.name}.jpg`} alt={`${product.brand}: ${product.name} @ ${product.price}`} className="productPicture" />
+            <img src={`/images/products/${product.brand}/${modifiedProductName}.jpg`} alt={`${product.brand}: ${product.name} @ ${product.price}`} className="productPicture" />
             <p className="productName">{product.name}</p>
-            <p className="productDescription">{product.description}</p>
             <p className="productPrice">{product.price}</p>
         </div>
     );

@@ -1,12 +1,11 @@
 import Navbar from "../Navbar/Navbar"
-import logoPicture from "../../assets/logo/logo.svg"
-
+import logoPicture from "../../assets/logo/logo.png"
 const PageHeader: React.FC = () => {
     return (
     <header>
         <div id="logo" role="group">
             <img src={ logoPicture } alt="myLogo" title="myWebshop" />
-            <h1>PadelRacket</h1>
+            <h1 id="business-title">Padel<span>R</span>acket</h1> 
         </div>
         <Navbar />
     </header>

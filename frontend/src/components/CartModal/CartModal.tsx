@@ -17,7 +17,7 @@ const CartModal: React.FC<PropsWithChildren<{}>> = () => {
     return (
         <section id="cart-modal">
         <h1>Din kundvagn</h1>
-            <button type="button" className="appButton" onClick={cartContext.handleCloseModalButtonClick}>x</button>
+            <button type="button" className="appButton" onClick={cartContext.handleCloseModalButtonClick}>Stäng</button>
             <CartItemList />
             <button type="button" className="appButton" onClick={handleCheckoutButtonClick}>Betalning</button>
         </section>

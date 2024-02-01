@@ -1,6 +1,7 @@
 import { PropsWithChildren } from "react"
 import { useCartContext } from "../../contexts/CartContext"
 import { cartItem } from "../../types/cart.types"
+import { BsTrash } from "react-icons/bs";
 
 /**
  * CartItem component responsible for rendering a single item in the cart.
@@ -17,7 +18,7 @@ const CartItemCard: React.FC<PropsWithChildren<{item: cartItem}>> = ({ item }) =
             <img className="productImage" src={item.name} alt={item.name} />
             <p className="productPrice">{item.price}</p>
             <button type="button" id="remove-from-cart-button" className="appButton" onClick={() => cartContext.handleRemoveFromCartButtonClick(item.id)}>-</button>
-            <button type="button" id="remove-product-from-cart-button" className="appButton" onClick={() => cartContext.handleRemoveProductFromCartButtonClick(item.id)}>x</button>
+            <button type="button" id="remove-product-from-cart-button" className="appButton" onClick={() => cartContext.handleRemoveProductFromCartButtonClick(item.id)}><BsTrash /></button>
         </div>
         );
 }

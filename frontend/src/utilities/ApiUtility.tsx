@@ -3,7 +3,7 @@ import { order } from "../types/order.types"
 import { PaymentData} from "../types/checkout.types"
 import { PaymentIntentResult } from "@stripe/stripe-js"
 
-const host: string  = "https://localhost"
+const host: string  = "http://localhost"
 const port: number = 8080
 const version: string = "v1"
 
@@ -205,6 +205,7 @@ async function requestPaymentIntent(paymentData: PaymentData): Promise<PaymentIn
 async function fetchAllProducts(): Promise<product[]>{
     const endpoint: string = `${host}:${port}/api/${version}/products`
     const id: number | undefined = undefined
+
     const response: object[] | string = await getData(endpoint, id)
     if(typeof response === "string"){
         throw new Error(`Unexpected response ${response}`)
@@ -239,7 +240,7 @@ async function createOrder(data: object): Promise<string | object>{
 async function fetchAllOrders(): Promise<string | object[]>{
     const endpoint: string = `${host}:${port}/api/${version}/orders`
     const id: number | undefined = undefined
-    const response: object[] | string = await getData(endpoint, id)
+    const response: object[] = JSON.parse(await getData(endpoint, id))
     if(typeof response !== "object"){
         throw new Error(`Unexpected response ${response}`)
     }
@@ -261,10 +262,13 @@ async function changeOrder(id: number, data: string[]): Promise<string | object>
     if(!data || data.length !== 2){
         throw new Error("Invalid data!")
     }
+    const endpoint: string = `${host}:${port}/api/${version}/orders/${id}`
+    const values = {
+        customerDetails: data[0],
+        items: data[1]
+    }
 
-    const endpoint: string  = `${host}:${port}/api/${version}/orders/${id}`
-
-    const response: string | object = await putData(endpoint, data);
+    const response: string | object = await putData(endpoint, values);
 
     //felsökning?
     return response

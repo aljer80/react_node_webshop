@@ -15,6 +15,7 @@ export interface ProductContextProps{
     handleFilterChange: (value: string | undefined) => void
     changeFilterState: (value: string | undefined) => void
     handleSortingChange: (value: string) => void
+    handleRangeChange: (value: string) => void
     changeSortingState: (value: string) => void
     handleResetButtonClick: (value: string) => void
     handleSearchButtonClick: (value: string) => void
@@ -27,7 +28,7 @@ export interface ProductContextProps{
 /**
  * Context for managing product-related state and actions.
  */
-export const ProductContext = createContext<ProductContextProps | undefined>(undefined);
+export const ProductContext = createContext<ProductContextProps | undefined>(undefined)
 
 /**
  * Hook to access the product context.
@@ -35,9 +36,9 @@ export const ProductContext = createContext<ProductContextProps | undefined>(und
  * @throws Error if product context is not found.
  */
 export const useProductContext = (): ProductContextProps => {
-    const context = useContext(ProductContext);
+    const context = useContext(ProductContext)
     if(!context){
-        throw new Error("Unable to load context!");
+        throw new Error("Unable to load context!")
     }
 
     return context
@@ -48,30 +49,23 @@ export const useProductContext = (): ProductContextProps => {
  * Manages product-related state and provides access to it.
  */
 export const ProductContextProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
-    const [inventory, setInventory] = useState<product[] | null >(null);
-    const [filterOptions, setFilterOptions] = useState<string[]>([]);
-    const [sortingOptions, setSortingOptions] = useState<sort>({field:"name", order:"asc"});
-    const [isProductDetailModalOpen, setIsProductDetailModalOpen] = useState<boolean>(false);
-    const [selectedProductId, setSelectedProductId] = useState<number | null>(null);
+    const [inventory, setInventory] = useState<product[] | null >(null)
+    const [filterOptions, setFilterOptions] = useState<string[]>([])
+    const [sortingOptions, setSortingOptions] = useState<sort>({field:"name", order:"asc"})
+    const [isProductDetailModalOpen, setIsProductDetailModalOpen] = useState<boolean>(false)
+    const [selectedProductId, setSelectedProductId] = useState<number | null>(null)
 
     /**
      * Loads all products from the API.
      */
     const loadAllProducts = async () => {
         try{
-            const fetchedProducts: product[] | string = await fetchAllProducts();
-            if (Array.isArray(fetchedProducts)){
-                setInventory(fetchedProducts);
+            const fetchedProducts: product[] = await fetchAllProducts()
+
+            if(typeof fetchedProducts !== 'string'){
+                setInventory(fetchedProducts)
             }
             else{
-                console.error("Failed to fetch products!");
-            }
-        }
-        catch(error){
-            console.error("Error loading products:", error);
-        }
-        finally{
-            if(!inventory){
                 setInventory([
                     {
                         id: 1,
@@ -85,8 +79,12 @@ export const ProductContextProvider: React.FC<PropsWithChildren<{}>> = ({ childr
                         description: "Testing",
                         material: "carbon"
                     }
-                ]);
+                ])
+            console.log("Failed to fetch products!")
             }
+        }
+        catch(error){
+            console.error("Error loading products:", error)
         }
     }
 
@@ -95,7 +93,7 @@ export const ProductContextProvider: React.FC<PropsWithChildren<{}>> = ({ childr
      * @param value - New filter value.
      */
     const handleFilterChange = (value: string | undefined) => {
-        changeFilterState(value);
+        changeFilterState(value)
     }
     
     /**
@@ -104,7 +102,7 @@ export const ProductContextProvider: React.FC<PropsWithChildren<{}>> = ({ childr
      */
     const changeFilterState = (value: string | undefined) => {
         if(!value){
-            setFilterOptions([]);
+            setFilterOptions([])
         }
         else{
             setFilterOptions((prevFilterOptions) => [...prevFilterOptions, value]);
@@ -116,7 +114,15 @@ export const ProductContextProvider: React.FC<PropsWithChildren<{}>> = ({ childr
      * @param value - New sorting value.
      */
     const handleSortingChange = (value: string) => {
-        changeSortingState(value);
+        changeSortingState(value)
+    }
+
+    /**
+     * Handles changes in range options.
+     * @param value - New range value.
+     */
+    const handleRangeChange = (value: string) => {
+        changeFilterState(value)
     }
 
     /**
@@ -124,12 +130,12 @@ export const ProductContextProvider: React.FC<PropsWithChildren<{}>> = ({ childr
      * @param value - New sorting value.
      */
     const changeSortingState = (value: string) => {
-        const [field, order] = value.split(':');
+        const [field, order] = value.split(':')
         if(order === "asc" || order === "desc"){
-            setSortingOptions({ field, order });
+            setSortingOptions({ field, order })
         }
         else{
-            throw new Error("Incorrect sort order!");
+            throw new Error("Incorrect sort order!")
         }
     }
     
@@ -138,7 +144,7 @@ export const ProductContextProvider: React.FC<PropsWithChildren<{}>> = ({ childr
      * @param {string} value - The value to reset the filter.
      */
     const handleResetButtonClick = (value: string) => {
-        changeFilterState(value);
+        changeFilterState(value)
     }
     
     /**
@@ -146,7 +152,7 @@ export const ProductContextProvider: React.FC<PropsWithChildren<{}>> = ({ childr
      * @param {string} value - The value to search.
      */
     const handleSearchButtonClick = (value: string) => {
-        changeFilterState(value);
+        changeFilterState(`name:${value}`)
     }
 
     /**
@@ -154,7 +160,7 @@ export const ProductContextProvider: React.FC<PropsWithChildren<{}>> = ({ childr
      * @param {number} id - The ID of the product card clicked.
      */
     const handleProductCardClick = (id: number) => {
-        openProductDetailModal(id);
+        openProductDetailModal(id)
     }
 
     /**
@@ -162,27 +168,28 @@ export const ProductContextProvider: React.FC<PropsWithChildren<{}>> = ({ childr
      * @param {number} id - The ID of the product to show in the detail modal.
      */
     const openProductDetailModal = (id: number) => {
-        setSelectedProductId(id);
-        setIsProductDetailModalOpen(true);
+        setSelectedProductId(id)
+        setIsProductDetailModalOpen(true)
     }
 
     /**
      * Handles the click event to close the product detail modal.
      */
     const handleCloseProductDetailModalButtonClick = () => {
-        closeProductDetailModal();
+        closeProductDetailModal()
     }
 
     /**
      * Closes the product detail modal.
      */
     const closeProductDetailModal = () => {
-        setSelectedProductId(null);
-        setIsProductDetailModalOpen(false);
+        setSelectedProductId(null)
+        setIsProductDetailModalOpen(false)
     }
 
     useEffect(() => {
-        loadAllProducts();
+        console.log("starting productContext")
+        loadAllProducts()
     }, []);
 
     return (
@@ -197,6 +204,7 @@ export const ProductContextProvider: React.FC<PropsWithChildren<{}>> = ({ childr
             handleFilterChange,
             changeFilterState,
             handleSortingChange,
+            handleRangeChange,
             changeSortingState,
             handleResetButtonClick,
             handleSearchButtonClick,
@@ -207,5 +215,5 @@ export const ProductContextProvider: React.FC<PropsWithChildren<{}>> = ({ childr
         }}>
             {children}
         </ProductContext.Provider>
-    );
+    )
 }

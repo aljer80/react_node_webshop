@@ -13,8 +13,8 @@ const ProductDetailModal: React.FC<PropsWithChildren<{}>> = () => {
         inventory,
         selectedProductId,
         handleCloseProductDetailModalButtonClick,
-    } = useProductContext();
-    const cartContext = useCartContext();
+    } = useProductContext()
+    const cartContext = useCartContext()
 
     const [displayProduct, setDisplayProduct] = useState<product | null>(null)
     const [loading, setLoading] = useState<boolean>(true)
@@ -38,7 +38,7 @@ const ProductDetailModal: React.FC<PropsWithChildren<{}>> = () => {
                     setLoading(false)
                 }
             }
-            loadProduct();
+            loadProduct()
         }
     }, [inventory, selectedProductId])
     if(loading){
@@ -53,26 +53,26 @@ const ProductDetailModal: React.FC<PropsWithChildren<{}>> = () => {
             <button type="button" id="close-product-detail-modal" className="appButton" title="Close" onClick={handleCloseProductDetailModalButtonClick}>x</button>
             <aside id="product-display-panel">
                 <img id="product-image" src={`/images/products/${displayProduct.brand}/${displayProduct.name}.jpg`}/>
-                <p id="product-name" className="productName">{displayProduct.name}</p>
-                <p id="product-price" className="productPrice">{displayProduct.price}</p>
-                <p  id="product-description"className="productDescription">{displayProduct.description}</p>
+                <p id="product-name" className="productName">Namn: {displayProduct.name}</p>
+                <p id="product-price" className="productPrice">Pris: {displayProduct.price} kr</p>
+                <p  id="product-description"className="productDescription">Beskrivning: {displayProduct.description}</p>
                 <button type="button" id="product-name" className="appButton" title="Add to cart" onClick={() => cartContext.handleAddToCartButtonClick({
                     id: displayProduct.id,
                     name: displayProduct.name,
                     brand: displayProduct.brand,
                     price: displayProduct.price,
                     count: 0
-                })}>Add to cart</button>
+                })}>Lägg i varukorgen</button>
             </aside>
             <aside id="product-facts-panel">
-                <p id="product-brand" className="productFact">{displayProduct.brand}</p>
+                <p id="product-brand" className="productFact">Märke: {displayProduct.brand}</p>
                 <p id="product-type" className="productFact">{displayProduct.type}</p>
-                <p id="product-weight" className="productFact">{displayProduct.weight}</p>
-                <p id="product-balance" className="productFact">{displayProduct.balance}</p>
-                <p id="product-shape" className="productFact">{displayProduct.shape}</p>
+                <p id="product-weight" className="productFact">Vikt: {displayProduct.weight}</p>
+                <p id="product-balance" className="productFact">Balans: {displayProduct.balance}</p>
+                <p id="product-shape" className="productFact">Form: {displayProduct.shape}</p>
             </aside>
         </div>
-    );
+    )
 }
 
 export default ProductDetailModal

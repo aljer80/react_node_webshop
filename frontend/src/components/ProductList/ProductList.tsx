@@ -14,7 +14,7 @@ const ProductList: React.FC<ProductListProps> = ({ products }) => {
 
     return (
         <section id="product-grid">
-        {products.length > 0 ? (
+        {products && products.length > 0 ? (
             products.map((product: product) => (
                 <ProductCard key={product.id} product={ product } />
             ))

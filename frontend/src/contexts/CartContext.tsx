@@ -28,13 +28,13 @@ export const useCartContext = () => {
     try{
         const context = useContext(CartContext)
         if(!context){
-            throw new Error("Error loading cartContext!");
+            throw new Error("Error loading cartContext!")
         }
 
         return context
     }
     catch(error){
-        console.log(error);
+        console.log(error)
     }
 }
 
@@ -46,8 +46,8 @@ export const useCartContext = () => {
  */
 export const CartContextProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
     const [cart, setCart] = useState<cartItem[]>([])
-    const [isCartModalOpen, setIsCartModalOpen] = useState<boolean>(true);
-    const navigate = useNavigate();
+    const [isCartModalOpen, setIsCartModalOpen] = useState<boolean>(true)
+    const navigate = useNavigate()
 
     /**
      * Adds a product to the cart or increments its count if already present.
@@ -58,10 +58,10 @@ export const CartContextProvider: React.FC<PropsWithChildren<{}>> = ({ children 
         if(existingProductIndex !== -1){
             const updatedCart: cartItem[] = [...cart];
             updatedCart[existingProductIndex].count += 1
-            setCart(updatedCart);
+            setCart(updatedCart)
         }
         else{
-            setCart(prevCart => [...prevCart, { ...product, count: 1 }]);
+            setCart(prevCart => [...prevCart, { ...product, count: 1 }])
         }
     }
 
@@ -73,11 +73,11 @@ export const CartContextProvider: React.FC<PropsWithChildren<{}>> = ({ children 
         const existingProductIndex = cart.findIndex(item => item.id === itemId);
         if(existingProductIndex !== -1){
             const updatedCart = [...cart];
-            updatedCart[existingProductIndex].count -= 1;
+            updatedCart[existingProductIndex].count -= 1
             if(updatedCart[existingProductIndex].count < 1){
-                removeProductFromCart(existingProductIndex);
+                removeProductFromCart(existingProductIndex)
             }
-            setCart(updatedCart);
+            setCart(updatedCart)
         }
     }
 
@@ -86,7 +86,7 @@ export const CartContextProvider: React.FC<PropsWithChildren<{}>> = ({ children 
      * @param {number} itemId - The ID of the item to remove from the cart.
      */
     function removeProductFromCart(itemId: number){
-        setCart(cart.filter(item => item.id !== itemId));
+        setCart(cart.filter(item => item.id !== itemId))
     }
 
     /**
@@ -95,7 +95,7 @@ export const CartContextProvider: React.FC<PropsWithChildren<{}>> = ({ children 
      * @param {cartItem} item - The item to add to the cart.
      */
     function handleAddToCartButtonClick(item: cartItem){
-        addToCart(item);
+        addToCart(item)
     }
 
     /**
@@ -104,7 +104,7 @@ export const CartContextProvider: React.FC<PropsWithChildren<{}>> = ({ children 
      * @param {number} itemId - The ID of the item to remove from the cart.
      */
     function handleRemoveFromCartButtonClick(itemId: number){
-        removeFromCart(itemId);
+        removeFromCart(itemId)
     }
 
     /**
@@ -113,15 +113,15 @@ export const CartContextProvider: React.FC<PropsWithChildren<{}>> = ({ children 
      * @param {number} itemId - The ID of the product to remove from the cart.
      */
     function handleRemoveProductFromCartButtonClick(itemId: number){
-        removeProductFromCart(itemId);
+        removeProductFromCart(itemId)
     }
 
     /**
      * Closes the cart modal.
      */
     function handleCloseModalButtonClick(){
-        setIsCartModalOpen(false);
-        navigate("/");
+        setIsCartModalOpen(false)
+        navigate("/")
     }
 
     useEffect(() => {
@@ -148,5 +148,5 @@ export const CartContextProvider: React.FC<PropsWithChildren<{}>> = ({ children 
         }}>
             {children}
         </CartContext.Provider>
-    );
+    )
 }

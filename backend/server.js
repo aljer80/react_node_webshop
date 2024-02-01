@@ -19,19 +19,20 @@ process.on('uncaughtException', (error) => {
 
 //importing required code
 const express = require('express');
+const cors = require('cors');
 require('dotenv').config();
+
 const { errorHandler } = require('./src/middleware/errorHandling');
 const routes = require('./src/routes/endpointsRoutes');
 
 //setting required values
 const app = express();
-const cors = require("cors");
+app.use(cors());
 const port = process.env.PORT || 3000;
 
 //setting request decoders to interpret the information sent from form.
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: true, credentials: true }));
 
 //setting middleware
 app.use((req, res, next) => {

@@ -1,31 +1,91 @@
 @import url('./index.css');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
 :root{
     --fluid_font-size: calc(12, max(20, min(16, 1080-720)) / 100);
     --fluid_line-height: calc(1.5 * var(--fluid_font-size));
 
-    --base: #669BBC; /**/
-    --complementary: #BC8A66;/*highlighting and accent*/
-    --lightershade: #8FB5D8;/*background and emphasis*/
-    --darkershade: #3A6989;/*text and borders*/
-    --accent1: #66BC98;/*buttons/cta*/
-    --accent2: #BC6677;/**/
-    --neutral: #E8E8E8;/*backgrounds, borders, visuals*/
+    --base: #ffffff;
+    --complementary3: #66666e;
+    --complementary2: #9999a1;
+    --complementary1: #e6e6e9;
+    --lightershade: #669bbc;
+    --darkershade: #003049;
+    --accent1: #C1121f;
+    --accent2: #780000;
+    --neutral: #Fdf0d5;
+    --contrast: #000000;
+    
+    --appButtonBackground: var(--accent1);
+    --appButtonBorder: var(--accent1);
+    --appButtonBackgroundHover: var(--accent2);
+    --appButtonBorderHover: var(--accent2);
+    --appButtonText: var(--neutral);
 
-    --buttonBackground: var(--accent1);
-    --buttonBackgroundHover: var(--accent1);
-    --buttonText: var(--darkershade);
-    --buttonBorder: var(--neutral);
-    --buttonBorderHover: var(--complementary);
+    --buttonBackground: var(--complementary2);
+    --buttonBorder: var(--complementary2)
+    --buttonBackgroundHover: var(--complementary3);
+    --buttonBorderHover: var(--complementary3);
+    --buttonText: var(--neutral);
+
     --basePanel: var(--base);
-    --baseColor: var(--neutral);
+    --baseColor: var(--contrast);
     --basePanelComplement: var(--darkershade);
-    --socialMediaBackground: var(--accent2);
-    --navbarBackground: var(--accent1);
-    --policyPanel: var(--darkershade);
-    --panelBorder: var(--accent1);
-    --modalBackground: var(--complementary)
+    --policyPanel: var(--complementary2);
+    --panelBorder: var(complementary3);
+    --modalBackground: var(--base);
+
+    --link: var(--contrast);
+    --linkVisited: var(--contrast);
+    --linkHover: var(--contrast);
+
+    --socialMediaBackground: var(--darkershade);
+    --headerBackground: var(--darkershade);
+    --navbarBackground: var(--darkershade);
+    --navbarBorder: var(--darkershade);
+    --navbarCartCounter: var(--lightershade);
+    --navbarButton: var(--lightershade);
+    --navbarButtonBorder: var(--darkershade);
+    --navbarButtonHover: var(--darkershade);
+    --navbarButtonBorderHover: var(--lightershade);
+
+    --filteringBarBackground: var(--darkershade);
+    --filteringBarBorder: var(--darkershade);
+    --filteringBarButton: var(--lightershade);
+    --filteringBarButtonBorder: var(--darkershade);
+    --filteringBarButtonHover: var(--darkershade);
+    --filteringBarButtonBorderHover: var(--lightershade);
+
+    --text: var(--contrast);
+    --productCardText: var(--contrast);
+    --panelText: var(--base);
+    --modalBackground: var(--base);
+    --heroBackground: var(--base);
+    --productCardBackground:var(--base);
+    --modalBackground: var(--base);
+    --formInput: var(--base);
+
+    --listBackground: var(--complementary2);
+    --listBorder: var(--complementary2);
+    --listHover: var(--complementary2);
+    --listText: var(--complementary3);
+    --form: var(--complementary2);
+    --productCardBorder: var(--complementary2);
+
+    --productImageBorder: var(--complementary1);
+    
+--policyBackground: var(--complementary2);
+    --heroBorder: var(--complementary2);
+    --cardBorder: var(--complementary2);
+    --listBackground: var(--complementary2);
+    --listBorder: var(--complementary2);
+    --panelBorder: var(--complementary2);
+    --panelBackground_light: var(--complementary1);
+    --panelBackground: var(--complementary2);
+
+    --productCardBorderHover: var(--complementary3);
+
   }
 
   body{
@@ -33,8 +93,9 @@
     line-height: var(--fluid_line-height);
     background: var(--basePanel);
     color: var(--baseColor);
+    font-family: 'Poppins', sans-serif; 
   }
-  
+
   header{
     background-color: var(--basePanelComplement);
   }
@@ -51,40 +112,53 @@
     background: var(--buttonBackground);
     color: var(--buttonText);
     border: 1px solid var(--buttonBorder);
+    border-radius: 1vmax;
+    padding: 0.3vmax;
     cursor: pointer;
   }
 
   button:hover{
     background: var(buttonBackgroundHover);
     border: 1px solid var(--buttonBorderHover);
+    padding: 0.4vmax;
   }
 
   input{
     cursor: pointer;
   }
   .appButton{
+    background: var(--appButtonBackground);
+    color: var(--appButtonText);
+    border: 1px solid var(--appButtonBorder);
+    cursor: pointer;
   }
 
   .appButton:hover{
+    /* background: var(--appButtonBackgroundHover); */
+    border: 1px solid var(--appButtonBorderHover);
   }
   
   #logo{
-  }
+    background: var(--headerBackground);
+    color: var(--panelText);  
+}
   
   #contact-information-panel{
+    background-color: var(--socialMediaBackground);
+    color: var(--appButtonText);
   }
   
   #social-media-icons{
     background-color: var(--socialMediaBackground);
+    color: var(--panelText);
   }
   
   #hero-carousel{
+    background-color: var(heroBackground);
   }
   
   #hero-slider{
-  }
-  
-  .cta-text{
+    background-color: var(heroBackground);
   }
   
   .scrollButton{
@@ -94,53 +168,87 @@
   }
   
   #hero-img{
+    /* flex: 1 1 100% */
   }
   
   #slide-text{
+    color: var(--text);
   }
   
   #product-grid-area{
+    background-color: var(--basePanel);
+    color: var(--text);
   }
   
   #filtering-and-sorting-bar{
-    background-color: var(--basePanelComplement);
-
+    background: var(--filteringBarBackground);
+    color: var(--panelText);
+    border: 1px solid var(--filteringBarBorder);
+    cursor: pointer;
   }
   
   .dropdownUl{
+    background: var(--base);
+    color: var(--listText);
   }
   
   .dropdownLi{
     text-decoration: none;
+    background: var(--listBackground);
   }
   
   .filter-text{
-  
+    background: var(--base);
+    color: var(--contrast);
   }
   
   .filterSelect{
-  
+    background: var(--base);
+    color: var(--listText);
   }
   
   .filterButton{
-  
+    background: var(--buttonBackground);
+    color: var(--buttonText);
+    border: 1px solid var(--buttonBorder);
+    cursor: pointer;
+  }
+  .filterButton:hover{
+    background: var(buttonBackgroundHover);
+    border: 1px solid var(--buttonBorderHover);
   }
   
   .filter-slide{
-  
+    color: var(--lightershade);
   }
   
   #product-detail-modal{
     background-color: var(--modalBackground);
+    border: 2px solid var(--productCardBorder);
+    color: var(--text);
+    padding: 0.5vmax;
+    cursor: pointer;
   }
   
   #product-facts-panel{
+    background-color: var(--modalBackground);
+    color: var(--text);
+    border: 2px solid var(--productCardBorder);
+    padding: 0.5vmax;
   }
   
   #product-display-panel{
+    background-color: var(--modalBackground);
+    border: var(--productCardBorder);
+    color: var(--text);
+    padding: 0.5vmax;
+    cursor: pointer;
   }
   
   #product-grid{
+    background-color: var(--modalBackground);
+    color: var(--text);
+    padding: 0.5vmax;
   }
   
   .appMessage{
@@ -148,72 +256,120 @@
   }
   
   .productCard{
-    background-color: var(--darkershade);
+    background-color: var(--modalBackground);
+    border: var(--productCardBorder);
+    color: var(--text);
+    padding: 0.5vmax;
     cursor: pointer;
   }
 
   .productCard:hover{
-    background-color: var(--lightershade);
+    background-color: var(--modalBackground);
+    border: var(--productCardBorderHover);
+    padding: 0.5vmax;
   }
   
   #cart-modal{
     background-color: var(--modalBackground);
+    padding: 0.5vmax;
   }
 
   .cartCounter{
-    background-color: var(--accent2);
+    background-color: var(--navbarCartCounter);
+    padding: 0.1vmax;
+    margin-bottom: 0.1vmax;
   }
 
   #cart-list{
+    background-color: var(--modalBackground);
+    color: var(--text);
+    padding: 0.5vmax;
   }
+
+  #cart-list li:nth-child(odd) {
+    background-color: var(--panelBackground_light);
+    align-items: space-between;
+}
   
   .cartItem{
+    background-color: var(--modalBackground);
+    border-bottom: 1px solid var(--productCardBorderHover);
   }
   
   .productImage{
-  
+    border: var(--productImageBorder);
   }
   
   #checkout{
+    background-color: var(--modalBackground);
+    color: var(--text);
+    padding: 0.5vmax;
   }
   
   #customer-details{
+    background-color: var(--modalBackground);
+    color: var(--panelText);
+    padding: 0.5vmax;
   }
   
   #payment-form{
+    background-color: var(--modalBackground);
+    color: var(--text);
+    padding: 0.5vmax;
   }
   
   #response-text{
-  
+    color: var(--text);
+    background: var(--panelBackground_light);
+    padding: 0.5vmax;
+    /* text-transform: uppercase; */
+  }
+
+  #order-modal{
+    background-color: var(--modalBackground);
+    color: var(--text);
+    padding: 0.5vmax;
   }
 
   #confirmation-modal{
     background-color: var(--modalBackground);
+    color: var(--text);
+    padding: 0.5vmax;
   }
   
   #update-order{
+    background-color: var(--modalBackground);
+    color: var(--text);
+    padding: 0.5vmax;
   }
   
   #order-modal{
     background-color: var(--modalBackground);
+    color: var(--text);
+    padding: 0.5vmax;
   }
 
-  #order-list{
+  /* #order-list{
   }
   
   #order-item{
   }
   
   #order-item-text{
-  }
+  } */
   
   #policies-modal{
     background-color: var(--modalBackground);
+    padding: 0.5vmax;
   }
   
   .policyPanel{
-    background-color: var(--policyPanel);
+    background-color: var(--modalBackground);
     border: 1px solid var(--panelBorder);
     border-radius: 1vmax;
+    padding: 0.5vmax;
+  }
+  .policyPanel h1{
+    text-transform: uppercase;
   }
   
