@@ -48,14 +48,17 @@ const ProductDetailModal: React.FC<PropsWithChildren<{}>> = () => {
         return <p>Your product is elsewhere!</p>
     }
 
+    const modifiedProductName = displayProduct.name.toLowerCase().replace(/\s+/g, '-')
+    const modifiedBrandName = displayProduct.brand.toLowerCase()
+
     return (
         <div id="product-detail-modal" role="group">
             <button type="button" id="close-product-detail-modal" className="appButton" title="Close" onClick={handleCloseProductDetailModalButtonClick}>x</button>
             <aside id="product-display-panel">
-                <img id="product-image" src={`/images/products/${displayProduct.brand}/${displayProduct.name}.jpg`}/>
-                <p id="product-name" className="productName">Namn: {displayProduct.name}</p>
+                <img className="productDisplayImage" src={`/images/products/${modifiedBrandName}/${modifiedProductName}.jpg`}/>
+                <p id="product-name" className="productName">{displayProduct.name}</p>
                 <p id="product-price" className="productPrice">Pris: {displayProduct.price} kr</p>
-                <p  id="product-description"className="productDescription">Beskrivning: {displayProduct.description}</p>
+                <p  id="product-description"className="productDescription">Produktbeskrivning: {displayProduct.description}</p>
                 <button type="button" id="product-name" className="appButton" title="Add to cart" onClick={() => cartContext.handleAddToCartButtonClick({
                     id: displayProduct.id,
                     name: displayProduct.name,

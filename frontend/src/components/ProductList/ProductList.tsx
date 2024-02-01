@@ -22,7 +22,7 @@ const ProductList: React.FC<ProductListProps> = ({ products }) => {
             <p className="appMessage">There are no products!</p>
         )}
         </section>
-    )
+    );
 }
 
 export default ProductList

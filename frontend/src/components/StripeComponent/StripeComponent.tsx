@@ -64,7 +64,7 @@ const StripeComponent: React.FC = () => {
             <CheckoutModal /> :
             <form id="payment-form" onSubmit={ handleSubmit }>
                 <CardElement />
-                <button type="submit" id="checkout-pay-button" className="appButton">Pay</button>
+                <button type="submit" id="checkout-pay-button" className="appButton">Betala</button>
             </form>
         }
         </>

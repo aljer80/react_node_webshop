@@ -1,5 +1,12 @@
 import { Policy } from "../../types/disclaimer.types"
 
+/**
+ * PolicyData is an array of Policy objects containing various website policies and disclaimers.
+ *
+ * Each Policy object includes a name (policy type) and content (policy description).
+ *
+ * @type {Policy[]}
+ */
 const PolicyData: Policy[] = [
     {
         name: "cookies",

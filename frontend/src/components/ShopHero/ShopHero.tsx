@@ -1,5 +1,5 @@
 import { useState, useEffect, PropsWithChildren } from "react";
-import HeroSlides from "../../services/HeroData/HeroData"
+import HeroSlides from "../../services/HeroData/HeroData";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
 /**
 * Hero component responsible for displaying a carousel of slides with product information.

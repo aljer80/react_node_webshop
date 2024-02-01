@@ -12,17 +12,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         handleProductCardClick
     } = useProductContext();
 
-    const modifiedProductName = product.name.toLowerCase().replace(/\s+/g, '_');
+    // Modify product name and brand for image source
+    const modifiedProductName = product.name.toLowerCase().replace(/\s+/g, '-')
+    const modifiedBrandName = product.brand.toLowerCase()
 
     return (
         <div key={product.id} id={`product-card-${product.id}`} className="productCard" role="group" onClick={() => { handleProductCardClick(product.id) }}>
-            <img src={`/images/products/${product.brand}/${modifiedProductName}.jpg`} alt={`${product.brand}: ${product.name} @ ${product.price}`} className="productPicture" />
+            <img className="productPicture" src={`/images/products/${modifiedBrandName}/${modifiedProductName}.jpg`} alt={`${product.brand}: ${product.name} @ ${product.price}`} />
             <p className="productName">{product.name}</p>
-            <p className="productPrice">{product.price}</p>
+            <p className="productPrice">Pris: {product.price} kr</p>
         </div>
     );
 }
 
 export default ProductCard
-
-//bilden ska heta produktnamn.jpg (product.name)

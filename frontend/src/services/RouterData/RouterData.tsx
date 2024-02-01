@@ -6,7 +6,13 @@ import Orders from "../../pages/Orders/Orders";
 import AboutUs from "../../pages/AboutUs/AboutUs";
 import Error from "../../pages/Error/Error";
 
-// about us
+/**
+ * RouterData is an array of routerType objects defining routes and corresponding React components.
+ *
+ * Each routerType object includes a path (route URL), element (React component), and title (route title).
+ *
+ * @type {routerType[]}
+ */
 const RouterData: routerType[] = [
     {
         path:"",

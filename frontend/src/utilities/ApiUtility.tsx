@@ -7,6 +7,14 @@ const host: string  = "http://localhost"
 const port: number = 8080
 const version: string = "v1"
 
+/**
+ * Fetch data from an API endpoint using a GET request.
+ *
+ * @param {string} endpoint - The API endpoint to fetch data from.
+ * @param {number | undefined} id - An optional identifier for the specific data item.
+ * @returns {Promise<string | object[]>} A promise that resolves to the fetched data (either string or object array).
+ * @throws {Error} Throws an error if the request fails or the response is unexpected.
+ */
 async function getData(endpoint: string, id: number | undefined): Promise<string | object[]>{
     if(!endpoint){
         throw new Error("Unknown host")
@@ -44,6 +52,14 @@ async function getData(endpoint: string, id: number | undefined): Promise<string
     }
 }
 
+/**
+ * Send data to an API endpoint using a POST request.
+ *
+ * @param {string} endpoint - The API endpoint to send data to.
+ * @param {object} data - The data to send as the request body.
+ * @returns {Promise<string | object>} A promise that resolves to the response data (either string or object).
+ * @throws {Error} Throws an error if the request fails or the response is unexpected.
+ */
 async function postData(endpoint: string, data: object): Promise<string | object>{
     const method: string = "POST"
     const headers: HeadersInit = new Headers({
@@ -83,6 +99,14 @@ async function postData(endpoint: string, data: object): Promise<string | object
     }
 }
 
+/**
+ * Update data at an API endpoint using a PUT request.
+ *
+ * @param {string} endpoint - The API endpoint to update data at.
+ * @param {string[]} data - The data to send as the request body.
+ * @returns {Promise<string | object>} A promise that resolves to the response data (either string or object).
+ * @throws {Error} Throws an error if the request fails or the response is unexpected.
+ */
 async function putData(endpoint: string, data: string []): Promise<string | object >{
     const method: string = "PUT"
     const headers: HeadersInit = new Headers({
@@ -122,6 +146,13 @@ async function putData(endpoint: string, data: string []): Promise<string | obje
     }
 }
 
+/**
+ * Delete data at an API endpoint using a DELETE request.
+ *
+ * @param {string} endpoint - The API endpoint to delete data from.
+ * @returns {Promise<string | object>} A promise that resolves to the response data (either string or object).
+ * @throws {Error} Throws an error if the request fails or the response is unexpected.
+ */
 async function deleteData(endpoint: string): Promise<string | object>{
     const method: string = "DELETE"
     const headers: HeadersInit = new Headers()
@@ -157,6 +188,13 @@ async function deleteData(endpoint: string): Promise<string | object>{
     }
 }
 
+/**
+ * Request a payment intent from a payment gateway using a POST request.
+ *
+ * @param {PaymentData} paymentData - The payment data to send as the request body.
+ * @returns {Promise<PaymentIntentResult>} A promise that resolves to the payment intent result.
+ * @throws {Error} Throws an error if the request fails or the response is unexpected.
+ */
 async function requestPaymentIntent(paymentData: PaymentData): Promise<PaymentIntentResult>{
     const endpoint:string = `${host}:${port}/api/${version}/payments/`
     const method: string = "POST"
@@ -202,6 +240,12 @@ async function requestPaymentIntent(paymentData: PaymentData): Promise<PaymentIn
     }
 }
 
+/**
+ * Fetch all products from the API.
+ *
+ * @returns {Promise<product[]>} A promise that resolves to an array of product objects.
+ * @throws {Error} Throws an error if the request fails or the response is unexpected.
+ */
 async function fetchAllProducts(): Promise<product[]>{
     const endpoint: string = `${host}:${port}/api/${version}/products`
     const id: number | undefined = undefined
@@ -214,6 +258,13 @@ async function fetchAllProducts(): Promise<product[]>{
     return response as product[]
 }
 
+/**
+ * Fetch a specific product by its ID from the API.
+ *
+ * @param {number} id - The ID of the product to fetch.
+ * @returns {Promise<object | string>} A promise that resolves to the fetched product or an error message.
+ * @throws {Error} Throws an error if the request fails or the response is unexpected.
+ */
 async function fetchProduct(id: number): Promise<object | string>{
     const endpoint: string = `${host}:${port}/api/${version}/products/${id}`
 
@@ -225,6 +276,13 @@ async function fetchProduct(id: number): Promise<object | string>{
     return response as product
 }
 
+/**
+ * Create a new order by sending order data to the server.
+ *
+ * @param {object} data - The order data to create a new order.
+ * @returns {Promise<string | object>} A promise that resolves to the response data (either string or object).
+ * @throws {Error} Throws an error if the data is invalid, or if the request fails or the response is unexpected.
+ */
 async function createOrder(data: object): Promise<string | object>{
     if(!data){
         throw new Error("Invalid data!")
@@ -237,6 +295,12 @@ async function createOrder(data: object): Promise<string | object>{
     return response
 }
 
+/**
+ * Fetch all orders from the server.
+ *
+ * @returns {Promise<order[]>} A promise that resolves to an array of order objects.
+ * @throws {Error} Throws an error if the request fails or the response is unexpected.
+ */
 async function fetchAllOrders(): Promise<string | object[]>{
     const endpoint: string = `${host}:${port}/api/${version}/orders`
     const id: number | undefined = undefined
@@ -248,6 +312,13 @@ async function fetchAllOrders(): Promise<string | object[]>{
     return response as order[]
 }
 
+/**
+ * Fetch a specific order by its ID from the server.
+ *
+ * @param {number} id - The ID of the order to fetch.
+ * @returns {Promise<object | string>} A promise that resolves to the fetched order or an error message.
+ * @throws {Error} Throws an error if the request fails or the response is unexpected.
+ */
 async function fetchOrder(id: number): Promise<string | object>{
     const endpoint: string = `${host}:${port}/api/${version}/orders/${id}`
     const response: object | string = await getData(endpoint, id)
@@ -258,6 +329,14 @@ async function fetchOrder(id: number): Promise<string | object>{
     return response as order
 }
 
+/**
+ * Update an existing order by sending updated order data to the server.
+ *
+ * @param {number} id - The ID of the order to update.
+ * @param {string[]} data - An array containing customer details and items data for the order update.
+ * @returns {Promise<string | object>} A promise that resolves to the response data (either string or object).
+ * @throws {Error} Throws an error if the data is invalid, or if the request fails or the response is unexpected.
+ */
 async function changeOrder(id: number, data: string[]): Promise<string | object>{
     if(!data || data.length !== 2){
         throw new Error("Invalid data!")
@@ -270,14 +349,19 @@ async function changeOrder(id: number, data: string[]): Promise<string | object>
 
     const response: string | object = await putData(endpoint, values);
 
-    //felsökning?
     return response
 }
 
+/**
+ * Remove an existing order by sending a DELETE request to the server.
+ *
+ * @param {number} id - The ID of the order to remove.
+ * @returns {Promise<string | object>} A promise that resolves to the response data (either string or object).
+ * @throws {Error} Throws an error if the request fails or the response is unexpected.
+ */
 async function removeOrder(id: number): Promise<string | object>{
     const endpoint: string = `${host}:${port}/api/${version}/orders/${id}`
 
-    //felsökning?
     return await deleteData(endpoint)
 }
 

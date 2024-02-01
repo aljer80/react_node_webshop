@@ -28,6 +28,32 @@ const FilteringSortingBar: React.FC<PropsWithChildren<{}>> = () => {
     const [filteredProducts, setFilteredProducts] = useState<product[]>([])
     const [sortedProducts, setSortedProducts] = useState<product[]>([])
 
+    // När användaren väljer ett filteralternativ, t.ex. varumärke (brand)
+    const handleBrandFilterChange = (value: string) => {
+        handleFilterChange(value);
+    };
+    
+    // När användaren väljer ett filteralternativ, t.ex. form (shape)
+    const handleShapeFilterChange = (value: string) => {
+        handleFilterChange(value);
+    };
+    
+    // När användaren väljer ett filteralternativ, t.ex. balans (balance)
+    const handleBalanceFilterChange = (value: string) => {
+        handleFilterChange(value);
+    };
+    
+    // När användaren väljer ett sorteringsalternativ, t.ex. pris eller namn
+    const handleSortingOptionChange = (value: string) => {
+        handleSortingChange(value);
+    };
+    
+    // När användaren klickar på "Återställ filter" knappen
+    const handleResetFiltersClick = () => {
+        handleResetButtonClick("");
+      };
+  
+
     const getSuggestions = (): product[] | undefined => {
         if(!inventory || typeof inventory === "string"){
             return []
@@ -105,7 +131,7 @@ const FilteringSortingBar: React.FC<PropsWithChildren<{}>> = () => {
     return (
         <section id="product-grid-area">
             <div id="filtering-and-sorting-bar" role="toolbar">
-                <select id="brand" className="filterSelect" value={filterOptions.find(option => option.startsWith('brand')) || ''} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleFilterChange(e.target.value)}>
+                <select id="brand" className="filterSelect" value={filterOptions.find(option => option.startsWith('brand')) || ''} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleBrandFilterChange(e.target.value)}>
                     <option value="">---</option>
                     <option value="brand:babolat">Babolat</option>
                     <option value="brand:dopadel">DoPadel</option>
@@ -113,25 +139,25 @@ const FilteringSortingBar: React.FC<PropsWithChildren<{}>> = () => {
                     <option value="brand:nox">Nox</option>
                     <option value="brand:osaka">Osaka</option>
                 </select>
-                <select id="shape" className="filterSelect" value={filterOptions.find(option => option.startsWith('shape')) || ''} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleFilterChange(e.target.value)}>
+                <select id="shape" className="filterSelect" value={filterOptions.find(option => option.startsWith('shape')) || ''} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleShapeFilterChange(e.target.value)}>
                     <option value="">---</option>
-                    <option value="shape:round">Round</option>
-                    <option value="shape:drop">Drop</option>
-                    <option value="shape:diamond">Diamond</option>
+                    <option value="shape:round">Rund</option>
+                    <option value="shape:drop">Dropp</option>
+                    <option value="shape:diamond">Diamant</option>
                     <option value="shape:hybrid">Hybrid</option>
                 </select>
-                <select id="balance" className="filterSelect" value={filterOptions.find(option => option.startsWith('balance')) || ''} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleFilterChange(e.target.value)}>
+                <select id="balance" className="filterSelect" value={filterOptions.find(option => option.startsWith('balance')) || ''} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleBalanceFilterChange(e.target.value)}>
                     <option value="">---</option>
-                    <option value="balance:bottom">Bottom</option>
-                    <option value="balance:center">Center</option>
-                    <option value="balance:top">Top</option>
+                    <option value="balance:bottom">Låg</option>
+                    <option value="balance:center">Medel</option>
+                    <option value="balance:top">Hög</option>
                 </select>
-                <select id="sorting" className="filterSelect" value={`${sortingOptions.field}:${sortingOptions.order}`} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleSortingChange(e.target.value)}>
+                <select id="sorting" className="filterSelect" value={`${sortingOptions.field}:${sortingOptions.order}`} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleSortingOptionChange(e.target.value)}>
                     <option value="">---</option>
-                    <option value="price:asc">Price: Low to High</option>
-                    <option value="price:desc">Price: High to Low</option>
-                    <option value="name:asc">Name: A - Z</option>
-                    <option value="name:desc">Name: Z - A</option>
+                    <option value="price:asc">Price: Stigande</option>
+                    <option value="price:desc">Price: Fallande </option>
+                    <option value="name:asc">Name: A - Ö</option>
+                    <option value="name:desc">Name: Ö - A</option>
                 </select>
                 <div>
                     <input
@@ -152,9 +178,9 @@ const FilteringSortingBar: React.FC<PropsWithChildren<{}>> = () => {
                     }
                     <button type="button" id="search-button" className="filterButton" onClick={() => handleSearchButtonClick(searchInput)}>Filter</button>
                 </div>
-                <label id="weight-label" htmlFor="weight">Weight</label>
+                <label id="weight-label" htmlFor="weight">Vikt</label>
                 <input type="range" id="weight" className="filter-slide" min="200" max="500" step="25" onMouseUp={(e: React.MouseEvent<HTMLInputElement>) => handleRangeChange(e.target.value)}></input>
-                <label id="price-label" htmlFor="price">Price</label>
+                <label id="price-label" htmlFor="price">Pris</label>
                 <input type="range" id="price" className="filter-slide" min="1500" max="3000" step="100" onMouseUp={(e: React.MouseEvent<HTMLInputElement>) => handleRangeChange(e.target.value)}></input>
                 <button type="button" id="reset-filter" className="filterButton" onClick={() => handleResetButtonClick("")}>Reset filters</button>
             </div>

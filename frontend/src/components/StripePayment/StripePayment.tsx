@@ -14,7 +14,7 @@ const StripePayment: React.FC = () => {
         <Elements stripe={ stripePromise }>
                 <StripeComponent />
         </Elements>
-    )
+    );
 }
 
 export default StripePayment

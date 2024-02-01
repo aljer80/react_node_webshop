@@ -42,7 +42,7 @@ export const useCheckoutContext = (): CheckoutContextProps => {
  * @returns {JSX.Element} JSX for the CheckoutContextProvider component.
  */
 export const CheckoutContextProvider: React.FC<{ children: ReactNode}> = ({ children }) => {
-    const navigationTimerLimit = 20
+    const navigationTimerLimit = 5
     const [isPaymentSuccessful, setIsPaymentSuccessful] = useState<boolean>(false)
     const [paymentResponse, setPaymentResponse] = useState<PaymentIntentResult>(null!)
     const [customerDetailsFormData, setCustomerDetailsFormData] = useState<object>({
@@ -83,6 +83,7 @@ export const CheckoutContextProvider: React.FC<{ children: ReactNode}> = ({ chil
 		}, navigationTimerLimit * 1000)
 		return()=>{
 			clearInterval(intervalId)
+            sessionStorage.clear();
 		}
     }
 

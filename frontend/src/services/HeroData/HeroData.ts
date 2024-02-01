@@ -1,8 +1,15 @@
 import veron from "../../assets/images/products/babolat/veron.jpg"
-import vertuo from "../../assets/images/products/babolat/veron.jpg"
-import viper from "../../assets/images/products/babolat/veron.jpg"
+import vertuo from "../../assets/images/products/babolat/vertuo.jpg"
+import viper from "../../assets/images/products/babolat/viper.jpg"
 import { slide } from "../../types/hero.types"
 
+/**
+ * HeroSlides is an array of slide objects used in a hero slider or carousel.
+ *
+ * Each slide object contains an image source (src) and accompanying text description.
+ *
+ * @type {slide[]}
+ */
 const HeroSlides: slide[] = [
     {
         src: veron,

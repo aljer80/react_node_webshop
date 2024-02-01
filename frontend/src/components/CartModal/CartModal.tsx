@@ -2,6 +2,7 @@ import { PropsWithChildren } from "react"
 import CartItemList from "../../components/CartItemList/CartItemList"
 import { useCartContext } from "../../contexts/CartContext"
 import { useCheckoutContext } from "../../contexts/CheckoutContext"
+import { useEffect, useState } from "react"
 
 /**
  * CartModal component responsible for displaying the cart items and checkout button within a modal.
@@ -14,11 +15,22 @@ const CartModal: React.FC<PropsWithChildren<{}>> = () => {
         handleCheckoutButtonClick
     } = useCheckoutContext();
 
+    const [totalSum, setTotalSum] = useState<number>(0);
+
+    useEffect(() => {
+    const sum = cartContext.cart.reduce((total, item) => {
+      return total + item.price * item.count;
+    }, 0);
+
+    setTotalSum(sum);
+  }, [cartContext.cart]);
+
     return (
         <section id="cart-modal">
         <h1>Din kundvagn</h1>
             <button type="button" className="appButton" onClick={cartContext.handleCloseModalButtonClick}>Stäng</button>
             <CartItemList />
+            <p className="totalSum">Summa: {totalSum} kr</p>
             <button type="button" className="appButton" onClick={handleCheckoutButtonClick}>Betalning</button>
         </section>
  

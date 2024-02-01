@@ -190,7 +190,7 @@ export const ProductContextProvider: React.FC<PropsWithChildren<{}>> = ({ childr
     useEffect(() => {
         console.log("starting productContext")
         loadAllProducts()
-    }, []);
+    }, [filterOptions, sortingOptions]);
 
     return (
         <ProductContext.Provider

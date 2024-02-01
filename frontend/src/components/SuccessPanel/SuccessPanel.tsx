@@ -1,29 +1,32 @@
-import { useCheckoutContext } from "../../contexts/CheckoutContext"
 import { useEffect } from "react"
+import { useCheckoutContext } from "../../contexts/CheckoutContext"
 
+/**
+ * SuccessPanel component responsible for displaying information related to a payment success response.
+ *
+ * This component renders details about the payment response and starts a navigation timer.
+ *
+ * @component
+ * @returns {JSX.Element} JSX for the SuccessPanel component.
+ */
 const SuccessPanel: React.FC = () => {
+    // Access data and functions from the CheckoutContext
     const {
         paymentResponse,
         startNavigationTimer
-    } = useCheckoutContext()
+    } = useCheckoutContext();
 
     useEffect(() => {
-        startNavigationTimer()
+        startNavigationTimer();
     }, []);
 
     return (
         <main>
-            {paymentResponse && paymentResponse.length > 0 && (
-                <div id="response-text">
+            {paymentResponse && (
+                <div>
                     <h2>Payment Response:</h2>
-                    <ul>
-                        {paymentResponse.map((response, index) => (
-                            <li key={index}>
-                                <strong>Status:</strong> {response.status}<br />
-                                <strong>Amount:</strong> {response.amount}<br />
-                            </li>
-                        ))}
-                    </ul>
+                    <strong>Status:</strong> {paymentResponse.status}<br />
+                    <strong>Amount:</strong> {paymentResponse.amount / 100}<br />
                 </div>
             )}
         </main>
