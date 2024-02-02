@@ -11,14 +11,14 @@ import { Link } from "react-router-dom"
 const PageHeader: React.FC = () => {
     return (
     <header>
-        
-        <div id="logo" role="group">
-            <label className="navButton">
+            <label id="logo" className="navButton">
                 <Link to="/">
-                    <img src={ logoPicture } alt="myLogo" title="myWebshop" />
+                    <img id="logo-image" src={ logoPicture } alt="myLogo" title="myWebshop" />
+                </Link>
+                <Link to="/">
                     <h1 id="business-title">Padel<span>R</span>acket</h1>
-                </Link></label>
-        </div>
+                </Link>
+            </label>
         <Navbar />
     </header>
     );

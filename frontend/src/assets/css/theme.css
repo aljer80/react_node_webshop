@@ -266,7 +266,6 @@
   
   #cart-modal{
     background-color: var(--modalBackground);
-    padding: 0.5vmax;
   }
 
   .cartCounter{
@@ -333,28 +332,15 @@
   #order-modal{
     background-color: var(--modalBackground);
     color: var(--text);
-    padding: 0.5vmax;
   }
-
-  /* #order-list{
-  }
-  
-  #order-item{
-  }
-  
-  #order-item-text{
-  } */
   
   #policies-modal{
     background-color: var(--modalBackground);
-    padding: 0.5vmax;
   }
   
   .policyPanel{
     background-color: var(--modalBackground);
     border: 1px solid var(--panelBorder);
-    border-radius: 1vmax;
-    padding: 0.5vmax;
   }
   .policyPanel h1{
     text-transform: uppercase;
