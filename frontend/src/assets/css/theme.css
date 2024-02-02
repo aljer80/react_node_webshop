@@ -247,7 +247,6 @@
   #product-grid{
     background-color: var(--modalBackground);
     color: var(--text);
-    padding: 0.5vmax;
   }
   
   /* .appMessage{
@@ -257,14 +256,12 @@
     background-color: var(--modalBackground);
     border: var(--productCardBorder);
     color: var(--text);
-    padding: 0.5vmax;
     cursor: pointer;
   }
 
   .productCard:hover{
     background-color: var(--modalBackground);
     border: var(--productCardBorderHover);
-    padding: 0.5vmax;
   }
   
   #cart-modal{
@@ -293,26 +290,19 @@
     border-bottom: 1px solid var(--productCardBorderHover);
   }
   
-  .productImage{
-    border: var(--productImageBorder);
-  }
-  
   #checkout{
     background-color: var(--modalBackground);
     color: var(--text);
-    padding: 0.5vmax;
   }
   
   #customer-details{
     background-color: var(--modalBackground);
     color: var(--panelText);
-    padding: 0.5vmax;
   }
   
   #payment-form{
     background-color: var(--modalBackground);
     color: var(--text);
-    padding: 0.5vmax;
   }
   
   #response-text{

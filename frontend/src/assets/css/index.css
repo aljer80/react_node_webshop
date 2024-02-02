@@ -32,7 +32,6 @@ body > *{ /* Prevents children from overflowing (effectively making it a no scro
 a {
   color: #FFFFFF;
   text-decoration: none;
-  padding: 0.1vmax;
 }
 a :hover {
   color: #FFFFFF;
@@ -53,9 +52,7 @@ a :focus {
 #business-title span{
   color:#669bbc;
 }
-input {
-  padding: 0.5vmax;
-}
+
 main{
   display: flex;
   flex-flow: column nowrap;
@@ -75,9 +72,8 @@ header{
   flex: 0 0 auto;
   min-width: 100%;
   order: 1;
-  padding-top: 1vmax;
-  padding-bottom: 0.5vmax;
 }
+
 footer{
   display: flex;
   flex-flow: row nowrap;
@@ -87,7 +83,6 @@ footer{
   flex: 0 0 auto;
   min-width: 100%;
   order: 3;
-  padding-top: 0.5vmax;
 }
 nav{
   display: flex;
@@ -125,7 +120,7 @@ nav{
   padding-right: 1vmax;
 }
 .socialMediaIcon{
- max-width: 3vmax;
+ max-width: 1.5vmax;
 }
 #hero-carousel{
   display: flex;
@@ -143,8 +138,8 @@ nav{
   align-content: stretch; /* row nowrap makes this useless */
   align-items: center; /* using stretch makes button fill top to bottom */
   flex: 1 1 100%;
-  padding-left: 0.5vmax;
-  padding-right: 0.5vmax;
+  /* padding-left: 0.5vmax;
+  padding-right: 0.5vmax; */
 }
 .scrollButton{
   flex: 1 1 auto;
@@ -171,8 +166,8 @@ nav{
   background: black;
   color: #FDF0D5;
   text-transform: uppercase;
-  padding-top: 0.5vmax;
-  padding-bottom: 0.5vmax;
+  /* padding-top: 0.5vmax;
+  padding-bottom: 0.5vmax; */
   padding-left: 1vmax;
 }
 #product-grid-area{
@@ -251,7 +246,9 @@ nav{
 /* .appMessage{
 } */
 .productPicture{
-  max-width: 5vmax;
+  flex: 1 0 30%;
+  order: 1;
+  max-width: 35%; /* eller min-width */
 }
 .productDisplayImage{
   max-width: 15vmax;  
@@ -259,12 +256,17 @@ nav{
 .productCard{
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-content: center;
   align-items: stretch;
   flex: 1 1 auto;
-  max-width: 33%;
+  max-width: 20vmax;
 }
+
+.productCard *> {
+  flex: 1 1 100%;
+}
+
 #cart-modal{
   display: flex;
   flex-flow: column wrap;
@@ -286,7 +288,6 @@ nav{
   align-content: flex-start;
   align-items: center;
   flex: 1 1 auto;
-  padding: 1vmax;
 }
 .cartItem{
   display: flex;
@@ -295,20 +296,21 @@ nav{
   align-content: center;
   align-items: center;
   flex: 1 1 100%;
-  padding-bottom: 1vmax;
 }
 .productName{
-  padding-right: 1vmax;
-  padding-left: 1vmax;
+  flex: 1 0 70%; /* auto betyder att barnet till elementet bestämmer stl på elementet. Om man sätter vmax eller annat värde sätter man en basstorlek */
+  order:2;
 }
 .productPrice{
-  padding-right: 1vmax;
+  flex: 1 0 70%; 
+  order:3;
 }
-.productCount{
-  padding-right: 1vmax;
-}
+
+/* .productCount{
+} */
+
 #remove-from-cart-button{
-  margin-right: 0.5vmax;
+  /* margin-right: 0.5vmax; */
 }
 
 #checkout{
@@ -326,11 +328,11 @@ nav{
   align-content: center;
   align-items: stretch;
   flex: 1 1 50%;
-  padding: 0.5vmax;
+  /* padding: 0.5vmax; */
 }
-#checkout-pay-button {
-  margin-top: 1.3vmax;
-}
+
+/* #checkout-pay-button {
+} */
 #customer-details{
   display: flex;
   flex-flow: column nowrap;
@@ -338,8 +340,8 @@ nav{
   align-content: center;
   align-items: stretch;
   flex: 1 1 50%;
-  padding: 0.5vmax;
 }
+
 #payment-form{
   display: flex;
   flex-flow: column nowrap;
@@ -350,8 +352,8 @@ nav{
   outline: var(--panelBorder);
   background: var(--modalBackground);
 }
-#response-text{
-}
+/* #response-text{
+} */
 #update-order{
   display: flex;
   flex-flow: row nowrap;

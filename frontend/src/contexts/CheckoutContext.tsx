@@ -83,7 +83,7 @@ export const CheckoutContextProvider: React.FC<{ children: ReactNode}> = ({ chil
 		}, navigationTimerLimit * 1000)
 		return()=>{
 			clearInterval(intervalId)
-            sessionStorage.clear();
+            sessionStorage.clear(); //har jag lagt till. Men utan detta kastas man till startsidan efter 1 sek 
 		}
     }
 

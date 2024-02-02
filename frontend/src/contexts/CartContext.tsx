@@ -124,25 +124,6 @@ export const CartContextProvider: React.FC<PropsWithChildren<{}>> = ({ children 
         setIsCartModalOpen(false)
         navigate("/")
     }
-
-    /**
-     * Effect to load saved cart data from sessionStorage when the component is mounted.
-     * @effect
-     */
-    useEffect(() => {
-    const savedCart = sessionStorage.getItem('cart');
-        if (savedCart) {
-            setCart(JSON.parse(savedCart));
-        }
-    }, []);
-    /**
-     * Effect to update sessionStorage with the current cart data whenever the cart state changes.
-     * @effect
-     */
-    useEffect(() => {
-        const totalItemCount = cart.reduce((acc, item) => acc + item.count, 0);
-        sessionStorage.setItem('cart', JSON.stringify(cart));
-      }, [cart]);
     
     /**
      * Effect for logging that the cart context has been loaded.
@@ -168,5 +149,5 @@ export const CartContextProvider: React.FC<PropsWithChildren<{}>> = ({ children 
         }}>
             {children}
         </CartContext.Provider>
-    )
+    );
 }
