@@ -1,13 +1,13 @@
 import { createContext, useContext, useState, useEffect, PropsWithChildren } from "react"
 import { fetchAllProducts } from "../utilities/ApiUtility"
-import { product, sort } from "../types/product.types"
+import { product, sort, filter } from "../types/product.types"
 
 /**
  * Interface defining the shape of the product context.
  */
 export interface ProductContextProps{
     inventory: product[] | null
-    filterOptions: string[] | undefined
+    filterOptions: filter
     sortingOptions: sort | undefined
     isProductDetailModalOpen: boolean
     selectedProductId: number | null
@@ -15,7 +15,7 @@ export interface ProductContextProps{
     handleFilterChange: (value: string | undefined) => void
     changeFilterState: (value: string | undefined) => void
     handleSortingChange: (value: string) => void
-    handleRangeChange: (value: string) => void
+    handleRangeChange: (category: string, value: string) => void
     changeSortingState: (value: string) => void
     handleResetButtonClick: (value: string) => void
     handleSearchButtonClick: (value: string) => void
@@ -50,7 +50,13 @@ export const useProductContext = (): ProductContextProps => {
  */
 export const ProductContextProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
     const [inventory, setInventory] = useState<product[] | null >(null)
-    const [filterOptions, setFilterOptions] = useState<string[]>([])
+    const [filterOptions, setFilterOptions] = useState<filter>({
+        brand: '',
+        shape: '',
+        balance: '',
+        weight: undefined,
+        price: undefined,
+    })
     const [sortingOptions, setSortingOptions] = useState<sort>({field:"name", order:"asc"})
     const [isProductDetailModalOpen, setIsProductDetailModalOpen] = useState<boolean>(false)
     const [selectedProductId, setSelectedProductId] = useState<number | null>(null)
@@ -61,8 +67,9 @@ export const ProductContextProvider: React.FC<PropsWithChildren<{}>> = ({ childr
     const loadAllProducts = async () => {
         try{
             const fetchedProducts: product[] = await fetchAllProducts()
-
+ 
             if(typeof fetchedProducts !== 'string'){
+                console.log("Received from backend", fetchedProducts)
                 setInventory(fetchedProducts)
             }
             else{
@@ -101,11 +108,24 @@ export const ProductContextProvider: React.FC<PropsWithChildren<{}>> = ({ childr
      * @param value - New filter value.
      */
     const changeFilterState = (value: string | undefined) => {
-        if(!value){
-            setFilterOptions([])
+        if(value === 'reset'){
+            setFilterOptions({
+                brand: '',
+                shape: '',
+                balance: '',
+                weight: 0,
+                price: 0,
+            })
         }
-        else{
-            setFilterOptions((prevFilterOptions) => [...prevFilterOptions, value]);
+        else if(value){
+            const [category, option] = value.split(':')
+
+            setFilterOptions(
+                prevFilterOptions => ({
+                    ...prevFilterOptions,
+                    [category]:option || ''
+                })
+            )
         }
     }
 
@@ -121,8 +141,8 @@ export const ProductContextProvider: React.FC<PropsWithChildren<{}>> = ({ childr
      * Handles changes in range options.
      * @param value - New range value.
      */
-    const handleRangeChange = (value: string) => {
-        changeFilterState(value)
+    const handleRangeChange = (category:string, value: string) => {
+        changeFilterState(`${category}:${value}`)
     }
 
     /**

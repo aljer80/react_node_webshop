@@ -28,32 +28,6 @@ const FilteringSortingBar: React.FC<PropsWithChildren<{}>> = () => {
     const [filteredProducts, setFilteredProducts] = useState<product[]>([])
     const [sortedProducts, setSortedProducts] = useState<product[]>([])
 
-    // När användaren väljer ett filteralternativ, t.ex. varumärke (brand)
-    const handleBrandFilterChange = (value: string) => {
-        handleFilterChange(value);
-    };
-    
-    // När användaren väljer ett filteralternativ, t.ex. form (shape)
-    const handleShapeFilterChange = (value: string) => {
-        handleFilterChange(value);
-    };
-    
-    // När användaren väljer ett filteralternativ, t.ex. balans (balance)
-    const handleBalanceFilterChange = (value: string) => {
-        handleFilterChange(value);
-    };
-    
-    // När användaren väljer ett sorteringsalternativ, t.ex. pris eller namn
-    const handleSortingOptionChange = (value: string) => {
-        handleSortingChange(value);
-    };
-    
-    // När användaren klickar på "Återställ filter" knappen
-    const handleResetFiltersClick = () => {
-        handleResetButtonClick("");
-      };
-  
-
     const getSuggestions = (): product[] | undefined => {
         if(!inventory || typeof inventory === "string"){
             return []
@@ -63,28 +37,37 @@ const FilteringSortingBar: React.FC<PropsWithChildren<{}>> = () => {
     }
     
     const processFilterOptions = () => {
-        try {
-            if (filterOptions && inventory !== null) {
+        try{
+            if(filterOptions && inventory !== null){
                 let filteredArray: product[] = inventory
-                if (filterOptions.length > 0) {
+    
+                if(Object.values(filterOptions).some(option => !!option)) {
                     filteredArray = inventory.filter(entry => {
-                        return filterOptions.every(option => {
-                            const [property, value] = option.split(':')
-                            if (!entry.hasOwnProperty(property)) {
+                        return Object.entries(filterOptions).every(([property, value]) => {
+                            if(!value){
+                                return true
+                            }
+                            if(!entry.hasOwnProperty(property)){
                                 throw new Error(`Property ${property} does not exist in the product entry.`)
                             }
-                            const entryValue = entry[property as keyof product].toString().toLowerCase()
+                            const entryValue = entry[property as keyof product]?.toString().toLowerCase()
+                            if(property === 'price' || property === 'weight'){
+                                return entryValue <= parseInt(value)
+                            }
+
                             return entryValue === value.toLowerCase()
                         })
                     })
                 }
     
+                console.log("Before filters: ", inventory)
+                console.log("After filters: ", filteredArray)
                 setFilteredProducts(filteredArray)
             }
         } catch (error) {
             console.error("Error processing filter options:", error)
         }
-    };
+    }
 
     const updateSearch = (input: string) => {
         setSearchInput(input)
@@ -92,6 +75,7 @@ const FilteringSortingBar: React.FC<PropsWithChildren<{}>> = () => {
 
     const processSortingOption = () => {
         if(sortingOptions && filteredProducts){
+            console.log("Before sorting: ", filteredProducts)
             let sortedArray: product[] = []
             switch(sortingOptions.field){
                 case "name":
@@ -108,9 +92,9 @@ const FilteringSortingBar: React.FC<PropsWithChildren<{}>> = () => {
                         return orderFactor * (a.price - b.price)
                     })
                     break
-            }
-
-            setSortedProducts(sortedArray)
+            }         
+            console.log("After sorting: ", sortedArray)
+        setSortedProducts(sortedArray)
         }
     }
 
@@ -125,37 +109,57 @@ const FilteringSortingBar: React.FC<PropsWithChildren<{}>> = () => {
         console.log("component update")
         processFilterOptions()
         processSortingOption()
-        console.log("filtering: " + filterOptions + JSON.stringify(sortingOptions))
+        console.log("filtering: ", JSON.stringify(filterOptions), JSON.stringify(sortingOptions))
     }, [filterOptions, sortingOptions, inventory])
 
     return (
         <section id="product-grid-area">
             <div id="filtering-and-sorting-bar" role="toolbar">
-                <select id="brand" className="filterSelect" value={filterOptions.find(option => option.startsWith('brand')) || ''} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleBrandFilterChange(e.target.value)}>
-                    <option value="">---</option>
+                <select
+                    id="brand"
+                    className="filterSelect"
+                    value={`brand:${filterOptions.brand}`}
+                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleFilterChange(e.target.value)}
+                >
+                    <option value="brand:">---</option>
                     <option value="brand:babolat">Babolat</option>
                     <option value="brand:dopadel">DoPadel</option>
                     <option value="brand:head">Head</option>
                     <option value="brand:nox">Nox</option>
                     <option value="brand:osaka">Osaka</option>
                 </select>
-                <select id="shape" className="filterSelect" value={filterOptions.find(option => option.startsWith('shape')) || ''} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleShapeFilterChange(e.target.value)}>
-                    <option value="">---</option>
-                    <option value="shape:round">Rund</option>
-                    <option value="shape:drop">Dropp</option>
-                    <option value="shape:diamond">Diamant</option>
+                <select
+                    id="shape"
+                    className="filterSelect"
+                    value={`shape:${filterOptions.shape}`}
+                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleFilterChange(e.target.value)}
+                >
+                    <option value="shape:">---</option>
+                    <option value="shape:rund">Rund</option>
+                    <option value="shape:dropp">Dropp</option>
+                    <option value="shape:diamant">Diamant</option>
                     <option value="shape:hybrid">Hybrid</option>
                 </select>
-                <select id="balance" className="filterSelect" value={filterOptions.find(option => option.startsWith('balance')) || ''} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleBalanceFilterChange(e.target.value)}>
-                    <option value="">---</option>
-                    <option value="balance:bottom">Låg</option>
-                    <option value="balance:center">Medel</option>
-                    <option value="balance:top">Hög</option>
+                <select
+                    id="balannce"
+                    className="filterSelect"
+                    value={`balance:${filterOptions.balance}`}
+                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleFilterChange(e.target.value)}
+                >
+                    <option value="balance:">---</option>
+                    <option value="balance:låg">Låg</option>
+                    <option value="balance:medel">Medel</option>
+                    <option value="balance:hög">Hög</option>
                 </select>
-                <select id="sorting" className="filterSelect" value={`${sortingOptions.field}:${sortingOptions.order}`} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleSortingOptionChange(e.target.value)}>
+                <select
+                    id="sorting"
+                    className="filterSelect"
+                    value={`${sortingOptions.field}:${sortingOptions.order}`}
+                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleSortingChange(e.target.value)}
+                >
                     <option value="">---</option>
-                    <option value="price:asc">Price: Stigande</option>
-                    <option value="price:desc">Price: Fallande </option>
+                    <option value="price:asc">Pris: Stigande</option>
+                    <option value="price:desc">Pris: Fallande</option>
                     <option value="name:asc">Name: A - Ö</option>
                     <option value="name:desc">Name: Ö - A</option>
                 </select>
@@ -179,10 +183,28 @@ const FilteringSortingBar: React.FC<PropsWithChildren<{}>> = () => {
                     <button type="button" id="search-button" className="filterButton" onClick={() => handleSearchButtonClick(searchInput)}>Filter</button>
                 </div>
                 <label id="weight-label" htmlFor="weight">Vikt</label>
-                <input type="range" id="weight" className="filter-slide" min="200" max="500" step="25" onMouseUp={(e: React.MouseEvent<HTMLInputElement>) => handleRangeChange(e.target.value)}></input>
+                <input
+                    type="range"
+                    id="weight"
+                    className="filter-slide"
+                    min="200"
+                    max="500"
+                    step="25"
+                    value={filterOptions.weight}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleRangeChange(e.currentTarget.id, e.currentTarget.value)}
+                ></input>
                 <label id="price-label" htmlFor="price">Pris</label>
-                <input type="range" id="price" className="filter-slide" min="1500" max="3000" step="100" onMouseUp={(e: React.MouseEvent<HTMLInputElement>) => handleRangeChange(e.target.value)}></input>
-                <button type="button" id="reset-filter" className="filterButton" onClick={() => handleResetButtonClick("")}>Reset filters</button>
+                <input
+                    type="range"
+                    id="price"
+                    className="filter-slide"
+                    min="1000"
+                    max="5000"
+                    step="250"
+                    value={filterOptions.price}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleRangeChange(e.currentTarget.id, e.currentTarget.value)}
+                ></input>
+                <button type="button" id="reset-filter" className="filterButton" onClick={() => handleResetButtonClick('reset')}>Återställ filter</button>
             </div>
             {isProductDetailModalOpen && <ProductDetailModal />}
             {filterOptions ? <p>filtered</p> : <p>unfiltered</p>}

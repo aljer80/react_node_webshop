@@ -56,9 +56,8 @@ a :focus {
 main{
   display: flex;
   flex-flow: column nowrap;
-  justify-content: center;
-  align-items: baseline;
-  align-content: stretch;
+  justify-content: flex-start;
+  align-items: stretch;
   flex: 1 1 auto;
   min-width: 100%;
   order: 2;
@@ -133,21 +132,18 @@ nav{
 #hero-carousel{
   display: flex;
   flex-flow: row wrap;
-  justify-content: center ;
+  justify-content: flex-start;
   align-content: center;
-  align-items: baseline ;
+  align-items: stretch;
   flex:1 1 auto;
   overflow-y: scroll;
 }
 #hero-slider{
   display: flex;
   flex-flow: row nowrap;
-  justify-content: center;
-  align-content: stretch; /* row nowrap makes this useless */
-  align-items: center; /* using stretch makes button fill top to bottom */
-  flex: 1 1 100%;
-  /* padding-left: 0.5vmax;
-  padding-right: 0.5vmax; */
+  justify-content: space-around;
+  align-items: center; 
+  flex: 1 1 auto;
 }
 .scrollButton{
   flex: 1 1 auto;
@@ -155,17 +151,16 @@ nav{
 .slide {
   display: flex;
   flex-flow: row nowrap;
-  justify-content: center;
-  align-content: stretch;
-  align-items: center;
+  justify-content: space-around;
+  align-items: center; /* stretch*/
   flex: 1 1 auto;
 }
 #hero-img{
   flex: 1 1 auto; 
-  max-width: 10vmax;
+  max-width: 10%;  
 }
 #slide-text{
-  flex: 1 1 auto;
+  flex: 1 1 auto; 
   overflow-y: scroll;
 }
 .cta-text{
@@ -176,25 +171,21 @@ nav{
   text-transform: uppercase;
   /* padding-top: 0.5vmax;
   padding-bottom: 0.5vmax; */
-  padding-left: 1vmax;
 }
 #product-grid-area{
   display: flex;
-  flex: 1 1 auto;
+  flex: 10 1 auto;
   flex-flow: column nowrap;
-  justify-content: center;
-  align-content: center;
+  justify-content: flex-start;
   align-items: center;
 }
 #filtering-and-sorting-bar{
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
-  align-content: stretch;
   align-items: center;
-  flex: 1 1 auto;
-  max-height: 5vmax;
-  border-radius: 10vw;
+  flex: 1 1 1%;
+  border-radius: 2vmax;
 }
 .dropdownUl{
   outline: 2px solid black;
@@ -248,7 +239,7 @@ nav{
   justify-content: space-evenly;
   align-content: center;
   align-items: stretch;
-  flex: 1 1 auto;
+  flex: 4 1 auto;
   overflow-y: scroll;
 }
 /* .appMessage{

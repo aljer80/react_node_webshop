@@ -15,11 +15,19 @@ export interface product{
     [key: string]: any
 }
 
+export interface filter{
+    brand: string
+    shape: string
+    balance: string
+    weight: number | undefined
+    price: number | undefined
+}
+
 /**
  * Props interface for a component that displays a list of products.
  */
 export interface ProductListProps{
-    products: product[]
+    products: product[] | null
 }
 
 /**
