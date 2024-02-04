@@ -3,8 +3,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
 :root{
-    --fluid_font-size: calc(12, max(20, min(16, 1080-720)) / 100);
-    --fluid_line-height: calc(1.5 * var(--fluid_font-size));
 
     --base: #ffffff;
     --complementary3: #66666e;

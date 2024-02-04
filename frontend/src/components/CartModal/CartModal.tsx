@@ -31,7 +31,7 @@ const CartModal: React.FC<PropsWithChildren<{}>> = () => {
             <button type="button" className="appButton" onClick={cartContext.handleCloseModalButtonClick}>Stäng</button>
             <CartItemList />
             <p className="totalSum">Summa: {totalSum} kr</p>
-            <button type="button" className="appButton" onClick={handleCheckoutButtonClick}>Betalning</button>
+            <button id="to-payment" type="button" className="appButton" onClick={handleCheckoutButtonClick}>Betalning</button>
         </section>
  
     );

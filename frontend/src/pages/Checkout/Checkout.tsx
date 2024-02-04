@@ -28,7 +28,7 @@ const Checkout: React.FC = () => {
                 <StripePayment/>
             </article>
         </main>
-    )
+    ) 
 }
 
 export default Checkout

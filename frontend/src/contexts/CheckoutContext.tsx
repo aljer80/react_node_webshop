@@ -14,7 +14,7 @@ export interface CheckoutContextProps{
     isCheckoutModalOpen: boolean
     handleCustomerDetailsInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void
     handleCheckoutButtonClick: () => void
-    startNavigationTimer: () => void
+    startNavigationTimer: () => {intervalId: number, cleanup: () => void}
 }
 
 /**
@@ -42,9 +42,9 @@ export const useCheckoutContext = (): CheckoutContextProps => {
  * @returns {JSX.Element} JSX for the CheckoutContextProvider component.
  */
 export const CheckoutContextProvider: React.FC<{ children: ReactNode}> = ({ children }) => {
-    const navigationTimerLimit = 5
+    const navigationTimerLimit = 10
     const [isPaymentSuccessful, setIsPaymentSuccessful] = useState<boolean>(false)
-    const [paymentResponse, setPaymentResponse] = useState<PaymentIntentResult>(null!)
+    const [paymentResponse, setPaymentResponse] = useState<PaymentIntentResult | null>(null!);
     const [customerDetailsFormData, setCustomerDetailsFormData] = useState<object>({
             legal_name: '',
             family_name: '',
@@ -78,13 +78,13 @@ export const CheckoutContextProvider: React.FC<{ children: ReactNode}> = ({ chil
      * Starts a timer to navigate to the home page after a specified time limit.
      */
     const startNavigationTimer = () => {
-		const intervalId = setInterval(() => {
+        const intervalId = setInterval(() => {
             navigate("/")
-		}, navigationTimerLimit * 1000)
-		return()=>{
-			clearInterval(intervalId)
-            sessionStorage.clear(); //har jag lagt till. Men utan detta kastas man till startsidan efter 1 sek 
-		}
+        }, navigationTimerLimit * 1000)
+        const cleanup = () => {
+            clearInterval(intervalId)
+        }
+        return { intervalId, cleanup }
     }
 
     return ( 

@@ -187,12 +187,14 @@ const FilteringSortingBar: React.FC<PropsWithChildren<{}>> = () => {
                     type="range"
                     id="weight"
                     className="filter-slide"
-                    min="200"
-                    max="500"
-                    step="25"
+                    min="300"
+                    max="400"
+                    step="10"
                     value={filterOptions.weight}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleRangeChange(e.currentTarget.id, e.currentTarget.value)}
-                ></input>
+                    title={filterOptions.weight?.toString()}
+                >
+                </input>
                 <label id="price-label" htmlFor="price">Pris</label>
                 <input
                     type="range"
@@ -203,7 +205,9 @@ const FilteringSortingBar: React.FC<PropsWithChildren<{}>> = () => {
                     step="250"
                     value={filterOptions.price}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleRangeChange(e.currentTarget.id, e.currentTarget.value)}
-                ></input>
+                    title={filterOptions.price?.toString()}
+                >
+                </input>
                 <button type="button" id="reset-filter" className="filterButton" onClick={() => handleResetButtonClick('reset')}>Återställ filter</button>
             </div>
             {isProductDetailModalOpen && <ProductDetailModal />}

@@ -16,9 +16,9 @@ const CartItemCard: React.FC<PropsWithChildren<{item: cartItem}>> = ({ item }) =
         <div className="cartItem" role="group">
             <button type="button" id="add-to-cart-button" className="appButton" onClick={() => cartContext.handleAddToCartButtonClick(item)}>+</button>
             {/* <img className="productImage" src={item.name} alt={item.name} /> */}
-            <p id="productName">{item.name}</p>
-            <p id="productPrice">{item.price} kr/st</p>
-            <p id="productCount">Antal: {item.count}</p>
+            <p id="item-name">{item.name}</p>
+            <p id="item-price">{item.price} kr/st</p>
+            <p id="item-count">Antal: {item.count}</p>
             <button type="button" id="remove-from-cart-button" className="appButton" onClick={() => cartContext.handleRemoveFromCartButtonClick(item.id)}>-</button>
             <button type="button" id="remove-product-from-cart-button" className="appButton" onClick={() => cartContext.handleRemoveProductFromCartButtonClick(item.id)}><BsTrash /></button>
         </div>
