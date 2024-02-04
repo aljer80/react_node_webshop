@@ -9,7 +9,9 @@
 ## Limitations
 - No specific adaptations have been made to support older browser versions. The site should work well in most modern browsers.
 
-- Flexbox is used for layout, which may impose some limitations on older browsers that do not fully support flexbox features.
+- The site does not support refreshing the page, that is not intended use. 
+
+- The site does not support placing a second order after completing a purchase without refreshing the page. That is not intended use. 
 
 ## Dependencies
 - cors: ^2.8.5 or later.

@@ -20,16 +20,13 @@ const SuccessPanel: React.FC = () => {
     const [timerState, setTimerState] = useState<number | null>(null);
    
     useEffect(() => {
-    cartContext.setCart([]);
-    }, [cartContext]);
-
-    useEffect(() => {
         const {intervalId, cleanup} = startNavigationTimer();
         setTimerState(intervalId)
         return() => {
             cleanup()
+            cartContext.setCart([]);
         }
-    }, [startNavigationTimer]);
+    }, []);
 
     return (
         <main>
